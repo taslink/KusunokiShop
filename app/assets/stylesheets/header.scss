@@ -1,0 +1,56 @@
+header {
+  height: 60px;
+  
+  .navbar {
+    width: 100%;
+    margin: 0;
+    
+      .navbar-header {
+        h1 {
+          margin: 0 !important;
+          padding: 10px 0 0 0 !important;
+          a {
+            width: 200px;
+            height: 40px !important;
+            margin: 0;
+            background: image-url("logo.png") no-repeat 0 0;
+            background-size: contain;
+            display: block;
+            white-space: nowrap;
+            text-indent: 99999px;
+          }
+        }
+      }
+      
+      .navbar-nav {
+        li {
+          a {
+            padding: 20px;
+          }
+        }
+        .dropdown-menu {
+          li {
+            &.divider {
+              margin: 0;
+            }
+            a {
+              padding: 10px 15px;
+            }
+          }
+        }
+      }
+      
+   }
+}
+
+@media (max-width: 768px) {
+  .navbar-header {
+    margin-left: 15px !important;
+  }
+  .navbar-toggle {
+    margin-top: 11px;
+  }
+  .navbar-collapse {
+    margin-top: 10px;
+  }
+}
