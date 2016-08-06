@@ -20,7 +20,7 @@
   <%= @product.price %>
 </p>
 
-<!-- 追加箇所 開始 -->
+<!-- main_image start -->
 <p>
   <strong>main_Image:</strong>
   <% if @product.main_image? %>
@@ -29,7 +29,29 @@
     </div>
   <% end %>
 </p>
-<!-- 追加箇所 終了 -->
+<!-- main_image end -->
+
+<!-- sub1_image start -->
+<p>
+  <strong>sub1_Image:</strong>
+  <% if @product.sub1_image? %>
+    <div class="thumbnail">
+      <%= image_tag @product.sub1_image.url %>
+    </div>
+  <% end %>
+</p>
+<!-- sub1_image end -->
+
+<!-- sub2_image start -->
+<p>
+  <strong>sub2_Image:</strong>
+  <% if @product.sub2_image? %>
+    <div class="thumbnail">
+      <%= image_tag @product.sub2_image.url %>
+    </div>
+  <% end %>
+</p>
+<!-- main_image end -->
 
 <%= link_to 'Edit', edit_product_path(@product) %> |
 <%= link_to 'Back', products_path %>

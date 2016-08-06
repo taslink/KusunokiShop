@@ -28,7 +28,7 @@
     <%= f.label :price %><br>
     <%= f.number_field :price %>
   </div>
-  <!-- 追加箇所 開始 -->
+  <!-- main_image start -->
   <div class="field">
     <% if @product.main_image? %>
       <div class="thumbnail">
@@ -48,7 +48,49 @@
       </label>
     <% end %>
   </div>
-  <!-- 追加箇所 終了 -->
+  <!-- main_image end -->
+  <!-- sub1_image start -->
+  <div class="field">
+    <% if @product.sub1_image? %>
+      <div class="thumbnail">
+        <%= image_tag @product.sub1_image.url %>
+      </div>
+    <% end %><br>
+    <%= f.label :sub1_image %><br>
+    <%= f.file_field :sub1_image %>
+    <%= f.hidden_field :sub1_image_cache %>
+  </div>
+  <div class="field">
+    <!-- 既存レコード(DBに保存されている)かつ、画像が存在する場合 -->
+    <% if @product.persisted? && @product.sub1_image? %>
+      <label>
+        <%= f.check_box :remove_sub1_image %>
+        画像を削除
+      </label>
+    <% end %>
+  </div>
+  <!-- sub1_image end -->
+  <!-- sub2_image start -->
+  <div class="field">
+    <% if @product.sub2_image? %>
+      <div class="thumbnail">
+        <%= image_tag @product.sub2_image.url %>
+      </div>
+    <% end %><br>
+    <%= f.label :sub2_image %><br>
+    <%= f.file_field :sub2_image %>
+    <%= f.hidden_field :sub2_image_cache %>
+  </div>
+  <div class="field">
+    <!-- 既存レコード(DBに保存されている)かつ、画像が存在する場合 -->
+    <% if @product.persisted? && @product.sub2_image? %>
+      <label>
+        <%= f.check_box :remove_sub2_image %>
+        画像を削除
+      </label>
+    <% end %>
+  </div>
+  <!-- sub1_image end -->
   <div class="actions">
     <%= f.submit %>
   </div>
