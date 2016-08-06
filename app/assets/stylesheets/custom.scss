@@ -2,7 +2,7 @@
 /* universal */
 
 body {
-  padding-top: 60px;
+  padding-top: 0;
   font-family: YuGothic, "游ゴシック", "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", sans-serif;
 }
 
@@ -96,17 +96,22 @@ p {
 
 
 /* envelope-box */
+.envelope-box {
+  margin: 0;
+  padding: 0;
+  background: #fafafa;
   .detail {
     height: 260px;
     /* padding: 10px; */
     /* border: 1px solid #ddd; */
     /* border-top: 0; */
-    background: #fafafa;
+    background: #fff;
     font-size: 13px;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
-    .name {
-      margin: 0;
+    margin: 10px;
+    /* border-bottom-right-radius: 3px; */
+    /* border-bottom-left-radius: 3px; */
+    .name .description {
+      padding: 20px;
       overflow : hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
@@ -114,3 +119,4 @@ p {
       -webkit-line-clamp: 2;
     }
   }
+}

@@ -1,18 +1,16 @@
 <div class="container-fluid">
-  <% product_envelopes.each do |envelope| %>
-    <div class="clearfix">
-      <div class="row">
-        <div class="envelope-box col-sm-2 col-md-3 col-lg-4">
-          <div class="detail">
-            <p class="name">
-              <%= envelope.name %>
-            </p>
-            <p class="description">
-              <%= envelope.description %>
-            </p>
-          </div>
-        </div>
+  <div class="row">
+    <% product_envelopes.each do |envelope| %>
+    <div class="envelope-box col-xl-3 col-sm-4 col-xs-6">
+      <div class="detail">
+        <p class="name">
+          <%= envelope.name %>
+        </p>
+        <p class="description">
+          <%= envelope.description %>
+        </p>
       </div>
     </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
