@@ -3,6 +3,9 @@
 
 body {
   padding-top: 0;
+}
+
+p {
   font-family: YuGothic, "游ゴシック", "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", sans-serif;
 }
 
@@ -30,7 +33,7 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
   font-size: 3em;
-  letter-spacing: -2px;
+  letter-spacing: -1px;
   margin-bottom: 30px;
   text-align: center;
 }
@@ -96,27 +99,38 @@ p {
 
 
 /* envelope-box */
+.envelope-box-row {
+  background: #333;
+}
+
+.envelope-box img {
+  width:auto;
+  height:auto;
+  max-width:100%;
+  max-height:100%;
+}
+
 .envelope-box {
-  margin: 0;
-  padding: 0;
-  background: #fafafa;
+	width: 100%;
+	margin:	10px 0;
+	padding: 0;
+	position:	relative; /* 相対位置指定 */
+  background: #444;
   .detail {
-    height: 260px;
     /* padding: 10px; */
     /* border: 1px solid #ddd; */
     /* border-top: 0; */
-    background: #fff;
-    font-size: 13px;
-    margin: 10px;
+    font-size: 12px;
+    margin: 5px;
     /* border-bottom-right-radius: 3px; */
     /* border-bottom-left-radius: 3px; */
-    .name .description {
-      padding: 20px;
-      overflow : hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
+    .name {
+      padding: 5px;
+      text-align:	center;
+      bottom: 0;
+      color: #fff;
+      background:	rgba(0,0,0,0.4);
+      position:	absolute; /* 絶対位置指定 */
     }
   }
 }
