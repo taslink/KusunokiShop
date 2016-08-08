@@ -16,8 +16,32 @@
         <ul class="nav navbar-nav navbar-right">
           <li><%= link_to "Home", root_path %></li>
           <li><%= link_to "About", '#' %></li>
-          <li><%= link_to "Log in",'#' %></li>
-        </ul>
+          <li><%= link_to "Cart", '#' %></li>
+          
+          <li class="dropdown">
+            <% if logged_in? %>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <%= current_user.name %> <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Profile", current_user %></li>
+              <li><%= link_to "Settings", edit_user_path(current_user) %></li>
+              <li class="divider"></li>
+              <li>
+                <%= link_to "Log out", logout_path, method: "delete" %>
+              </li>
+            </ul>
+            <% else %>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              Account <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Log in", login_path %></li>
+              <li class="divider"></li>
+              <li><%= link_to "New Account", signup_path %></li>
+            </ul>
+            <% end %>
+          </li>
       </div>
     </div>
   </nav>
