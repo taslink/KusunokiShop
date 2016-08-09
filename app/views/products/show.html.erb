@@ -1,57 +1,41 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @product.name %>
-</p>
-
-<p>
-  <strong>product_code:</strong>
-  <%= @product.product_code %>
-</p>
-
-<p>
-  <strong>description:</strong>
-  <%= @product.description %>
-</p>
-
-<p>
-  <strong>Price:</strong>
-  <%= @product.price %>
-</p>
-
-<!-- main_image start -->
-<p>
-  <strong>main_Image:</strong>
-  <% if @product.main_image? %>
-    <div class="thumbnail">
-      <%= image_tag @product.main_image.url %>
+<div class="container-fluid">
+  <div class="row">
+    
+    <div class="col-md-6">
+      <div class="col-xs-12">
+        <div class="main_image">
+          <% if @product.main_image? %>
+          <%= image_tag @product.main_image.url %>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="sub1_image">
+          <% if @product.sub1_image? %>
+          <%= image_tag @product.sub1_image.url %>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="sub2_image">
+          <% if @product.sub2_image? %>
+          <%= image_tag @product.sub2_image.url %>
+          <% end %>
+        </div>
+      </div>
     </div>
-  <% end %>
-</p>
-<!-- main_image end -->
-
-<!-- sub1_image start -->
-<p>
-  <strong>sub1_Image:</strong>
-  <% if @product.sub1_image? %>
-    <div class="thumbnail">
-      <%= image_tag @product.sub1_image.url %>
+    
+    <div class="col-md-6">
+      <h1><%= @product.name %></h1>
+      <hr />
+      <p><%= @product.description %></p>
+      <p><strong>Price:</strong><%= @product.price %></p>
+      <p><strong>Product_code:</strong><%= @product.product_code %></p>
+      <%= link_to 'Back Top Page', :root , class: "btn btn-default"%>
     </div>
-  <% end %>
-</p>
-<!-- sub1_image end -->
-
-<!-- sub2_image start -->
-<p>
-  <strong>sub2_Image:</strong>
-  <% if @product.sub2_image? %>
-    <div class="thumbnail">
-      <%= image_tag @product.sub2_image.url %>
-    </div>
-  <% end %>
-</p>
-<!-- main_image end -->
-
-<%= link_to 'Edit', edit_product_path(@product) %> |
-<%= link_to 'Back', products_path %>
+    
+  </div>
+  
+  <%= render 'cards_list' , product_cards: @product_cards %>
+    
+</div>

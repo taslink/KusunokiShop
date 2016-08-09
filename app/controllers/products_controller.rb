@@ -9,6 +9,10 @@ class ProductsController < ApplicationController
 
   # GET /products/1
   def show
+    #Productモデルからtypeがenvelopeのすべてのレコードを取得
+    #@product_envelopes = Product.where(product_type: 'envelope')
+    #Productモデルからtypeがcardのすべてのレコードを取得
+    @product_cards = Product.where(product_type: 'card')
   end
 
   # GET /products/new

@@ -97,40 +97,75 @@ p {
 
 /* envelope-box */
 .envelope-box-row {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
   background: #333;
+    > div{
+        padding-right:0px;
+        padding-left:0px;
+    }
 }
-
-.envelope-box img {
-  width:auto;
-  height:auto;
-  max-width:100%;
-  max-height:100%;
-}
-
+  
 .envelope-box {
 	width: 100%;
-	margin:	10px 0;
-	padding: 0;
-	position:	relative; /* 相対位置指定 */
   background: #444;
+  position:	relative; /* 相対位置指定 */
   .detail {
-    /* padding: 10px; */
-    /* border: 1px solid #ddd; */
-    /* border-top: 0; */
-    font-size: 12px;
-    margin: 5px;
-    /* border-bottom-right-radius: 3px; */
-    /* border-bottom-left-radius: 3px; */
+    margin-left: 5px;
     .name {
+      font-size: 12px;
+      color: #fff;
       padding: 5px;
       text-align:	center;
       bottom: 0;
-      color: #fff;
       background:	rgba(0,0,0,0.4);
       position:	absolute; /* 絶対位置指定 */
     }
   }
 }
+
+.envelope-box img {
+  width: 100%;
+  height: 100%;
+}
+
+.envelope-box :hover {
+  img {
+    filter:alpha(opacity=85);
+    opacity: 0.85;
+  }
+}
+
+/* card-box */
+.card-box-row {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+    > div{
+        padding-right:0px;
+        padding-left:0px;
+    }
+}
+
+.card-box {
+	width: 100%;
+}
+
+.card-box img {
+	width: 100%;
+	height: 100%;
+}
+
+.card-box :hover {
+  img {
+    filter:alpha(opacity=85);
+    opacity: 0.85;
+  }
+}
+  
 
 /* mixins, variables, etc. */
 
@@ -163,3 +198,17 @@ input {
   }
 }
 
+.main_image img {
+  width: 100% ;
+  padding: 10px 0;
+}
+
+.sub1_image img {
+  width: 100% ;
+  padding: 10px 0;
+}
+
+.sub2_image img {
+  width: 100% ;
+  padding: 10px 0;
+}
