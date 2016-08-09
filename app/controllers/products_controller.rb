@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
-  before_action :logged_in_admin_user
+  before_action :logged_in_admin_user, except: :show
 
   # GET /products
   def index

@@ -2,7 +2,7 @@
   <div class="row envelope-box-row">
     <% product_envelopes.each do |envelope| %>
     <div class="envelope-box col-sm-4 col-xs-6">
-      <%= image_tag envelope.main_image.url %>
+      <%= link_to image_tag(envelope.main_image.url) , { :controller => :products, :action => :show, :id => envelope } %>
       <div class="detail">
         <p class="name">
           <%= envelope.name %>
