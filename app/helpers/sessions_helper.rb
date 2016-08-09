@@ -7,6 +7,18 @@ module SessionsHelper
   def logged_in?
     !!current_user
   end
+  
+  def admin_user?
+    unless logged_in?
+     return false
+    else
+      if current_user.admin?
+        return true
+      else
+        return false
+      end
+    end
+  end
 
   #リクエストがGETの場合は、session[:forwarding_url]にリクエストのURLを代入
   #ログインが必要なページにアクセスしようとした際に、ページのURLを一旦保存、
@@ -14,4 +26,5 @@ module SessionsHelper
   def store_location
     session[:forwarding_url] = request.url if request.get?
   end
+  
 end

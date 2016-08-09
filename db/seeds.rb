@@ -1,5 +1,12 @@
 # coding: utf-8
 
+User.create(
+    name: "Hiroyuki Ota",
+    email: "ikuyorihato@gmail.com",
+    password: "hiroyuki21",
+    password_confirmation: "hiroyuki21",
+    admin: true
+    )
 Product.create(
     product_code: 'HGA01C',
     name: 'ピンク×ゼブラ×クロコ',

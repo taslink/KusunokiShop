@@ -1,3 +1,6 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
 <%= form_for(@product) do |f| %>
 
   <% if @product.errors.any? %>
@@ -28,70 +31,80 @@
     <%= f.label :price %><br>
     <%= f.number_field :price %>
   </div>
-  <!-- main_image start -->
   <div class="field">
+    <%= f.label :product_type	 %><br>
+    <%= f.text_field :product_type %>
+  </div>
+  
+  <!-- main_image start -->
+  <hr />
+  <div class="field">
+    <%= f.label :main_image %><br>
     <% if @product.main_image? %>
       <div class="thumbnail">
         <%= image_tag @product.main_image.url %>
       </div>
-    <% end %><br>
-    <%= f.label :main_image %><br>
-    <%= f.file_field :main_image %>
-    <%= f.hidden_field :main_image_cache %>
-  </div>
-  <div class="field">
+    <% end %>
+
     <!-- 既存レコード(DBに保存されている)かつ、画像が存在する場合 -->
     <% if @product.persisted? && @product.main_image? %>
       <label>
-        <%= f.check_box :remove_main_image %>
-        画像を削除
-      </label>
+        <%= f.check_box :remove_main_image %> 画像を削除</label>
     <% end %>
+    
+    <%= f.file_field :main_image %>
+    <%= f.hidden_field :main_image_cache %>
+    
   </div>
   <!-- main_image end -->
+  
   <!-- sub1_image start -->
+  <hr />
   <div class="field">
+    <%= f.label :sub1_image %><br>
     <% if @product.sub1_image? %>
       <div class="thumbnail">
         <%= image_tag @product.sub1_image.url %>
       </div>
-    <% end %><br>
-    <%= f.label :sub1_image %><br>
-    <%= f.file_field :sub1_image %>
-    <%= f.hidden_field :sub1_image_cache %>
-  </div>
-  <div class="field">
+    <% end %>
+
     <!-- 既存レコード(DBに保存されている)かつ、画像が存在する場合 -->
     <% if @product.persisted? && @product.sub1_image? %>
       <label>
-        <%= f.check_box :remove_sub1_image %>
-        画像を削除
-      </label>
+        <%= f.check_box :remove_sub1_image %> 画像を削除</label>
     <% end %>
+    
+    <%= f.file_field :sub1_image %>
+    <%= f.hidden_field :sub1_image_cache %>
+    
   </div>
   <!-- sub1_image end -->
+  
   <!-- sub2_image start -->
+  <hr />
   <div class="field">
+    <%= f.label :sub2_image %><br>
     <% if @product.sub2_image? %>
       <div class="thumbnail">
         <%= image_tag @product.sub2_image.url %>
       </div>
-    <% end %><br>
-    <%= f.label :sub2_image %><br>
-    <%= f.file_field :sub2_image %>
-    <%= f.hidden_field :sub2_image_cache %>
-  </div>
-  <div class="field">
+    <% end %>
+
     <!-- 既存レコード(DBに保存されている)かつ、画像が存在する場合 -->
     <% if @product.persisted? && @product.sub2_image? %>
-      <label>
-        <%= f.check_box :remove_sub2_image %>
-        画像を削除
-      </label>
+      <label><%= f.check_box :remove_sub2_image %> 画像を削除</label>
     <% end %>
+    
+    <%= f.file_field :sub2_image %>
+    <%= f.hidden_field :sub2_image_cache %>
+    
   </div>
-  <!-- sub1_image end -->
+  <!-- sub2_image end -->
+  
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+
+</div>
+</div>
