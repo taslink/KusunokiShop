@@ -203,17 +203,25 @@ input {
   }
 }
 
+.show-image-row {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+    > div{
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+}
+
 .main_image img {
   width: 100% ;
-  padding: 10px 0;
 }
 
 .sub1_image img {
   width: 100% ;
-  padding: 10px 0;
 }
 
 .sub2_image img {
   width: 100% ;
-  padding: 10px 0;
 }

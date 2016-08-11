@@ -2,6 +2,7 @@
   <div class="row">
     
     <div class="col-md-6">
+      <div class="row  show-image-row">
       <div class="col-xs-12">
         <div class="main_image">
           <% if @product.main_image? %>
@@ -24,6 +25,7 @@
         </div>
       </div>
     </div>
+    </div>
     
     <div class="col-md-6">
       <h1><%= @product.name %></h1>
@@ -31,11 +33,61 @@
       <p><%= @product.description %></p>
       <p><strong>Price:</strong><%= @product.price %></p>
       <p><strong>Product_code:</strong><%= @product.product_code %></p>
-      <%= link_to 'Back Top Page', :root , class: "btn btn-default"%>
+      <p>以下よりカードを選んでください。</p>
+      <p>封筒とメッセージカードのセット販売になります。</p>
+      <p><strong>1セット:</strong>360円（税抜）</p>
     </div>
     
   </div>
   
-  <%= render 'cards_list' , product_cards: @product_cards %>
+  <hr />
+  
+  <div class="row">
     
+    <div class="col-md-6">
+      <div class="row card-box-row">
+        <% @product_cards.each do |card| %>
+        <div class="card-box col-sm-4 col-xs-4">
+          <%= link_to image_tag(card.main_image.url) , "#" %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      
+      <%= form_tag(orderdetails_path, method: "POST") do %>
+      <div class="field">
+      <%= label :orderdetail, :product_id %>
+      <%= text_field :orderdetail, :product_id %>
+      </div>
+      <div class="field">
+      <%= label :orderdetail, :count %>
+      <%= text_field :orderdetail, :cout %>
+      </div>
+      <div class="field">
+      <%= label :orderdetail, :product_id %>
+      <%= text_field :orderdetail, :product_id %>
+      </div>
+      <div class="field">
+      <%= label :orderdetail, :count %>
+      <%= text_field :orderdetail, :cout %>
+      </div>
+      <div class="actions">
+      <%= submit_tag  '購入ページへ', class: 'btn btn-large btn-primary' %>
+      </div>
+      
+      <% end %>
+    </div>
+    
+  </div>
+  
+  <hr />
+
+  <div class="row">
+    <div class="col-md-offset-6 col-md-6 ">
+      <%= link_to 'Add to Cart', "#" , class: "btn btn-default"%> 
+      <%= link_to 'Back to Top Page', :root , class: "btn btn-default"%>
+  </div>
+  
 </div>

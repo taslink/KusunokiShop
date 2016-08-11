@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :products
   
   resources :orders
+  resources :orderdetails
   
   #resources :products do
     #member do
