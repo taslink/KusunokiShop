@@ -1,11 +1,5 @@
 class OrdersController < ApplicationController
   
-  def add
-    render :show
-  end
-
-  
-  
   # GET /orders
   def index
     @orders = Order.all
@@ -20,14 +14,25 @@ class OrdersController < ApplicationController
     @order = Order.new
   end
   
-  # POST /users
+  # POST /orders
   def create
-    @order = Order.new(order_params)
-    if @order.save
-      redirect_to @order, notice: 'Order was successfully created.'
-    else
-      render :new
-    end
+    envelope_id = params["envelope_id"]
+    card_id = params["card_id"]
+    
+    envelope_count = params["envelope_count"].to_i
+    card_count = params["envelope_count"].to_i
+    
+    envelope = Product.find(envelope_id)
+    card = Product.find(card_id)
+    
+    price = (envelope.price * envelope_count) + (card.price * card_count)
+    
+    Order.create(user_id:current_user.id, total_price:price)
+    #Orderdetail.create(product_id:envelope_id, product_type:"envelope",count:envelope_count, oder_id:order_path)
+    #Orderdetail.create(product_id:card_id, product_type:"card",count:card_count, oder_id:order_path)
+    
+    render :show
+      
   end
-  
+
 end

@@ -63,24 +63,26 @@
           <%= image_tag @product.main_image.url %>
           <% end %>
         </div>
-        <%= hidden_field_tag("product_id", @product.id) %>
+        <%= hidden_field_tag("envelope_id", @product.id) %>
       </div>
       <div class="field col-md-3">
         <%= label_tag :envelope_count, "封筒の個数" %>
-        <%= text_field_tag("envelope_count") %>
+        <%= number_field_tag 'envelope_count', nil, in: 1...101 %>
       </div>
       <div class="field col-md-3">
-        <%= label_tag :card_id, "カードid" %>
-        <%= select_tag :card_id, options_from_collection_for_select(@product_cards, :id, :name) %>
+        <%= label_tag :card_id, "カード種類" %>
+        <%= select_tag :card_id, options_from_collection_for_select(@product_cards, :id, :name), include_blank: true %>
       </div>
       <div class="field col-md-3">
         <%= label_tag :card_count, "カードの個数" %>
-        <%= text_field_tag("card_count") %>
+        <%= number_field_tag 'card_count', nil, in: 1...101 %>
       </div>
       <div class="actions">
-      <%= submit_tag ("購入ページへ"), class: 'btn btn-large btn-primary' %>
+      <%= submit_tag ("購入する"), class: 'btn btn-large btn-primary' %>
       </div>
       <% end %>
+      <p>基本的にはセット販売ですが、書き損じ用などで、カードを封筒より多く購入することもできます。</p>
+      <p>追加のカードは一枚100円（税抜）です。</p>
     </div>
     
   </div>
