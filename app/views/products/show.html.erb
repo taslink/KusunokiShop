@@ -55,28 +55,31 @@
     </div>
     
     <div class="col-md-6">
-      
-      <%= form_tag(orderdetails_path, method: "POST") do %>
-      <div class="field">
-      <%= label :orderdetail, :product_id %>
-      <%= text_field :orderdetail, :product_id %>
+
+      <%= form_tag(controller: "orders", method: "post") do %>
+      <div class="field col-md-3">
+        <div class="main_image">
+          <% if @product.main_image? %>
+          <%= image_tag @product.main_image.url %>
+          <% end %>
+        </div>
+        <%= hidden_field_tag("product_id", @product.id) %>
       </div>
-      <div class="field">
-      <%= label :orderdetail, :count %>
-      <%= text_field :orderdetail, :cout %>
+      <div class="field col-md-3">
+        <%= label_tag :envelope_count, "封筒の個数" %>
+        <%= text_field_tag("envelope_count") %>
       </div>
-      <div class="field">
-      <%= label :orderdetail, :product_id %>
-      <%= text_field :orderdetail, :product_id %>
+      <div class="field col-md-3">
+        <%= label_tag :card_id, "カードid" %>
+        <%= select_tag :card_id, options_from_collection_for_select(@product_cards, :id, :name) %>
       </div>
-      <div class="field">
-      <%= label :orderdetail, :count %>
-      <%= text_field :orderdetail, :cout %>
+      <div class="field col-md-3">
+        <%= label_tag :card_count, "カードの個数" %>
+        <%= text_field_tag("card_count") %>
       </div>
       <div class="actions">
-      <%= submit_tag  '購入ページへ', class: 'btn btn-large btn-primary' %>
+      <%= submit_tag ("購入ページへ"), class: 'btn btn-large btn-primary' %>
       </div>
-      
       <% end %>
     </div>
     

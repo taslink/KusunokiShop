@@ -1,6 +1,10 @@
 class OrdersController < ApplicationController
-  def index
+  
+  def add
+    render :show
   end
+
+  
   
   # GET /orders
   def index
@@ -18,7 +22,7 @@ class OrdersController < ApplicationController
   
   # POST /users
   def create
-    @order = Order.new(user_params)
+    @order = Order.new(order_params)
     if @order.save
       redirect_to @order, notice: 'Order was successfully created.'
     else

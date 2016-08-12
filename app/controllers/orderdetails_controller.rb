@@ -1,6 +1,4 @@
 class OrderdetailsController < ApplicationController
-  def index
-  end
   
   # GET /orderdetails
   def index
@@ -25,4 +23,5 @@ class OrderdetailsController < ApplicationController
       render :new
     end
   end
+  
 end
