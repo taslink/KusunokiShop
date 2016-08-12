@@ -27,12 +27,11 @@ class OrdersController < ApplicationController
     
     price = (envelope.price * envelope_count) + (card.price * card_count)
     
-    Order.create(user_id:current_user.id, total_price:price)
-    #Orderdetail.create(product_id:envelope_id, product_type:"envelope",count:envelope_count, oder_id:order_path)
-    #Orderdetail.create(product_id:card_id, product_type:"card",count:card_count, oder_id:order_path)
-    
+    order = Order.create(user_id:current_user.id, total_price:price)
+    Orderdetail.create(product_id:envelope_id, product_type:"envelope",count:envelope_count, order_id:order.id)
+    Orderdetail.create(product_id:card_id, product_type:"card",count:card_count, order_id:order.id)
     render :show
-      
+
   end
 
 end
