@@ -1,2 +1,33 @@
-<h1>Orders#show</h1>
-<p>Find me in app/views/orders/show.html.erb</p>
+<div class="container">
+  <div class="row">
+        <h1>ご注文ありがとうございました。</h1>
+        <div class="col-md-6">
+            <p>製品情報</p>
+            <div class="envelope-fix-box">
+            <% if @envelope.main_image.present? %>
+              <%= image_tag(@envelope.main_image) %>
+            <% else %>
+              <%= image_tag("no-image-envelope.png") %>
+            <% end %>
+            </div>
+            <p>封筒個数:<%= @envelope_count %></p>
+            <div class="card-fix-box">
+            <% if @card.main_image.present? %>
+              <%= image_tag(@card.main_image) %>
+            <% else %>
+              <%= image_tag("no-image-card.png") %>
+            <% end %>
+            </div>
+            <p>カード個数:<%= @card_count %></p>
+            <p>合計金額:<%= @order.total_price %>円（税抜）</p>
+        </div>
+
+        <div class="col-md-6">
+            <p>送付先</p>
+            <p><%= current_user.name %></p>
+            <p><%= current_user.postalcode %></p>
+            <p><%= current_user.address %></p>
+            <%= link_to 'Back to Top Page', :root , class: "btn btn-default"%>
+        </div>
+  </div>
+</div>

@@ -5,22 +5,28 @@
       <div class="row  show-image-row">
       <div class="col-xs-12">
         <div class="main_image">
-          <% if @product.main_image? %>
-          <%= image_tag @product.main_image.url %>
+          <% if @product.main_image.present? %>
+            <%= image_tag(@product.main_image) %>
+          <% else %>
+            <%= image_tag("no-image-envelope.png") %>
           <% end %>
         </div>
       </div>
       <div class="col-xs-6">
         <div class="sub1_image">
-          <% if @product.sub1_image? %>
-          <%= image_tag @product.sub1_image.url %>
+          <% if @product.sub1_image.present? %>
+            <%= image_tag(@product.sub1_image) %>
+          <% else %>
+            <%= image_tag("no-image-envelope.png") %>
           <% end %>
         </div>
       </div>
       <div class="col-xs-6">
         <div class="sub2_image">
-          <% if @product.sub2_image? %>
-          <%= image_tag @product.sub2_image.url %>
+          <% if @product.sub2_image.present? %>
+            <%= image_tag(@product.sub2_image) %>
+          <% else %>
+            <%= image_tag("no-image-envelope.png") %>
           <% end %>
         </div>
       </div>
@@ -31,7 +37,6 @@
       <h1><%= @product.name %></h1>
       <hr />
       <p><%= @product.description %></p>
-      <p><strong>Price:</strong><%= @product.price %></p>
       <p><strong>Product_code:</strong><%= @product.product_code %></p>
       <p>以下よりカードを選んでください。</p>
       <p>封筒とメッセージカードのセット販売になります。</p>
@@ -48,7 +53,11 @@
       <div class="row card-box-row">
         <% @product_cards.each do |card| %>
         <div class="card-box col-sm-4 col-xs-4">
-          <%= link_to image_tag(card.main_image.url) , "#" %>
+          <% if card.main_image.present? %>
+            <%=  link_to image_tag(card.main_image) , "#" %>
+          <% else %>
+            <%=  link_to image_tag("no-image-card.png") , "#" %>
+          <% end %>
         </div>
         <% end %>
       </div>
@@ -59,8 +68,10 @@
       <%= form_tag(controller: "orders", method: "post") do %>
       <div class="field col-md-3">
         <div class="main_image">
-          <% if @product.main_image? %>
-          <%= image_tag @product.main_image.url %>
+          <% if @product.main_image.present? %>
+            <%= image_tag(@product.main_image) %>
+          <% else %>
+            <%= image_tag("no-image-envelope.png") %>
           <% end %>
         </div>
         <%= hidden_field_tag("envelope_id", @product.id) %>
