@@ -9,8 +9,8 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
-    #@orderdetails = Orderdetails.where(order_id: @order.id)
-    #@products = Product.where(id: @orderdetails.product_id)
+    @orderdetails = Orderdetails.where(order_id: @order.id)
+    @products = Product.where(id: @orderdetails.product_id)
   end
 
   # GET /orders/new
@@ -37,7 +37,9 @@ class OrdersController < ApplicationController
       Orderdetail.create(product_id:card_id, product_type:"card",count:@card_count, order_id:@order.id)
     end
     
+    #redirect_to @order
     render :show
+    
   end
   
   private
