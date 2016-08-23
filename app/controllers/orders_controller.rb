@@ -25,25 +25,33 @@ class OrdersController < ApplicationController
     card_id = params["card_id"]
     
     @envelope_count = params["envelope_count"].to_i
-    @card_count = params["envelope_count"].to_i
+    @card_count = params["card_count"].to_i
     
     @envelope = Product.find(envelope_id)
     @card = Product.find(card_id)
     
     price = (@envelope.price * @envelope_count) + (@card.price * @card_count)
     
-    if @card_count < @envelope_count
-      redirect_to action: 'index', notice: '購入に失敗しました'
-      
+    if @envelope_count == 0
+      redirect_to @envelope, flash: {notice: '封筒の数を入力してください。'}
+    elsif @card_count == 0
+      redirect_to @envelope, flash: {notice: 'カードの数を入力してください。'}
+    elsif @envelope_count > @card_count
+      redirect_to @envelope, flash: {notice: 'セット販売の為、封筒とカードを同数ご購入ください。書き損じ用などでカードを多く購入することは可能です。'}
     else
-      ActiveRecord::Base.transaction do
-        @order = Order.create(user_id:current_user.id, total_price:price)
-        Orderdetail.create(product_id:envelope_id, product_type:"envelope",count:@envelope_count, order_id:@order.id)
-        Orderdetail.create(product_id:card_id, product_type:"card",count:@card_count, order_id:@order.id)
-      end
       
-    #redirect_to @order
-    render :show
+    begin
+      ActiveRecord::Base.transaction do
+        @order = Order.create!(user_id:current_user.id, total_price:price)
+        Orderdetail.create!(product_id:envelope_id, product_type:"envelope",count:@envelope_count, order_id:@order.id)
+        #raise "例外発生"
+        Orderdetail.create!(product_id:card_id, product_type:"card",count:@card_count, order_id:@order.id)
+      end
+        #redirect_to @order
+        render :show
+      rescue => e
+      redirect_to @envelope, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
+    end
       
     end
     

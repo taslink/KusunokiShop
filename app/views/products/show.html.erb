@@ -1,9 +1,9 @@
 <div class="container-fluid">
   <div class="row">
     
-    <div class="col-md-6">
+    <div class="col-md-7">
       <div class="row  show-image-row">
-      <div class="col-xs-12">
+      <div class="col-xs-8">
         <div class="main_image">
           <% if @product.main_image.present? %>
             <%= image_tag(@product.main_image) %>
@@ -12,7 +12,7 @@
           <% end %>
         </div>
       </div>
-      <div class="col-xs-6">
+      <div class="col-xs-4">
         <div class="sub1_image">
           <% if @product.sub1_image.present? %>
             <%= image_tag(@product.sub1_image) %>
@@ -20,8 +20,6 @@
             <%= image_tag("no-image-envelope.png") %>
           <% end %>
         </div>
-      </div>
-      <div class="col-xs-6">
         <div class="sub2_image">
           <% if @product.sub2_image.present? %>
             <%= image_tag(@product.sub2_image) %>
@@ -33,24 +31,29 @@
     </div>
     </div>
     
-    <div class="col-md-6">
+    <div class="col-md-5">
       <h1><%= @product.name %></h1>
       <hr />
       <%= simple_format(@product.description) %>
       <p><strong>Product_code:</strong><%= @product.product_code %></p>
-      <p>以下よりカードを選んでください。</p>
-      <p>封筒とメッセージカードのセット販売になります。</p>
       <p><strong>1セット:</strong>360円（税抜）</p>
+      <p>封筒とメッセージカードのセット販売になります。</p>
+      <p>以下よりカードを選んでください。</p>
     </div>
-    
+
   </div>
   
   <hr />
   
   <div class="row">
-    
     <div class="col-md-12">
-
+      
+      <% if flash[:notice] %>
+      <div class="alert alert-danger col-md-12">
+        <%= flash[:notice] %>
+      </div>
+      <% end %>
+      
       <%= form_tag(controller: "orders", method: "post") do %>
       <div class="field col-md-3">
         <div class="main_image">
@@ -62,11 +65,15 @@
         </div>
         <%= hidden_field_tag("envelope_id", @product.id) %>
       </div>
-      <div class="field col-md-2">
+      <div class="field col-md-3">
         <%= label_tag :envelope_count, "封筒の個数" %>
-        <%= number_field_tag 'envelope_count', nil, in: 1...101 %>
+        <%= number_field_tag 'envelope_count', 1, in: 1...101 %>
       </div>
-      <div class="field col-md-10">
+      <div class="field col-md-3">
+        <%= label_tag :card_count, "カードの個数" %>
+        <%= number_field_tag 'card_count', 1, in: 1...101 %>
+      </div>
+      <div class="field col-md-12">
         <%= label_tag :card_id, "カード種類" %>
         <select name="card_id" id="card_id" class="image-picker">
           <% @product_cards.each do |card| %>
@@ -78,10 +85,7 @@
           <% end %>
         </select>
       </div>
-      <div class="field col-md-2">
-        <%= label_tag :card_count, "カードの個数" %>
-        <%= number_field_tag 'card_count', nil, in: 1...101 %>
-      </div>
+
       <div class="actions">
       <%= submit_tag ("購入する"), class: 'btn btn-large btn-primary' %>
       </div>
