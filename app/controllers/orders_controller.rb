@@ -20,6 +20,7 @@ class OrdersController < ApplicationController
   
   # POST /orders
   def create
+    
     envelope_id = params["envelope_id"]
     card_id = params["card_id"]
     
@@ -31,14 +32,20 @@ class OrdersController < ApplicationController
     
     price = (@envelope.price * @envelope_count) + (@card.price * @card_count)
     
-    ActiveRecord::Base.transaction do
-      @order = Order.create(user_id:current_user.id, total_price:price)
-      Orderdetail.create(product_id:envelope_id, product_type:"envelope",count:@envelope_count, order_id:@order.id)
-      Orderdetail.create(product_id:card_id, product_type:"card",count:@card_count, order_id:@order.id)
-    end
-    
+    if @card_count < @envelope_count
+      redirect_to action: 'index', notice: '購入に失敗しました'
+      
+    else
+      ActiveRecord::Base.transaction do
+        @order = Order.create(user_id:current_user.id, total_price:price)
+        Orderdetail.create(product_id:envelope_id, product_type:"envelope",count:@envelope_count, order_id:@order.id)
+        Orderdetail.create(product_id:card_id, product_type:"card",count:@card_count, order_id:@order.id)
+      end
+      
     #redirect_to @order
     render :show
+      
+    end
     
   end
   

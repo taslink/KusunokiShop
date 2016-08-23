@@ -36,7 +36,7 @@
     <div class="col-md-6">
       <h1><%= @product.name %></h1>
       <hr />
-      <p><%= @product.description %></p>
+      <%= simple_format(@product.description) %>
       <p><strong>Product_code:</strong><%= @product.product_code %></p>
       <p>以下よりカードを選んでください。</p>
       <p>封筒とメッセージカードのセット販売になります。</p>
@@ -98,14 +98,13 @@
     <div class="col-md-offset-6 col-md-6 ">
       <%= link_to 'Add to Cart', "#" , class: "btn btn-default"%> 
       <%= link_to 'Back to Top Page', :root , class: "btn btn-default"%>
+    </div>
   </div>
   
 </div>
 
-  <script type="text/javascript">
-
-    jQuery("select.image-picker").imagepicker({
-      hide_select:  false,
-    });
-    
-  </script>
+<script type="text/javascript">
+  jQuery("select.image-picker").imagepicker({
+    hide_select:  false,
+  });
+</script>
