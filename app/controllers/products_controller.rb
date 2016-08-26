@@ -10,9 +10,9 @@ class ProductsController < ApplicationController
   # GET /products/1
   def show
     #Productモデルからtypeがenvelopeのすべてのレコードを取得
-    #@product_envelopes = Product.where(product_type: 'envelope')
+    #@product_envelopes = Product.where(product_type: 'envelope').order(product_code: :asc)
     #Productモデルからtypeがcardのすべてのレコードを取得
-    @product_cards = Product.where(product_type: 'card')
+    @product_cards = Product.where(product_type: 'card').order(product_code: :asc)
   end
 
   # GET /products/new
@@ -57,7 +57,7 @@ class ProductsController < ApplicationController
     
     # Never trust parameters from the scary internet, only allow the white list through.
    def product_params
-     params.require(:product).permit(:product_code, :name, :price, :description, 
+     params.require(:product).permit(:product_code, :name, :price, :description, :product_type,
      :main_image, :main_image_cache, :remove_main_image,
      :sub1_image, :sub1_image_cache, :remove_sub1_image,
      :sub2_image, :sub2_image_cache, :remove_sub2_image)

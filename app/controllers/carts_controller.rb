@@ -1,5 +1,7 @@
 class CartsController < ApplicationController
-  before_action :set_cart, only: [:show, :edit, :update, :destroy]
+  before_action :set_cart, only: [:edit, :update, :destroy]
+  
+  include SessionsHelper
 
   # GET /carts
   # GET /carts.json
@@ -8,8 +10,16 @@ class CartsController < ApplicationController
   end
 
   # GET /carts/1
-  # GET /carts/1.json
   def show
+    @cart = Cart.find(params[:id])
+    @line_items = LineItem.where(cart_id: params[:id])
+    
+    @li_envelope = @line_items.find_by(product_type: 'envelope')
+    @li_card = @line_items.find_by(product_type: 'card')
+    
+    @envelope = Product.find_by(id: @li_envelope.product_id)
+    @card = Product.find_by(id: @li_card.product_id)
+    
   end
 
   # GET /carts/new
@@ -22,17 +32,41 @@ class CartsController < ApplicationController
   end
 
   # POST /carts
-  # POST /carts.json
   def create
-    @cart = Cart.new(cart_params)
-
-    respond_to do |format|
-      if @cart.save
-        format.html { redirect_to @cart, notice: 'Cart was successfully created.' }
-        format.json { render :show, status: :created, location: @cart }
+    
+    unless logged_in?
+      store_location
+      flash[:danger] = "Please log in."
+      redirect_to login_url
+      
+    else
+      
+      envelope_id = params["envelope_id"]
+      card_id = params["card_id"]
+      
+      @envelope_count = params["count"].to_i
+      @card_count = params["count"].to_i
+      
+      @envelope = Product.find(envelope_id)
+      @card = Product.find(card_id)
+      
+      amount = (@envelope.price * @envelope_count) + (@card.price * @card_count)
+      
+      if @envelope_count == 0 || @card_count == 0
+        redirect_to @envelope, flash: {notice: 'セット数を入力してください。'}
       else
-        format.html { render :new }
-        format.json { render json: @cart.errors, status: :unprocessable_entity }
+        begin
+          ActiveRecord::Base.transaction do
+            @cart_item = Cart.create!(user_id:current_user.id, amount:amount)
+            LineItem.create!(product_id:envelope_id, product_type:"envelope",count:@envelope_count, cart_id:@cart_item.id)
+            #raise "例外発生"
+            LineItem.create!(product_id:card_id, product_type:"card",count:@card_count, cart_id:@cart_item.id)
+          end
+            redirect_to @cart_item
+            #render :show
+          rescue => e
+          redirect_to @envelope, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
+        end
       end
     end
   end

@@ -1,4 +1,5 @@
 class OrderdetailsController < ApplicationController
+  before_action :logged_in_admin_user, only: [:index, :show, :edit, :update, :destroy]
   
   # GET /orderdetails
   def index

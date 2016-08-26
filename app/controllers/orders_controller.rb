@@ -9,8 +9,8 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
-    @orderdetails = Orderdetails.where(order_id: @order.id)
-    @products = Product.where(id: @orderdetails.product_id)
+    #@orderdetails = Orderdetails.where(order_id: @order.id)
+    #@products = Product.where(id: @orderdetails.product_id)
   end
 
   # GET /orders/new
@@ -24,20 +24,16 @@ class OrdersController < ApplicationController
     envelope_id = params["envelope_id"]
     card_id = params["card_id"]
     
-    @envelope_count = params["envelope_count"].to_i
-    @card_count = params["card_count"].to_i
+    @envelope_count = params["count"].to_i
+    @card_count = params["count"].to_i
     
     @envelope = Product.find(envelope_id)
     @card = Product.find(card_id)
     
     price = (@envelope.price * @envelope_count) + (@card.price * @card_count)
     
-    if @envelope_count == 0
-      redirect_to @envelope, flash: {notice: '封筒の数を入力してください。'}
-    elsif @card_count == 0
-      redirect_to @envelope, flash: {notice: 'カードの数を入力してください。'}
-    elsif @envelope_count > @card_count
-      redirect_to @envelope, flash: {notice: 'セット販売の為、封筒とカードを同数ご購入ください。書き損じ用などでカードを多く購入することは可能です。'}
+    if @envelope_count == 0 || @card_count == 0
+      redirect_to @envelope, flash: {notice: 'セット数を入力してください。'}
     else
       
     begin

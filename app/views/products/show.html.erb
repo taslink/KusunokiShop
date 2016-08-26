@@ -40,56 +40,54 @@
       <p>封筒とメッセージカードのセット販売になります。</p>
       <p>以下よりカードを選んでください。</p>
     </div>
-
+    
   </div>
   
   <hr />
   
   <div class="row">
     <div class="col-md-12">
-      
       <% if flash[:notice] %>
       <div class="alert alert-danger col-md-12">
         <%= flash[:notice] %>
       </div>
       <% end %>
+    </div>
       
-      <%= form_tag(controller: "orders", method: "post") do %>
-      <div class="field col-md-3">
-        <div class="main_image">
-          <% if @product.main_image.present? %>
-            <%= image_tag(@product.main_image) %>
-          <% else %>
-            <%= image_tag("no-image-envelope.png") %>
-          <% end %>
-        </div>
+    <%= form_tag(controller: "carts", method: "post") do %>
+    <div class="field col-md-3">
+      <div class="main_image">
+        <% if @product.main_image.present? %>
+          <%= image_tag(@product.main_image) %>
+        <% else %>
+          <%= image_tag("no-image-envelope.png") %>
+        <% end %>
         <%= hidden_field_tag("envelope_id", @product.id) %>
       </div>
-      <div class="field col-md-3">
-        <%= label_tag :envelope_count, "封筒の個数" %>
-        <%= number_field_tag 'envelope_count', 1, in: 1...101 %>
-      </div>
-      <div class="field col-md-3">
-        <%= label_tag :card_count, "カードの個数" %>
-        <%= number_field_tag 'card_count', 1, in: 1...101 %>
-      </div>
-      <div class="field col-md-12">
-        <%= label_tag :card_id, "カード種類" %>
-        <select name="card_id" id="card_id" class="image-picker">
-          <% @product_cards.each do |card| %>
-            <% if card.main_image.present? %>
-              <option data-img-src='<%= card.main_image %>' value="<%= card.id %>"><%= card.name %></option>
-            <% else %>
-              <option data-img-src='/assets/no-image-card.png' value="<%= card.id %>"><%= card.name %></option>
-            <% end %>
+    </div>
+    <div class="field col-md-3">
+      <%= label_tag :count, "セット数" %>
+      <%= number_field_tag 'count', 1, in: 1...101 %>
+    </div>
+    <div class="field col-md-12">
+      <%= label_tag :card_id, "カード種類" %>
+      <select name="card_id" id="card_id" class="image-picker">
+        <% @product_cards.each do |card| %>
+          <% if card.main_image.present? %>
+            <option data-img-src='<%= card.main_image %>' value="<%= card.id %>"><%= card.name %></option>
+          <% else %>
+            <option data-img-src='/assets/no-image-card.png' value="<%= card.id %>"><%= card.name %></option>
           <% end %>
-        </select>
-      </div>
-
-      <div class="actions">
-      <%= submit_tag ("購入する"), class: 'btn btn-large btn-primary' %>
-      </div>
-      <% end %>
+        <% end %>
+      </select>
+    </div>
+    <div class="actions col-md-12">
+      <%= hidden_field_tag :cart_id, id: "cart_id_#{@product.id}" %>
+      <%= submit_tag ("カートに入れる"), class: 'btn btn-large btn-secondary' %>
+    </div>
+    <% end %>
+    
+    <div class="col-md-12">
       <p>基本的にはセット販売ですが、書き損じ用などで、カードを封筒より多く購入することもできます。</p>
       <p>追加のカードは一枚100円（税抜）です。</p>
     </div>
@@ -99,7 +97,7 @@
   <hr />
 
   <div class="row">
-    <div class="col-md-offset-6 col-md-6 ">
+    <div class="col-md-12">
       <%= link_to 'Add to Cart', "#" , class: "btn btn-default"%> 
       <%= link_to 'Back to Top Page', :root , class: "btn btn-default"%>
     </div>

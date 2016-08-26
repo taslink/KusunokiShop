@@ -1,4 +1,5 @@
 class LineItemsController < ApplicationController
+  before_action :logged_in_admin_user, only: [:index, :show]
   before_action :set_line_item, only: [:show, :edit, :update, :destroy]
 
   # GET /line_items
@@ -22,19 +23,7 @@ class LineItemsController < ApplicationController
   end
 
   # POST /line_items
-  # POST /line_items.json
   def create
-    @line_item = LineItem.new(line_item_params)
-
-    respond_to do |format|
-      if @line_item.save
-        format.html { redirect_to @line_item, notice: 'Line item was successfully created.' }
-        format.json { render :show, status: :created, location: @line_item }
-      else
-        format.html { render :new }
-        format.json { render json: @line_item.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # PATCH/PUT /line_items/1
