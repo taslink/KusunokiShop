@@ -6,7 +6,9 @@ class CartsController < ApplicationController
   # GET /carts
   # GET /carts.json
   def index
-    @carts = Cart.all
+    @carts = Cart.where(user_id:current_user.id)
+    
+    
   end
 
   # GET /carts/1
