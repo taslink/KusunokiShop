@@ -11,6 +11,10 @@
 </div>
 
 <% else %>
+
+<div class="row">
+  
+<div class="col-md-3">
   <p>LineItem Model</p>
   <table>
   <thead>
@@ -32,6 +36,76 @@
     <% end %>
     </tbody>
   </table>
+</div>
+ 
+<div class="col-md-3">
+  <p>Cart Model</p>
+  <table>
+  <thead>
+    <tr>
+      <th>id　</th>
+      <th>User_id　</th>
+      <th>Amount　</th>
+      <th>Destroy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @carts.each do |cart| %>
+      <tr>
+        <td><%= cart.id %></td>
+        <td><%= cart.user_id %></td>
+        <td><%= cart.amount %></td>  
+        <td><%= link_to '削除', cart, method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  </table>
+</div>
+
+<div class="col-md-3">
+  <p>Product Model : Envelope</p>
+    <table>
+    <thead>
+      <tr>
+        <th>id　</th>
+        <th>name　</th>
+        <th>price　</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @envelopes.each do |envelope| %>
+      <tr>
+        <td><%= envelope.id %></td>
+        <td><%= envelope.name %></td>
+        <td><%= envelope.price %></td> 
+      </tr>
+      <% end %>
+    </tbody>
+    </table>
+</div>
+
+<div class="col-md-3">
+  <p>Product Model : Card</p>
+    <table>
+    <thead>
+      <tr>
+        <th>id　</th>
+        <th>name　</th>
+        <th>price　</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cards.each do |card| %>
+      <tr>
+        <td><%= card.id %></td>
+        <td><%= card.name %></td>
+        <td><%= card.price %></td> 
+      </tr>
+      <% end %>
+    </tbody>
+    </table>
+</div>
+</div>
   
   <h4>合計金額<%= @add_amount %>円</h4>
   
@@ -41,28 +115,6 @@
   
 <% end %>
 
-  <p>Cart Model</p>
-  <table>
-  <thead>
-    <tr>
-      <th>id　</th>
-      <th>User_id　</th>
-      <th>Amount　</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @carts.each do |cart| %>
-      <tr>
-        <td><%= cart.id %></td>
-        <td><%= cart.user_id %></td>
-        <td><%= cart.amount %></td>  
-        <td><%= link_to 'Edit', edit_cart_path(cart) %></td>
-        <td><%= link_to 'Destroy', cart, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-  </table>
-  
 
+  
 

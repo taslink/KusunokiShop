@@ -5,16 +5,27 @@ class CartsController < ApplicationController
 
   # GET /carts
   def index
+    
+    unless logged_in?
+      store_location
+      redirect_to login_url, flash: {notice: 'ご利用には会員登録が必要です'}
+
+    else
+      
     @carts = Cart.where(user_id:current_user.id).order(created_at: :desc)
     @add_amount = @carts.sum(:amount)
     
     @line_items = LineItem.where(cart_id: @carts).order(created_at: :desc)
     
-    @li_envelope = @line_items.where(product_type: 'envelope')
-    @li_card = @line_items.where(product_type: 'card')
+    li_envelopes = @line_items.where(product_type: 'envelope')
+    envelop_ids = li_envelopes.pluck :product_id
+    @envelopes = Product.where(id: envelop_ids)
     
-    @envelope = Product.where(id: @li_envelope.product_id)
-    @card = Product.where(id: @li_card.product_id)
+    li_cards = @line_items.where(product_type: 'card')
+    card_ids = li_cards.pluck :product_id
+    @cards = Product.where(id: card_ids)
+    
+    end
   end
 
   # GET /carts/1
