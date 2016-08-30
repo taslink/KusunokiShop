@@ -21,36 +21,22 @@ class OrdersController < ApplicationController
   # POST /orders
   def create
     
-    envelope_id = params["envelope_id"]
-    card_id = params["card_id"]
-    
-    @envelope_count = params["count"].to_i
-    @card_count = params["count"].to_i
-    
-    @envelope = Product.find(envelope_id)
-    @card = Product.find(card_id)
-    
-    price = (@envelope.price * @envelope_count) + (@card.price * @card_count)
-    
-    if @envelope_count == 0 || @card_count == 0
-      redirect_to @envelope, flash: {notice: 'セット数を入力してください。'}
-    else
-      
+    @carts = Cart.where(user_id:current_user.id).order(created_at: :desc)
+    @total_price = @carts.sum(:amount)
+
     begin
       ActiveRecord::Base.transaction do
-        @order = Order.create!(user_id:current_user.id, total_price:price)
-        Orderdetail.create!(product_id:envelope_id, product_type:"envelope",count:@envelope_count, order_id:@order.id)
+        @order = Order.create!(user_id:current_user.id, total_price:@total_price)
+        #Orderdetail.create!(product_id:envelope_id, product_type:"envelope",count:@envelope_count, order_id:@order.id)
         #raise "例外発生"
-        Orderdetail.create!(product_id:card_id, product_type:"card",count:@card_count, order_id:@order.id)
+        #Orderdetail.create!(product_id:card_id, product_type:"card",count:@card_count, order_id:@order.id)
       end
         #redirect_to @order
         render :show
       rescue => e
-      redirect_to @envelope, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
+      redirect_to @order, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
     end
-      
-    end
-    
+
   end
   
   private

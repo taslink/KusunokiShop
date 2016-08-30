@@ -27,10 +27,8 @@
           <p><%= current_user.name %></p>
           <p><%= current_user.postalcode %></p>
           <p><%= current_user.address %></p>
-          <%= link_to 'Back to Top Page', :root , class: "btn btn-default"%>
+          <%= link_to 'カートをみる', carts_path, class: "btn btn-default" %>
+          <%= link_to 'Back to Top Page', root_path, class: "btn btn-default" %>
         </div>
   </div>
 </div>
-
-
-<%= link_to 'カートをみる', carts_path %>

@@ -4,11 +4,17 @@ class CartsController < ApplicationController
   include SessionsHelper
 
   # GET /carts
-  # GET /carts.json
   def index
-    @carts = Cart.where(user_id:current_user.id)
+    @carts = Cart.where(user_id:current_user.id).order(created_at: :desc)
+    @add_amount = @carts.sum(:amount)
     
+    @line_items = LineItem.where(cart_id: @carts).order(created_at: :desc)
     
+    @li_envelope = @line_items.where(product_type: 'envelope')
+    @li_card = @line_items.where(product_type: 'card')
+    
+    @envelope = Product.where(id: @li_envelope.product_id)
+    @card = Product.where(id: @li_card.product_id)
   end
 
   # GET /carts/1
@@ -21,7 +27,6 @@ class CartsController < ApplicationController
     
     @envelope = Product.find_by(id: @li_envelope.product_id)
     @card = Product.find_by(id: @li_card.product_id)
-    
   end
 
   # GET /carts/new
@@ -38,9 +43,8 @@ class CartsController < ApplicationController
     
     unless logged_in?
       store_location
-      flash[:danger] = "Please log in."
-      redirect_to login_url
-      
+      redirect_to login_url, flash: {notice: 'ご利用には会員登録が必要です'}
+
     else
       
       envelope_id = params["envelope_id"]

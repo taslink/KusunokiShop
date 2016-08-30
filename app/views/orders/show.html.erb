@@ -2,27 +2,7 @@
   <div class="row">
         <h1>ご注文ありがとうございました。</h1>
         <h2>製品情報</h2>
-        <div class="col-md-4">
-          <div class="envelope-fix-box">
-          <% if @envelope.main_image.present? %>
-            <%= image_tag(@envelope.main_image) %>
-          <% else %>
-            <%= image_tag("no-image-envelope.png") %>
-          <% end %>
-          </div>
-          <p>封筒個数:<%= @envelope_count %></p>
-        </div>
-        <div class="col-md-3">
-          <div class="card-fix-box">
-          <% if @card.main_image.present? %>
-            <%= image_tag(@card.main_image) %>
-          <% else %>
-            <%= image_tag("no-image-card.png") %>
-          <% end %>
-          </div>
-          <p>カード個数:<%= @card_count %></p>
-        </div>
-        <div class="col-md-5">
+
           <p><strong>合計金額:<%= @order.total_price %>円（税抜）</strong></p>
           <p>送付先</p>
           <p><%= current_user.name %></p>
