@@ -7,6 +7,8 @@ class Product < ActiveRecord::Base
   has_many :orders, through: :orderdetails
   
   has_many :line_items
+  has_many :carts, through: :line_items
+
   # 破棄する前にLineitemが空か確認する
   before_destroy :not_line_item?
 

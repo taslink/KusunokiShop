@@ -13,108 +13,63 @@
 <% else %>
 
 <div class="row">
-  
-<div class="col-md-3">
-  <p>LineItem Model</p>
-  <table>
-  <thead>
-    <tr>
-      <th>cart_id　</th>
-      <th>product_id　</th>
-      <th>product_type　</th>
-      <th>count　</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @line_items.each do |li| %>
-      <tr>
-        <td><%= li.cart_id %></td>
-        <td><%= li.product_id %></td>  
-        <td><%= li.product_type %></td>  
-        <td><%= li.count %></td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
-</div>
- 
-<div class="col-md-3">
+<div class="col-md-10">
   <p>Cart Model</p>
   <table>
   <thead>
     <tr>
-      <th>id　</th>
-      <th>User_id　</th>
+      <th>No　</th>
+      <th>Envelope_image　</th>
+      <th>Envelope_name　<br />code</th>
+      <th>Card_image　</th>
+      <th>Card_name　<br />code</th></th>
+      <th>Price　</th>
+      <th>Count　</th>
       <th>Amount　</th>
-      <th>Destroy</th>
+      <th>Destroy　</th>
+      <th>追加日時</th>
     </tr>
   </thead>
   <tbody>
-    <% @carts.each do |cart| %>
+    <% @carts.each_with_index do |cart,i| %>
       <tr>
-        <td><%= cart.id %></td>
-        <td><%= cart.user_id %></td>
-        <td><%= cart.amount %></td>  
-        <td><%= link_to '削除', cart, method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %></td>
+        <td><%= "#{h(i + 1)}" %></td>
+        
+        <% cart.products.each do |product| %>
+          <td>
+          <div class="cart-box">
+          <% if product.main_image.present? %>
+            <%= image_tag(product.main_image) %>
+          <% else %>
+            <%= image_tag("no-image-card.png") %>
+          <% end %>
+          </div>
+          </td>
+          <td><%= product.name %><br /><%= product.product_code %></td>
+        <% end %>
+        
+        <td>360</td>
+        <% cart.line_items.first(1).each do |li| %>
+          <td><%= li.count %>　</td>
+        <% end %>
+        <td><%= cart.amount %>　</td>  
+        <td><%= link_to '削除', cart, method: :delete, data: { confirm: '本当にカートから削除してよろしいですか？' } %></td>
+        <td><%= cart.created_at.strftime('%Y/%m/%d %H:%M') %></td>
       </tr>
     <% end %>
   </tbody>
   </table>
 </div>
 
-<div class="col-md-3">
-  <p>Product Model : Envelope</p>
-    <table>
-    <thead>
-      <tr>
-        <th>id　</th>
-        <th>name　</th>
-        <th>price　</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @envelopes.each do |envelope| %>
-      <tr>
-        <td><%= envelope.id %></td>
-        <td><%= envelope.name %></td>
-        <td><%= envelope.price %></td> 
-      </tr>
-      <% end %>
-    </tbody>
-    </table>
-</div>
 
-<div class="col-md-3">
-  <p>Product Model : Card</p>
-    <table>
-    <thead>
-      <tr>
-        <th>id　</th>
-        <th>name　</th>
-        <th>price　</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @cards.each do |card| %>
-      <tr>
-        <td><%= card.id %></td>
-        <td><%= card.name %></td>
-        <td><%= card.price %></td> 
-      </tr>
-      <% end %>
-    </tbody>
-    </table>
-</div>
-</div>
-  
+<div class="col-md-2">  
   <h4>合計金額<%= @add_amount %>円</h4>
   
   <%= form_tag(controller: "orders", method: "post") do %>
     <%= submit_tag ("この内容で購入する"), class: 'btn btn-large btn-secondary' %>
   <% end %>
-  
+</div>
+
+</div>
+
 <% end %>
-
-
-  
-

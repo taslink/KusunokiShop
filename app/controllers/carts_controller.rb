@@ -11,19 +11,22 @@ class CartsController < ApplicationController
       redirect_to login_url, flash: {notice: 'ご利用には会員登録が必要です'}
 
     else
-      
-    @carts = Cart.where(user_id:current_user.id).order(created_at: :desc)
+    #@carts = Cart.where(user_id:current_user.id).order(created_at: :desc)
+    @carts = current_user.carts.order(created_at: :desc)
     @add_amount = @carts.sum(:amount)
     
-    @line_items = LineItem.where(cart_id: @carts).order(created_at: :desc)
+    #@line_items = LineItem.where(cart_id: @carts.ids).order(created_at: :desc)
+    #@line_items = @carts.line_items.order(created_at: :desc)
     
-    li_envelopes = @line_items.where(product_type: 'envelope')
-    envelop_ids = li_envelopes.pluck :product_id
-    @envelopes = Product.where(id: envelop_ids)
+    #li_envelopes = @line_items.where(product_type: 'envelope')
+    #envelop_ids = li_envelopes.pluck :product_id
+    #@envelopes = Product.where(id: envelop_ids)
     
-    li_cards = @line_items.where(product_type: 'card')
-    card_ids = li_cards.pluck :product_id
-    @cards = Product.where(id: card_ids)
+    #li_cards = @line_items.where(product_type: 'card')
+    #card_ids = li_cards.pluck :product_id
+    #@cards = Product.where(id: card_ids)
+    
+    #@products = Product.where(id:@line_items.ids)
     
     end
   end
