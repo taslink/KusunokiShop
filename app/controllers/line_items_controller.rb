@@ -39,6 +39,38 @@ class LineItemsController < ApplicationController
       end
     end
   end
+  
+  # 手動作成
+  def update_count_up
+    li_a = LineItem.find(params[:id])
+    li_b = LineItem.find_by(cart_id: li_a.cart_id, product_type: 'card')
+    cart_item = Cart.find_by(id: li_a.cart_id)
+    
+    li_a.count += 1
+    li_b.count += 1
+    li_a.save
+    li_b.save
+    cart_item.amount = (li_a.product.price * li_a.count) + (li_b.product.price * li_b.count) 
+    cart_item.save
+    
+    redirect_to controller: 'carts', action: 'index'
+  end
+  
+  def update_count_down
+    li_a = LineItem.find(params[:id])
+    li_b = LineItem.find_by(cart_id: li_a.cart_id, product_type: 'card')
+    cart_item = Cart.find_by(id: li_a.cart_id)
+    
+    li_a.count -= 1
+    li_b.count -= 1
+    li_a.save
+    li_b.save
+    
+    cart_item.amount = (li_a.product.price * li_a.count) + (li_b.product.price * li_b.count) 
+    cart_item.save
+    
+    redirect_to controller: 'carts', action: 'index'
+  end
 
   # DELETE /line_items/1
   # DELETE /line_items/1.json
@@ -58,6 +90,6 @@ class LineItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def line_item_params
-      params.require(:line_item).permit(:product_id, :cart_id)
+      params.require(:line_item).permit(:product_id, :cart_id, :product_type, :count)
     end
 end

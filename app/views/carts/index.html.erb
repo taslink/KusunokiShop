@@ -24,7 +24,7 @@
       <th>Card_image　</th>
       <th>Card_name　<br />code</th></th>
       <th>Price　</th>
-      <th>Count　</th>
+      <th colspan="2">Count　</th>
       <th>Amount　</th>
       <th>Destroy　</th>
       <th>追加日時</th>
@@ -50,7 +50,8 @@
         
         <td>360</td>
         <% cart.line_items.first(1).each do |li| %>
-          <td><%= li.count %>　</td>
+          <td><b><%= li.count %></b><br />
+          <td><%= link_to '▲', update_count_up_line_item_path(li), method: :patch %><br /><%= link_to '▼', update_count_down_line_item_path(li), method: :patch %></td>
         <% end %>
         <td><%= cart.amount %>　</td>  
         <td><%= link_to '削除', cart, method: :delete, data: { confirm: '本当にカートから削除してよろしいですか？' } %></td>

@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
   root 'welcome#index'
-  
-  resources :line_items
-  resources :carts
-  
+
   resources :users
   get    'signup', to: 'users#new'
   
@@ -13,8 +10,16 @@ Rails.application.routes.draw do
   
   resources :products
   
+  resources :carts
+  
+  resources :line_items do
+    patch :update_count_up, on: :member
+    patch :update_count_down, on: :member
+  end
+  
   resources :orders
   resources :orderdetails
+  
   
   #resources :products do
     #member do

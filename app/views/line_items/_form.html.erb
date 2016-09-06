@@ -1,8 +1,13 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
 <%= form_for(@line_item) do |f| %>
+
   <% if @line_item.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@line_item.errors.count, "error") %> prohibited this line_item from being saved:</h2>
-
+      <div class="alert alert-danger">
+        <h2><%= pluralize(@line_item.errors.count, "error") %> prohibited this line_item from being saved:</h2>
+      </div>
       <ul>
       <% @line_item.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -19,7 +24,18 @@
     <%= f.label :cart_id %><br>
     <%= f.number_field :cart_id %>
   </div>
+  <div class="field">
+    <%= f.label :product_type %><br>
+    <%= f.text_field :product_type %>
+  </div>
+  <div class="field">
+    <%= f.label :count %><br>
+    <%= f.number_field :count %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+
+  </div>
+</div>
