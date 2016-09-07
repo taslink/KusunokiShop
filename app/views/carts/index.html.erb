@@ -27,7 +27,7 @@
       <th colspan="2">Count　</th>
       <th>Amount　</th>
       <th>Destroy　</th>
-      <th>追加日時</th>
+      <th>Date</th>
     </tr>
   </thead>
   <tbody>
@@ -46,12 +46,16 @@
           </div>
           </td>
           <td><%= product.name %><br /><%= product.product_code %></td>
+          
         <% end %>
         
-        <td>360</td>
-        <% cart.line_items.first(1).each do |li| %>
+        <td><%= cart.products.sum(:price) %></td>
+        
+        <% cart.line_items.each do |li| %>
+          <% if li.product_type == "envelope" %>
           <td><b><%= li.count %></b><br />
           <td><%= link_to '▲', update_count_up_line_item_path(li), method: :patch %><br /><%= link_to '▼', update_count_down_line_item_path(li), method: :patch %></td>
+          <% end %>
         <% end %>
         <td><%= cart.amount %>　</td>  
         <td><%= link_to '削除', cart, method: :delete, data: { confirm: '本当にカートから削除してよろしいですか？' } %></td>
@@ -63,11 +67,51 @@
 </div>
 
 
-<div class="col-md-2">  
-  <h4>合計金額<%= @add_amount %>円</h4>
+<div class="col-md-2"> 
+  <hr />
+  <div class="clearfix">
+    <p class="h4 pull-left">小　計：</p>
+    <p class="h4 text-right"><%= @add_amount %>円</p>
+  </div>
+  <div class="clearfix">
+    <p class="h4 pull-left">消費税：</p>
+    <p class="h4 text-right"><%= @tax %>円</p>
+  </div>
   
+  <% if @add_amount < 3000 %>
+    <div class="clearfix">
+      <p class="h4 pull-left">送　料：</p>
+      <p class="h4 text-right"><%= @postage %>円</p>
+    </div>
+    <div class="panel panel-danger">
+      <div class="panel-heading">あと <b><%= 3000 - @add_amount %>円</b>（税抜)で送料無料です！</div>
+    </div>
+    <hr />
+    <div class="clearfix">
+      <p class="h4 pull-left">合　計：</p>
+      <p class="h4 text-right"><%= @total_amount %>円</p>
+    </div>
+    
+  <% else %>
+  
+    <div class="clearfix">
+      <p class="h4 pull-left">送　料：</p>
+      <p class="h4 text-right"><%= @postage %>円</p>
+    </div>
+    <div class="panel panel-success">
+      <div class="panel-heading">送料が無料になりました！</div>
+    </div>
+    <hr />
+    <div class="clearfix">
+      <p class="h4 pull-left">合　計：</p>
+      <p class="h4 text-right"><%= @total_amount %>円</p>
+    </div>
+  <% end %>
+  
+  <hr />
+
   <%= form_tag(controller: "orders", method: "post") do %>
-    <%= submit_tag ("この内容で購入する"), class: 'btn btn-large btn-secondary' %>
+    <%= submit_tag ("ご購入手続き"), class: 'btn btn-large btn-secondary' %>
   <% end %>
 </div>
 

@@ -5,7 +5,7 @@ class LineItemsController < ApplicationController
   # GET /line_items
   # GET /line_items.json
   def index
-    @line_items = LineItem.all
+    @line_items = LineItem.all.order(created_at: :desc)
   end
 
   # GET /line_items/1
@@ -40,34 +40,32 @@ class LineItemsController < ApplicationController
     end
   end
   
-  # 手動作成
   def update_count_up
-    li_a = LineItem.find(params[:id])
-    li_b = LineItem.find_by(cart_id: li_a.cart_id, product_type: 'card')
-    cart_item = Cart.find_by(id: li_a.cart_id)
+    li_e = LineItem.find(params[:id])
+    li_c = LineItem.find_by(cart_id: li_e.cart_id, product_type: 'card')
+    cart = Cart.find_by(id: li_e.cart_id)
     
-    li_a.count += 1
-    li_b.count += 1
-    li_a.save
-    li_b.save
-    cart_item.amount = (li_a.product.price * li_a.count) + (li_b.product.price * li_b.count) 
-    cart_item.save
+    li_e.count += 1
+    li_c.count += 1
+    li_e.save
+    li_c.save
+    cart.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
+    cart.save
     
     redirect_to controller: 'carts', action: 'index'
   end
   
   def update_count_down
-    li_a = LineItem.find(params[:id])
-    li_b = LineItem.find_by(cart_id: li_a.cart_id, product_type: 'card')
-    cart_item = Cart.find_by(id: li_a.cart_id)
+    li_e = LineItem.find(params[:id])
+    li_c = LineItem.find_by(cart_id: li_e.cart_id, product_type: 'card')
+    cart = Cart.find_by(id: li_e.cart_id)
     
-    li_a.count -= 1
-    li_b.count -= 1
-    li_a.save
-    li_b.save
-    
-    cart_item.amount = (li_a.product.price * li_a.count) + (li_b.product.price * li_b.count) 
-    cart_item.save
+    li_e.count -= 1
+    li_c.count -= 1
+    li_e.save
+    li_c.save
+    cart.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
+    cart.save
     
     redirect_to controller: 'carts', action: 'index'
   end
