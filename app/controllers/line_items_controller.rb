@@ -47,12 +47,23 @@ class LineItemsController < ApplicationController
     
     li_e.count += 1
     li_c.count += 1
-    li_e.save
-    li_c.save
-    cart.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
-    cart.save
     
-    redirect_to controller: 'carts', action: 'index'
+    if li_e.count > 30 || li_c.count > 30
+      redirect_to carts_url, flash: {notice: '一度に購入できるのは30セットまでです'}
+    else
+      begin
+        ActiveRecord::Base.transaction do
+          li_e.save
+          li_c.save
+          #raise "例外発生"
+          cart.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
+          cart.save
+        end
+          redirect_to carts_url
+        rescue => e
+        redirect_to carts_url, flash: {notice: '処理に失敗しました'}
+      end
+    end
   end
   
   def update_count_down
@@ -62,12 +73,23 @@ class LineItemsController < ApplicationController
     
     li_e.count -= 1
     li_c.count -= 1
-    li_e.save
-    li_c.save
-    cart.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
-    cart.save
     
-    redirect_to controller: 'carts', action: 'index'
+    if li_e.count < 1 || li_c.count < 1
+      redirect_to carts_url, flash: {notice: '0にする場合は「削除」してください'}
+    else
+      begin
+        ActiveRecord::Base.transaction do
+          li_e.save
+          li_c.save
+          #raise "例外発生"
+          cart.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
+          cart.save
+        end
+          redirect_to carts_url
+        rescue => e
+        redirect_to carts_url, flash: {notice: '処理に失敗しました'}
+      end
+    end
   end
 
   # DELETE /line_items/1

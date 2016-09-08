@@ -1,16 +1,22 @@
-<p id="notice"><%= notice %></p>
-
 <div class="row">
   <h1><%= current_user.name %>'s Cart</h1>
 </div>
 
 <% if @carts.empty? %>
-
-<div class="row">
-  <h2>カートには何も入っていません</h2>
-</div>
-
+  <div class="row">
+    <h2>カートには何も入っていません</h2>
+  </div>
 <% else %>
+
+<% if flash[:notice] %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-danger col-md-12">
+        <%= flash[:notice] %>
+      </div>
+    </div>
+  </div>
+<% end %>
 
 <div class="row">
 <div class="col-md-10">
@@ -36,17 +42,29 @@
         <td><%= "#{h(i + 1)}" %></td>
         
         <% cart.products.each do |product| %>
-          <td>
-          <div class="cart-box">
-          <% if product.main_image.present? %>
-            <%= image_tag(product.main_image) %>
+          <% if product.product_type == "envelope" %>
+            <td>
+            <div class="cart-box">
+            <% if product.main_image.present? %>
+              <%= image_tag(product.main_image) %>
+            <% else %>
+              <%= image_tag("no-image-envelope.png") %>
+            <% end %>
+            </div>
+            </td>
+            <td><%= product.name %><br /><%= product.product_code %></td>
           <% else %>
-            <%= image_tag("no-image-card.png") %>
+            <td>
+            <div class="cart-box">
+            <% if product.main_image.present? %>
+              <%= image_tag(product.main_image) %>
+            <% else %>
+              <%= image_tag("no-image-card.png") %>
+            <% end %>
+            </div>
+            </td>
+            <td><%= product.name %><br /><%= product.product_code %></td>
           <% end %>
-          </div>
-          </td>
-          <td><%= product.name %><br /><%= product.product_code %></td>
-          
         <% end %>
         
         <td><%= cart.products.sum(:price) %></td>
@@ -77,37 +95,24 @@
     <p class="h4 pull-left">消費税：</p>
     <p class="h4 text-right"><%= @tax %>円</p>
   </div>
-  
+  <div class="clearfix">
+    <p class="h4 pull-left">送　料：</p>
+    <p class="h4 text-right"><%= @postage %>円</p>
+  </div>
   <% if @add_amount < 3000 %>
-    <div class="clearfix">
-      <p class="h4 pull-left">送　料：</p>
-      <p class="h4 text-right"><%= @postage %>円</p>
-    </div>
     <div class="panel panel-danger">
       <div class="panel-heading">あと <b><%= 3000 - @add_amount %>円</b>（税抜)で送料無料です！</div>
     </div>
-    <hr />
-    <div class="clearfix">
-      <p class="h4 pull-left">合　計：</p>
-      <p class="h4 text-right"><%= @total_amount %>円</p>
-    </div>
-    
   <% else %>
-  
-    <div class="clearfix">
-      <p class="h4 pull-left">送　料：</p>
-      <p class="h4 text-right"><%= @postage %>円</p>
-    </div>
     <div class="panel panel-success">
       <div class="panel-heading">送料が無料になりました！</div>
     </div>
-    <hr />
-    <div class="clearfix">
-      <p class="h4 pull-left">合　計：</p>
-      <p class="h4 text-right"><%= @total_amount %>円</p>
-    </div>
   <% end %>
-  
+  <hr />
+  <div class="clearfix">
+    <p class="h4 pull-left">総合計：</p>
+    <p class="h4 text-right"><%= @total_amount %>円</p>
+  </div>
   <hr />
 
   <%= form_tag(controller: "orders", method: "post") do %>
