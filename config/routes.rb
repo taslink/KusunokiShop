@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :addresses
+
   root 'welcome#index'
 
   resources :users
@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   resources :products
   
   resources :carts
+  
+  resources :addresses
   
   resources :line_items do
     patch :update_count_up, on: :member

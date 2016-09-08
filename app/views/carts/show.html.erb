@@ -23,10 +23,7 @@
         </div>
         <div class="col-md-5">
           <p><strong>合計金額:<%= @cart.amount %>円（税抜）</strong></p>
-          <p>ユーザー情報</p>
-          <p><%= current_user.name %></p>
-          <p><%= current_user.postalcode %></p>
-          <p><%= current_user.address %></p>
+          <p>ユーザー：<%= current_user.name %></p>
           <%= link_to 'カートをみる', carts_path, class: "btn btn-default" %>
           <%= link_to 'Back to Top Page', root_path, class: "btn btn-default" %>
         </div>

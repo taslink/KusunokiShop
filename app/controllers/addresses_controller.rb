@@ -1,4 +1,5 @@
 class AddressesController < ApplicationController
+  before_action :logged_in_user, only: [:index, :show, :new]
   before_action :set_address, only: [:show, :edit, :update, :destroy]
 
   # GET /addresses
@@ -69,6 +70,6 @@ class AddressesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def address_params
-      params.require(:address).permit(:user_id, :addressee, :zipcode, :city, :street, :building)
+      params.require(:address).permit(:user_id, :addressee, :prefecture, :zipcode, :city, :street, :building)
     end
 end

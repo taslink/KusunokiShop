@@ -1,8 +1,13 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
 <%= form_for(@address) do |f| %>
+
   <% if @address.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@address.errors.count, "error") %> prohibited this address from being saved:</h2>
-
+      <div class="alert alert-danger">
+        <h2><%= pluralize(@address.errors.count, "error") %> prohibited this address from being saved:</h2>
+      </div>
       <ul>
       <% @address.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -12,30 +17,37 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.number_field :user_id %>
-  </div>
-  <div class="field">
-    <%= f.label :addressee %><br>
+    <%= f.label :addressee, "受取人名" %><br>
     <%= f.text_field :addressee %>
   </div>
   <div class="field">
-    <%= f.label :zipcode %><br>
+    <%= f.label :zipcode, "郵便番号" %><br>
     <%= f.text_field :zipcode %>
   </div>
+  <div>-----郵便番号を入力すると自動入力されます-----<br><br></div>
   <div class="field">
-    <%= f.label :city %><br>
-    <%= f.text_field :city %>
+    <%= f.label :prefecture, "都道府県" %><br>
+    <%= f.text_field :prefecture %>
   </div>
   <div class="field">
-    <%= f.label :street %><br>
+    <%= f.label :city, "市町村" %><br>
+    <%= f.text_field :city %>
+  </div>
+  <div>-----郵便番号を入力すると自動入力されます-----<br><br></div>
+  <div class="field">
+    <%= f.label :street, "丁番地" %><br>
     <%= f.text_field :street %>
   </div>
   <div class="field">
-    <%= f.label :building %><br>
+    <%= f.label :building, "建物名・部屋番号" %><br>
     <%= f.text_field :building %>
   </div>
+    <%= hidden_field_tag 'address[user_id]', current_user.id %>
   <div class="actions">
     <%= f.submit %>
   </div>
+
 <% end %>
+
+  </div>
+</div>

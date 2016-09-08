@@ -10,8 +10,7 @@ class ApplicationController < ActionController::Base
   def logged_in_user
     unless logged_in?
       store_location
-      flash[:danger] = "Please log in."
-      redirect_to login_url
+      redirect_to login_url, flash: {notice: 'ご利用には会員登録が必要です'}
     end
   end
   
