@@ -1,7 +1,7 @@
 class Orderdetail < ActiveRecord::Base
     
-    belongs_to :orders
-    belongs_to :products
+    belongs_to :order
+    belongs_to :product
     
     validates :product_id, presence: true
     validates :product_type, presence: true 

@@ -1,5 +1,13 @@
 class User < ActiveRecord::Base
   
+  has_many :orders
+  has_many :orderdetails, through: :oders
+  
+  has_many :carts
+  has_many :line_items, through: :carts
+  
+  has_one :address
+  
   #データの保存前にメールアドレスのアルファベットを小文字に
   before_save { self.email = self.email.downcase }
   
@@ -10,11 +18,5 @@ class User < ActiveRecord::Base
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
   has_secure_password
-  
-  has_many :orders
-  has_many :orderdetails, through: :oders
-  
-  has_many :carts
-  has_many :line_items, through: :carts
   
 end

@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160826055625) do
+ActiveRecord::Schema.define(version: 20160908044742) do
+
+  create_table "addresses", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "addressee"
+    t.string   "zipcode"
+    t.string   "city"
+    t.string   "street"
+    t.string   "building"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -62,8 +73,6 @@ ActiveRecord::Schema.define(version: 20160826055625) do
     t.string   "name"
     t.string   "email"
     t.string   "password_digest"
-    t.integer  "postalcode"
-    t.string   "address"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.boolean  "admin",           default: false, null: false

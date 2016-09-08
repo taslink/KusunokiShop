@@ -17,37 +17,27 @@
   <% end %>
   
   <div class="field">
-    <%= f.label :name, "name*" %>
+    <%= f.label :name, "name" %>
     <%= f.text_field :name, class: 'form-control'  %>
   </div>
   <div class="field">
-    <%= f.label :email, "email*" %>
+    <%= f.label :email, "email" %>
     <%= f.text_field :email, class: 'form-control'  %>
   </div>
   <div class="field">
-    <%= f.label :password, "password*" %>
+    <%= f.label :password, "password" %>
     <%= f.password_field :password, class: 'form-control'  %>
   </div>
   <div class="field">
-    <%= f.label :password_confirmation, "password_confirmation*" %>
+    <%= f.label :password_confirmation, "password_confirmation" %>
     <%= f.password_field :password_confirmation, class: 'form-control' %>
   </div>
-  <div class="field">
-    <%= f.label :postalcode %>
-    <%= f.text_field :postalcode, class: 'form-control'  %>
-  </div>  
-  <div class="field">
-    <%= f.label :address %>
-    <%= f.text_field :address, class: 'form-control'  %>
-  </div>
-  
+
   <div class="actions">
     <%= f.submit :class => "btn btn-large btn-primary" %>
   </div>
 
 <% end %>
-
-<p>*Requirements</p>
 
   </div>
 </div>
