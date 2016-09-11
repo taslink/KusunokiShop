@@ -8,8 +8,12 @@
   <%= favicon_link_tag 'favicon.ico' %>
 </head>
 <body>
-  <%= render partial: "layouts/header" %>
-  <%= yield %>
-  <%= render partial: "layouts/footer" %>
+  <div id="wrap">
+    <%= render partial: "layouts/header" %>
+      <div id="contents">
+      <%= yield %>
+      </div><!-- contents -->
+    <%= render partial: "layouts/footer" %>
+  </div><!-- wrap -->
 </body>
 </html>

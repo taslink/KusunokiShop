@@ -1,11 +1,17 @@
 class CartsController < ApplicationController
-  before_action :logged_in_user, only: [:index, :show, :create]
   before_action :set_cart, only: [:edit, :update, :destroy]
   
   include SessionsHelper
 
   # GET /carts
   def index
+    
+    unless logged_in?
+      store_location
+      redirect_to login_url, flash: {notice: 'ご利用には会員登録が必要です'}
+
+    else
+    #@carts = Cart.where(user_id:current_user.id).order(created_at: :desc)
     @carts = current_user.carts.order(created_at: :desc)
     @add_amount = @carts.sum(:amount)
     @tax = (@add_amount * 0.08).floor
@@ -15,6 +21,8 @@ class CartsController < ApplicationController
       @postage = 0      
     end
     @total_amount = @add_amount + @tax + @postage
+    
+    end
   end
 
   # GET /carts/1
@@ -41,30 +49,38 @@ class CartsController < ApplicationController
   # POST /carts
   def create
     
-    envelope_id = params["envelope_id"]
-    card_id = params["card_id"]
-    
-    @envelope_count = params["count"].to_i
-    @card_count = params["count"].to_i
-    
-    @envelope = Product.find(envelope_id)
-    @card = Product.find(card_id)
-    
-    amount = (@envelope.price * @envelope_count) + (@card.price * @card_count)
-    
-    if @envelope_count == 0 || @card_count == 0
-      redirect_to @envelope, flash: {notice: 'セット数を入力してください。'}
+    unless logged_in?
+      store_location
+      redirect_to login_url, flash: {notice: 'ご利用には会員登録が必要です'}
+
     else
-      begin
-        ActiveRecord::Base.transaction do
-          @cart_item = Cart.create!(user_id:current_user.id, amount:amount)
-          LineItem.create!(product_id:envelope_id, product_type:"envelope",count:@envelope_count, cart_id:@cart_item.id)
-          #raise "例外発生"
-          LineItem.create!(product_id:card_id, product_type:"card",count:@card_count, cart_id:@cart_item.id)
-        end
-          redirect_to @cart_item
-        rescue => e
+      
+      envelope_id = params["envelope_id"]
+      card_id = params["card_id"]
+      
+      @envelope_count = params["count"].to_i
+      @card_count = params["count"].to_i
+      
+      @envelope = Product.find(envelope_id)
+      @card = Product.find(card_id)
+      
+      amount = (@envelope.price * @envelope_count) + (@card.price * @card_count)
+      
+      if @envelope_count == 0 || @card_count == 0
+        redirect_to @envelope, flash: {notice: 'セット数を入力してください。'}
+      else
+        begin
+          ActiveRecord::Base.transaction do
+            @cart_item = Cart.create!(user_id:current_user.id, amount:amount)
+            LineItem.create!(product_id:envelope_id, product_type:"envelope",count:@envelope_count, cart_id:@cart_item.id)
+            #raise "例外発生"
+            LineItem.create!(product_id:card_id, product_type:"card",count:@card_count, cart_id:@cart_item.id)
+          end
+            redirect_to @cart_item
+            #render :show
+          rescue => e
           redirect_to @envelope, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
+        end
       end
     end
   end

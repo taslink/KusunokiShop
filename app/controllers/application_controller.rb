@@ -17,8 +17,7 @@ class ApplicationController < ActionController::Base
   def logged_in_admin_user
     unless admin_user?
       store_location
-      flash[:danger] = "Please log in admin Acount."
-      redirect_to login_url
+      redirect_to login_url, flash: {notice: '管理者としてログインしてください'}
     end
   end
 

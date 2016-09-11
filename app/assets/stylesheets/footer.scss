@@ -1,9 +1,30 @@
-footer {
-  padding: 5px 0;
-  font-size: 13px;
+html,body{
+  height: 100%;
+}
+
+#wrap{
+  width: 100%;
+  position: relative;
+  height: auto !important; /*IE6対策*/
+  height: 100%; /*IE6対策*/
+  min-height: 100%;
+}
+
+#contents{
+  padding-bottom: 27px; /*フッターの高さと同じ*/
+}
+
+#footer {
+  height: 27px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
   background-color: #222 ;
+  
   .copyright {
+    font-size: 13px;
     text-align: center;
     color: #aaa;
+    padding: 5px 0;
   }
 }
