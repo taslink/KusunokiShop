@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :correct_user, only: [:show, :edit, :update, :destroy]
+  before_action :correct_user, only: [:show, :update, :destroy]
   before_action :logged_in_admin_user, only: [:index]
 
   # GET /users
@@ -18,6 +18,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    @user = User.find(current_user.id)
   end
 
   # POST /users

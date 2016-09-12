@@ -1,8 +1,10 @@
+<div class="container">
+
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Addresses</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Id　</th>
@@ -23,7 +25,11 @@
       <tr>
         <td><%= address.id %></td>
         <td><%= address.user_id %></td>
+        <% unless address.user_id.nil? %>
         <td><%= address.user.name %></td>
+        <% else %>
+        <td></td>
+        <% end %>
         <td><%= address.addressee %></td>
         <td><%= address.zipcode %></td>
         <td><%= address.prefecture %></td>
@@ -41,3 +47,5 @@
 <br>
 
 <%= link_to 'New Address', new_address_path %>
+
+</div>

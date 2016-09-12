@@ -1,6 +1,8 @@
 class AddressesController < ApplicationController
-  before_action :logged_in_user, only: [:index, :show, :new]
+  before_action :logged_in_user, only: [:index, :show]
   before_action :set_address, only: [:show, :edit, :update, :destroy]
+  
+  include SessionsHelper
 
   # GET /addresses
   def index
@@ -24,7 +26,11 @@ class AddressesController < ApplicationController
   def create
     @address = Address.new(address_params)
     if @address.save
-      redirect_to @address, notice: 'Address was successfully created.'
+      if logged_in?
+        redirect_to edit_user_url(current_user), notice: '配送先情報を登録しました'
+      else
+        redirect_to root_path, notice: '配送先情報を登録しました'
+      end
     else
       render :new
     end
@@ -33,7 +39,11 @@ class AddressesController < ApplicationController
   # PATCH/PUT /addresses/1
   def update
     if @address.update(address_params)
-      redirect_to edit_user_url, notice: '内容を変更しました'
+      if logged_in?
+        redirect_to edit_user_url(current_user), notice: '配送先情報を変更しました'
+      else
+        redirect_to root_path, notice: '配送先情報を変更しました'
+      end
     else
       render :edit        
     end
