@@ -4,7 +4,7 @@
     
     <% if flash[:notice] %>
     <div class="row">
-      <div class="col-sm-8 col-sm-offset-2">
+      <div class="col-sm-12">
         <div class="alert alert-danger">
           <%= flash[:notice] %>
         </div>
@@ -17,8 +17,8 @@
         <%= render 'form' %>
       </div>
       <div class="col-sm-5">
-        <h3>配送先情報 <%= link_to '登録・変更', edit_address_path(current_user), class: "btn btn-default btn-xs" %> </h3>
         <% if current_user.address.nil? %>
+        <h3>配送先情報 <%= link_to '登録', new_address_url, class: "btn btn-default btn-xs" %> </h3>
         <hr />
         <p><strong>受取人名：</strong>  <span class="text-muted">未登録</span></p>
         <p><strong>郵便番号：</strong>  <span class="text-muted">未登録</span></p>
@@ -26,6 +26,7 @@
         <p><strong>建物：</strong>  <span class="text-muted">未登録</span></p>
         <hr />
         <% else %>
+        <h3>配送先情報 <%= link_to '変更', edit_address_path(current_user), class: "btn btn-default btn-xs" %> </h3>
         <hr />
         <p><strong>受取人名：</strong> <%= current_user.address.addressee %></p>
         <p><strong>郵便番号：</strong> <%= current_user.address.zipcode %></p>

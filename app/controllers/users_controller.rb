@@ -33,7 +33,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
-      redirect_to @user, notice: 'User was successfully updated.'
+      redirect_to edit_user_url, notice: '内容を変更しました'
     else
       render :edit
     end

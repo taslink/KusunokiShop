@@ -1,6 +1,22 @@
-<h1>Editing Address</h1>
+<div class="container">
+    
+    <h1>Editing Address</h1>
 
-<%= render 'form' %>
+    <% if flash[:notice] %>
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <div class="alert alert-danger">
+          <%= flash[:notice] %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+    
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <%= render 'form' %>
+      </div>
+    </div>
 
-<%= link_to 'Show', @address %> |
-<%= link_to 'Back', addresses_path %>
+</div>
+

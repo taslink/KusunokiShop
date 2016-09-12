@@ -13,16 +13,17 @@ Rails.application.routes.draw do
   
   resources :carts
   
-  resources :addresses
-  
   resources :line_items do
     patch :update_count_up, on: :member
     patch :update_count_down, on: :member
   end
   
-  resources :orders
-  resources :orderdetails
+  resources :addresses
   
+  resources :orders
+  #get    'orders/provision' , to: 'orders#provision' 
+
+  resources :orderdetails
   
   #resources :products do
     #member do

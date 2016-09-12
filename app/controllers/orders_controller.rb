@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
-  #before_action :set_order, only: [:show]
   before_action :logged_in_admin_user, only: [:index]
+  before_action :set_order, only: [:show, :edit, :update,:destroy]
   
   # GET /orders
   def index
@@ -16,6 +16,10 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
     @order = Order.new
+  end
+
+  # GET /orders/1/edit
+  def edit
   end
   
   # POST /orders
@@ -38,6 +42,22 @@ class OrdersController < ApplicationController
     end
 
   end
+  
+  # PATCH/PUT /orders/1
+  def update
+    if @order.update(order_params)
+       redirect_to @order, notice: 'Cart was successfully updated.'
+    else
+       render :edit
+    end
+  end
+
+  # DELETE /orders/1
+  def destroy
+    @order.destroy
+    redirect_to orders_url, notice: 'Order was successfully destroyed.'
+  end
+  
   
   private
   

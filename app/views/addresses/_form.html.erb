@@ -1,5 +1,4 @@
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
+<div>
 
 <%= form_for(@address) do |f| %>
 
@@ -18,36 +17,35 @@
 
   <div class="field">
     <%= f.label :addressee, "受取人名" %><br>
-    <%= f.text_field :addressee %>
+    <%= f.text_field :addressee, class: 'form-control' %>
   </div>
   <div class="field">
     <%= f.label :zipcode, "郵便番号" %><br>
-    <%= f.text_field :zipcode %>
+    <%= f.text_field :zipcode, class: 'form-control' %>
   </div>
   <div>-----郵便番号を入力すると自動入力されます-----<br><br></div>
   <div class="field">
     <%= f.label :prefecture, "都道府県" %><br>
-    <%= f.text_field :prefecture %>
+    <%= f.text_field :prefecture, class: 'form-control' %>
   </div>
   <div class="field">
     <%= f.label :city, "市町村" %><br>
-    <%= f.text_field :city %>
+    <%= f.text_field :city, class: 'form-control' %>
   </div>
   <div>-----郵便番号を入力すると自動入力されます-----<br><br></div>
   <div class="field">
     <%= f.label :street, "丁番地" %><br>
-    <%= f.text_field :street %>
+    <%= f.text_field :street, class: 'form-control' %>
   </div>
   <div class="field">
     <%= f.label :building, "建物名・部屋番号" %><br>
-    <%= f.text_field :building %>
+    <%= f.text_field :building, class: 'form-control' %>
   </div>
     <%= hidden_field_tag 'address[user_id]', current_user.id %>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :class => "btn btn-large btn-primary" %>
   </div>
 
 <% end %>
 
-  </div>
 </div>

@@ -5,10 +5,10 @@ class CreateProducts < ActiveRecord::Migration
       t.string :name
       t.text :description
       t.integer :price
-      t.string :type
-      t.binary :main_image
-      t.binary :sub1_image
-      t.binary :sub2_image
+      t.string :product_type
+      t.string :main_image
+      t.string :sub1_image
+      t.string :sub2_image
 
       t.timestamps null: false
     end

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
         <h1>カートに入れました</h1>
-        <div class="col-md-4">
+        <div class="col-sm-4">
           <div class="envelope-fix-box">
           <% if @envelope.main_image.present? %>
             <%= image_tag(@envelope.main_image) %>
@@ -11,7 +11,7 @@
           </div>
           <p>封筒個数:<%= @li_envelope.count %></p>
         </div>
-        <div class="col-md-4">
+        <div class="col-sm-4">
           <div class="card-fix-box">
           <% if @card.main_image.present? %>
             <%= image_tag(@card.main_image) %>
@@ -21,7 +21,7 @@
           </div>
           <p>カード個数:<%= @li_card.count %></p>
         </div>
-        <div class="col-md-5">
+        <div class="col-sm-5">
           <p><strong>合計金額:<%= @cart.amount %>円（税抜）</strong></p>
           <p>ユーザー：<%= current_user.name %></p>
           <%= link_to 'カートをみる', carts_path, class: "btn btn-default" %>

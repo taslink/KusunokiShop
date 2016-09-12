@@ -11,34 +11,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160908061032) do
+ActiveRecord::Schema.define(version: 20160912174425) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "addressee"
     t.string   "zipcode"
+    t.string   "prefecture"
     t.string   "city"
     t.string   "street"
     t.string   "building"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "prefecture"
   end
 
   create_table "carts", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer  "user_id"
     t.integer  "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "line_items", force: :cascade do |t|
     t.integer  "product_id"
     t.integer  "cart_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
     t.string   "product_type"
     t.integer  "count"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "orderdetails", force: :cascade do |t|
@@ -51,10 +51,13 @@ ActiveRecord::Schema.define(version: 20160908061032) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "total_price"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "user_id",    null: false
+    t.integer  "address_id", null: false
+    t.integer  "amount",     null: false
+    t.integer  "tax",        null: false
+    t.integer  "postage",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "products", force: :cascade do |t|
@@ -62,12 +65,12 @@ ActiveRecord::Schema.define(version: 20160908061032) do
     t.string   "name"
     t.text     "description"
     t.integer  "price"
+    t.string   "product_type"
     t.string   "main_image"
     t.string   "sub1_image"
     t.string   "sub2_image"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.string   "product_type"
   end
 
   create_table "users", force: :cascade do |t|

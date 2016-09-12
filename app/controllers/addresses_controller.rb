@@ -33,7 +33,7 @@ class AddressesController < ApplicationController
   # PATCH/PUT /addresses/1
   def update
     if @address.update(address_params)
-      redirect_to @address, notice: 'Address was successfully updated.'
+      redirect_to edit_user_url, notice: '内容を変更しました'
     else
       render :edit        
     end

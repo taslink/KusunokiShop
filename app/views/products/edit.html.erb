@@ -1,6 +1,23 @@
-<h1>Editing Product</h1>
+<div class="container">
+    
+    <h1>Editing Product</h1>
+    
+    <% if flash[:notice] %>
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <div class="alert alert-danger">
+          <%= flash[:notice] %>
+        </div>
+      </div>
+    </div>
+    <% end %>
 
-<%= render 'form' %>
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <%= render 'form' %>
+        
+        <%= link_to 'Show', @product %> | <%= link_to 'Back', products_path %>
+      </div>
+    </div>
 
-<%= link_to 'Show', @product %> |
-<%= link_to 'Back', products_path %>
+</div>
