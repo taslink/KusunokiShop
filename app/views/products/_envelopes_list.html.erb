@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row envelope-box-row">
     <% product_envelopes.each do |envelope| %>
-    <div class="envelope-box col-sm-4 col-xs-6">
+    <div class="envelope-box col-xs-6 col-md-4">
       <% if envelope.main_image.present? %>
         <%= link_to image_tag(envelope.main_image) , envelope %>
       <% else %>

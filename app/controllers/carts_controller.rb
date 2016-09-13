@@ -13,7 +13,7 @@ class CartsController < ApplicationController
     if @add_amount < 3000
       @postage = 540
     else
-      @postage = 0      
+      @postage = 0
     end
     @total_amount = @add_amount + @tax + @postage
     

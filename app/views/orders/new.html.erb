@@ -1,13 +1,7 @@
 <div class="container">
     <div class="row">
-      <h1><%= current_user.name %>'s Cart</h1>
+      <h1>ご注文内容</h1>
     </div>
-    
-    <% if @carts.empty? %>
-    <div class="row">
-      <h2>カートには何も入っていません</h2>
-    </div>
-    <% else %>
     
     <% if flash[:notice] %>
     <div class="row">
@@ -21,22 +15,22 @@
     
     <div class="row">
       <div class="col-lg-10">
-        <table class="table table-hover">
+        <table class="table">
           <thead>
             <tr>
-              <th>No　</th>
+              <th>No</th>
               <th colspan="4">商品名</th>
               <th>値段</th>
-              <th colspan="3">数量</th>
+              <th>数量</th>
               <th>小計</th>
             </tr>
           </thead>
           <tbody>
-            <% @carts.each_with_index do |cart,i| %>
+            <% @cart_to_orders.each_with_index do |cart_order,i| %>
             <tr>
               <td><%= "#{h(i + 1)}" %></td>
               
-              <% cart.products.each do |product| %>
+              <% cart_order.products.each do |product| %>
               <% if product.product_type == "envelope" %>
                 <td>
                 <div class="cart-box">
@@ -64,17 +58,15 @@
               <% end %>
               <% end %>
               
-              <td><%= cart.products.sum(:price) %></td>
+              <td><%= cart_order.products.sum(:price) %></td>
               
-              <% cart.line_items.each do |li| %>
+              <% cart_order.line_items.each do |li| %>
               <% if li.product_type == "envelope" %>
               <td><b><%= li.count %></b></td>
-              <td><%= link_to '▲', update_count_up_line_item_path(li), method: :patch %><br />
-                  <%= link_to '▼', update_count_down_line_item_path(li), method: :patch %></td>
               <% end %>
               <% end %>
-              <td><%= link_to '削除', cart, method: :delete %></td>
-              <td><%= cart.amount %>　</td>  
+
+              <td><%= cart_order.amount %>　</td>  
             </tr>
             <% end %>
           </tbody>
@@ -95,25 +87,55 @@
           <p class="h4 pull-left">送　料：</p>
           <p class="h4 text-right"><%= @postage %>円</p>
         </div>
-        <% if @add_amount < 3000 %>
-        <div class="panel panel-danger">
-          <div class="panel-heading">あと <b><%= 3000 - @add_amount %>円</b>（税抜)で送料無料です！</div>
-        </div>
-        <% else %>
-        <div class="panel panel-success">
-          <div class="panel-heading">送料が無料になりました！</div>
-        </div>
-        <% end %>
         <hr />
         <div class="clearfix">
           <p class="h4 pull-left">総合計：</p>
           <p class="h4 text-right"><%= @total_amount %>円</p>
         </div>
         <hr />
-        <%= link_to new_order_url, class: "btn btn-danger btn-lg" do %>
-        <i class="glyphicon glyphicon-shopping-cart"></i> ご購入手続き
-        <% end %>
       </div>
     </div>
-    <% end %>
+    
+    <div class="row">
+      <h3>配送情報</h3>
+      <%= form_tag(controller: "addresses", method: "post") do %>
+      <div class="col-md-8">
+        <div class="field">
+          <%= label :address, :addressee, "受取人名" %><br>
+          <%= text_field :address, :addressee, class: 'form-control' %>
+        </div>
+        <div class="field">
+          <%= label :address, :zipcode, "郵便番号" %><br>
+          <%= text_field :address, :zipcode, class: 'form-control' %>
+        </div>
+        <div>-----郵便番号を入力すると自動入力されます-----<br><br></div>
+        <div class="field">
+          <%= label :address, :prefecture, "都道府県" %><br>
+          <%= text_field :address, :prefecture, class: 'form-control' %>
+        </div>
+        <div class="field">
+          <%= label :address, :city, "市町村" %><br>
+          <%= text_field :address, :city, class: 'form-control' %>
+        </div>
+        <div>-----郵便番号を入力すると自動入力されます-----<br><br></div>
+        <div class="field">
+          <%= label :address, :street, "丁番地" %><br>
+          <%= text_field :address, :street, class: 'form-control' %>
+        </div>
+        <div class="field">
+          <%= label :address, :building, "建物名・部屋番号" %><br>
+          <%= text_field :address, :building, class: 'form-control' %>
+        </div>
+        <% if logged_in? %>
+        <%= hidden_field_tag 'address[user_id]', current_user.id %>
+        <% end %>
+      </div>
+      <div class="col-md-4">
+        <div class="actions">
+        <%= submit_tag :class => "btn btn-large btn-primary" %>
+      </div>
+      
+      <% end %>
+    </div>
+
 </div>

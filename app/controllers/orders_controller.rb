@@ -9,13 +9,19 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
-    #@orderdetails = Orderdetails.where(order_id: @order.id)
-    #@products = Product.where(id: @orderdetails.product_id)
   end
 
   # GET /orders/new
   def new
-    @order = Order.new
+    @cart_to_orders = current_user.carts.order(created_at: :desc)
+    @add_amount = @cart_to_orders.sum(:amount)
+    @tax = (@add_amount * 0.08).floor
+    if @add_amount < 3000
+      @postage = 540
+    else
+      @postage = 0      
+    end
+    @total_amount = @add_amount + @tax + @postage
   end
 
   # GET /orders/1/edit
@@ -25,8 +31,6 @@ class OrdersController < ApplicationController
   # POST /orders
   def create
     
-    @carts = Cart.where(user_id:current_user.id).order(created_at: :desc)
-    @total_price = @carts.sum(:amount)
 
     begin
       ActiveRecord::Base.transaction do

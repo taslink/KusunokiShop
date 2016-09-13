@@ -1,8 +1,7 @@
-
-  <div class="row card-box-row">
-    <% product_cards.each do |card| %>
-    <div class="card-box col-sm-3 col-xs-4">
-      <%= link_to image_tag(card.main_image.url) , "#" %>
-    </div>
-    <% end %>
+<div class="row card-box-row">
+  <% product_cards.each do |card| %>
+  <div class="card-box col-xs-6 col-md-4">
+    <%= link_to image_tag(card.main_image.url) %>
   </div>
+  <% end %>
+</div>
