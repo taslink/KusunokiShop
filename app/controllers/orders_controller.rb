@@ -11,9 +11,6 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
-    carts = current_user.carts
-    carts_ids = carts.ids
-    @orderdetails = LineItem.where(cart_id:carts_ids).order(created_at: :asc)
   end
 
   # GET /orders/new
@@ -45,7 +42,7 @@ class OrdersController < ApplicationController
       postage = 0      
     end
     
-    @orderdetails = LineItem.where(cart_id:carts_ids).order(created_at: :asc)
+    @line_items = LineItem.where(cart_id:carts_ids).order(created_at: :asc)
 
     address = params[:address]
     addressee = address['addressee']
@@ -57,14 +54,18 @@ class OrdersController < ApplicationController
     check_user_id = address['check_user_id']
     
     if check_user_id == "true"
-      address_reg = Address.create!(user_id:current_user.id, addressee:addressee, zipcode:zipcode, prefecture:prefecture, city:city, street:street, building:building)
-      order_reg = Order.create!(user_id:current_user.id, address_id:address_reg.id, amount:amount.to_i, tax:tax.to_i, postage:postage)
-      
-     @orderdetails.each do |od| 
-       Orderdetail.create!(product_id:od.product_id, order_id:order_reg.id, product_type:od.product_type, count:od.count) 
-     end
-      
+      address_reg = Address.new(user_id:current_user.id, addressee:addressee, zipcode:zipcode, prefecture:prefecture, city:city, street:street, building:building)
+    else
+      address_reg = Address.new(user_id:nil, addressee:addressee, zipcode:zipcode, prefecture:prefecture, city:city, street:street, building:building)
     end
+    
+    address_reg.save!
+    order_reg = Order.create!(user_id:current_user.id, address_id:address_reg.id, amount:amount.to_i, tax:tax.to_i, postage:postage)
+    @line_items.each do |li| 
+      Orderdetail.create!(product_id:li.product_id, order_id:order_reg.id, product_type:li.product_type, count:li.count) 
+    end
+    Cart.destroy_all(user_id:current_user.id)
+    
     redirect_to order_reg
   end
   
