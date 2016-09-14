@@ -24,11 +24,15 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th>No　</th>
-              <th colspan="4">商品名</th>
-              <th>値段</th>
-              <th colspan="3">数量</th>
-              <th>小計</th>
+              <th>No</th>
+              <th>商品名</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th class="text-center">値段</th>
+              <th colspan="2" class="text-center">数量</th>
+              <th></th>
+              <th class="text-center">小計</th>
             </tr>
           </thead>
           <tbody>
@@ -64,17 +68,17 @@
               <% end %>
               <% end %>
               
-              <td><%= cart.products.sum(:price) %></td>
+              <td class="text-right"><%= cart.products.sum(:price) %> 円</td>
               
               <% cart.line_items.each do |li| %>
               <% if li.product_type == "envelope" %>
-              <td><b><%= li.count %></b></td>
+              <td class="text-right"><b><%= li.count %></b></td>
               <td><%= link_to '▲', update_count_up_line_item_path(li), method: :patch %><br />
                   <%= link_to '▼', update_count_down_line_item_path(li), method: :patch %></td>
               <% end %>
               <% end %>
               <td><%= link_to '削除', cart, method: :delete %></td>
-              <td><%= cart.amount %>　</td>  
+              <td class="text-right"><%= cart.amount %> 円</td>  
             </tr>
             <% end %>
           </tbody>

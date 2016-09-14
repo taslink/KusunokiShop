@@ -166,6 +166,10 @@ $gray-medium-light: #eaeaea;
 
 /* forms */
 
+.actions {
+  margin-top: 40px ;
+}
+
 input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
@@ -217,5 +221,9 @@ input {
 }
 
 .cart-box img {
-  width: 130px ;
+  width: 120px ;
+}
+
+.order-box img {
+  width: 100px ;
 }

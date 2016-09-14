@@ -2,6 +2,8 @@ class AddressesController < ApplicationController
   before_action :logged_in_user, only: [:index, :show]
   before_action :set_address, only: [:show, :edit, :update, :destroy]
   
+  # coding: utf-8
+  
   include SessionsHelper
 
   # GET /addresses

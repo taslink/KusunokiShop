@@ -2,6 +2,8 @@ class OrdersController < ApplicationController
   before_action :logged_in_admin_user, only: [:index]
   before_action :set_order, only: [:show, :edit, :update,:destroy]
   
+  # coding: utf-8
+  
   # GET /orders
   def index
     @orders = Order.all
@@ -14,7 +16,7 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
     @cart_to_orders = current_user.carts.order(created_at: :desc)
-    @add_amount = @cart_to_orders.sum(:amount)
+    @add_amount = @cart_to_orders.sum(:amount).to_i
     @tax = (@add_amount * 0.08).floor
     if @add_amount < 3000
       @postage = 540
@@ -30,21 +32,34 @@ class OrdersController < ApplicationController
   
   # POST /orders
   def create
-    
-
-    begin
-      ActiveRecord::Base.transaction do
-        @order = Order.create!(user_id:current_user.id, total_price:@total_price)
-        #Orderdetail.create!(product_id:envelope_id, product_type:"envelope",count:@envelope_count, order_id:@order.id)
-        #raise "例外発生"
-        #Orderdetail.create!(product_id:card_id, product_type:"card",count:@card_count, order_id:@order.id)
-      end
-        #redirect_to @order
-        render :show
-      rescue => e
-      redirect_to @order, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
+    cart_to_orders = current_user.carts.order(created_at: :asc)
+    amount = cart_to_orders.sum(:amount).to_i
+    tax = (amount * 0.08).floor
+    if amount < 3000
+      postage = 540
+    else
+      postage = 0      
     end
-
+    
+    address = params[:address]
+    addressee = address['addressee']
+    zipcode = address['zipcode']
+    prefecture = address['prefecture']
+    city = address['city']
+    street = address['street']
+    building = address['building']
+    check_user_id = address['check_user_id']
+    
+    if check_user_id == "true"
+      address_reg = Address.create!(user_id:current_user.id, addressee:addressee, zipcode:zipcode, prefecture:prefecture, city:city, street:street, building:building)
+      order_reg = Order.create!(user_id:current_user.id, address_id:address_reg.id, amount:amount, tax:tax, postage:postage)
+      
+      cart_to_orders.LineItem.each do |li| 
+       LineItem.create!(product_id:li.id, order_id:order_reg.id, product_type:li.product_type, count:li.count) 
+      end
+      
+    end
+    redirect_to order_reg
   end
   
   # PATCH/PUT /orders/1

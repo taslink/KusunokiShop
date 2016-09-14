@@ -59,9 +59,9 @@ class CartsController < ApplicationController
       begin
         ActiveRecord::Base.transaction do
           @cart_item = Cart.create!(user_id:current_user.id, amount:amount)
-          LineItem.create!(product_id:envelope_id, product_type:"envelope",count:@envelope_count, cart_id:@cart_item.id)
+          LineItem.create!(product_id:envelope_id, cart_id:@cart_item.id, product_type:"envelope",count:@envelope_count)
           #raise "例外発生"
-          LineItem.create!(product_id:card_id, product_type:"card",count:@card_count, cart_id:@cart_item.id)
+          LineItem.create!(product_id:card_id, cart_id:@cart_item.id, product_type:"card",count:@card_count)
         end
           redirect_to @cart_item
           #render :show

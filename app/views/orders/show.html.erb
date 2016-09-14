@@ -3,11 +3,8 @@
         <h1>ご注文ありがとうございました。</h1>
         <h2>製品情報</h2>
 
-          <p><strong>合計金額:<%= @order.total_price %>円（税抜）</strong></p>
-          <p>送付先</p>
-          <p><%= current_user.name %></p>
-          <p><%= current_user.postalcode %></p>
-          <p><%= current_user.address %></p>
+          <p><strong>金額:<%= @order.amount %>円（税抜）</strong></p>
+
           <%= link_to 'Back to Top Page', :root , class: "btn btn-default"%>
         </div>
   </div>
