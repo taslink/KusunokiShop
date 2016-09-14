@@ -7,8 +7,8 @@ class Order < ActiveRecord::Base
     
     validates :user_id, presence: true
     
-    validates :total_price,
+    validates :amount,
       presence: true,
-      numericality: {only_integer: true, greater_than_or_equal_to: 360}
+      numericality: {only_integer: true}
     
 end

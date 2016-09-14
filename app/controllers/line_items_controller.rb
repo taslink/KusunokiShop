@@ -5,7 +5,7 @@ class LineItemsController < ApplicationController
   # GET /line_items
   # GET /line_items.json
   def index
-    @line_items = LineItem.all.order(created_at: :desc)
+    @line_items = LineItem.all
   end
 
   # GET /line_items/1

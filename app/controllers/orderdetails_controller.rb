@@ -1,9 +1,10 @@
 class OrderdetailsController < ApplicationController
   before_action :logged_in_admin_user, only: [:index, :show, :edit, :update, :destroy]
+  before_action :set_orderdetail, only: [:show]
   
   # GET /orderdetails
   def index
-    @rderdetails = Orderdetail.all
+    @orderdetails = Orderdetail.all
   end
 
   # GET /orderdetails/1
@@ -25,4 +26,10 @@ class OrderdetailsController < ApplicationController
     end
   end
   
+  private
+  
+  def set_orderdetail
+    @orderdetail = Orderdetail.find(params[:id])
+  end
+
 end

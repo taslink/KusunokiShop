@@ -5,7 +5,10 @@
 <tr>
 <th>管理番号(id)</th>
 <th>User_id</th>
-<th>Total_Price</th>
+<th>Address_id　</th>
+<th>Amount</th>
+<th>tax</th>
+<th>Postage</th>
 <th>Created_at</th>
 <th colspan="2"></th>
 </tr>
@@ -16,7 +19,10 @@
 <tr>
 <td><%= order.id %></td>
 <td><%= order.user_id %></td>
-<td><%= order.total_price %></td>
+<td><%= order.address_id %></td>
+<td><%= order.amount %></td>
+<td><%= order.tax %></td>
+<td><%= order.postage %></td>
 <td><%= order.created_at %></td>
 <td><%= link_to 'Show', order %></td>
 <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>

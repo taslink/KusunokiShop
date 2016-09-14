@@ -11,12 +11,15 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
+    carts = current_user.carts
+    carts_ids = carts.ids
+    @orderdetails = LineItem.where(cart_id:carts_ids).order(created_at: :asc)
   end
 
   # GET /orders/new
   def new
     @cart_to_orders = current_user.carts.order(created_at: :desc)
-    @add_amount = @cart_to_orders.sum(:amount).to_i
+    @add_amount = @cart_to_orders.sum(:amount)
     @tax = (@add_amount * 0.08).floor
     if @add_amount < 3000
       @postage = 540
@@ -32,8 +35,9 @@ class OrdersController < ApplicationController
   
   # POST /orders
   def create
-    cart_to_orders = current_user.carts.order(created_at: :asc)
-    amount = cart_to_orders.sum(:amount).to_i
+    carts = current_user.carts
+    carts_ids = carts.ids
+    amount = carts.sum(:amount)
     tax = (amount * 0.08).floor
     if amount < 3000
       postage = 540
@@ -41,6 +45,8 @@ class OrdersController < ApplicationController
       postage = 0      
     end
     
+    @orderdetails = LineItem.where(cart_id:carts_ids).order(created_at: :asc)
+
     address = params[:address]
     addressee = address['addressee']
     zipcode = address['zipcode']
@@ -52,11 +58,11 @@ class OrdersController < ApplicationController
     
     if check_user_id == "true"
       address_reg = Address.create!(user_id:current_user.id, addressee:addressee, zipcode:zipcode, prefecture:prefecture, city:city, street:street, building:building)
-      order_reg = Order.create!(user_id:current_user.id, address_id:address_reg.id, amount:amount, tax:tax, postage:postage)
+      order_reg = Order.create!(user_id:current_user.id, address_id:address_reg.id, amount:amount.to_i, tax:tax.to_i, postage:postage)
       
-      cart_to_orders.LineItem.each do |li| 
-       LineItem.create!(product_id:li.id, order_id:order_reg.id, product_type:li.product_type, count:li.count) 
-      end
+     @orderdetails.each do |od| 
+       Orderdetail.create!(product_id:od.product_id, order_id:order_reg.id, product_type:od.product_type, count:od.count) 
+     end
       
     end
     redirect_to order_reg
