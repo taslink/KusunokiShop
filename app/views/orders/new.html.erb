@@ -101,47 +101,68 @@
     
     <div class="row">
       <h2>配送情報</h2>
-      <%= form_tag(controller: "orders", method: "post") do %>
-      <div class="col-md-8">
-        <div class="field">
-          <%= label :address, :addressee, "受取人名" %><br>
-          <%= text_field :address, :addressee, class: 'form-control' %>
-        </div>
-        <div class="field">
-          <%= label :address, :zipcode, "郵便番号" %><br>
-          <%= text_field :address, :zipcode, class: 'form-control' %>
-        </div>
-        <div class="field">
-          <%= label :address, :prefecture, "都道府県" %><br>
-          <%= text_field :address, :prefecture, class: 'form-control' %>
-        </div>
-        <div class="field">
-          <%= label :address, :city, "市町村" %><br>
-          <%= text_field :address, :city, class: 'form-control' %>
-        </div>
-        <div class="field">
-          <%= label :address, :street, "丁番地" %><br>
-          <%= text_field :address, :street, class: 'form-control' %>
-        </div>
-        <div class="field">
-          <%= label :address, :building, "建物名・部屋番号" %><br>
-          <%= text_field :address, :building, class: 'form-control' %>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div>
-          <p>次回の購入をスムーズにする為に配送情報をユーザーアカウントに登録しますか？</p>
-          <%= label :address, :check_user_id, "登録する" %><br>
-          <%= check_box_tag 'address[check_user_id]', true, true, {}  %>
-        </div>
-
-        <div class="actions">
-        <%= submit_tag ("注文を確定する"), class: 'btn btn-danger btn-lg' %>
-        </div>
-      </div>
       
-      
+      <% if current_user.address.nil? %>
+        
+        <%= form_tag(controller: "orders", method: "post") do %>
+        <div class="col-md-8">
+          <div class="field">
+            <%= label :address, :addressee, "受取人名" %><br>
+            <%= text_field :address, :addressee, class: 'form-control' %>
+          </div>
+          <div class="field">
+            <%= label :address, :zipcode, "郵便番号" %><br>
+            <%= text_field :address, :zipcode, class: 'form-control' %>
+          </div>
+          <div class="field">
+            <%= label :address, :prefecture, "都道府県" %><br>
+            <%= text_field :address, :prefecture, class: 'form-control' %>
+          </div>
+          <div class="field">
+            <%= label :address, :city, "市町村" %><br>
+            <%= text_field :address, :city, class: 'form-control' %>
+          </div>
+          <div class="field">
+            <%= label :address, :street, "丁番地" %><br>
+            <%= text_field :address, :street, class: 'form-control' %>
+          </div>
+          <div class="field">
+            <%= label :address, :building, "建物名・部屋番号" %><br>
+            <%= text_field :address, :building, class: 'form-control' %>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div>
+            <p>次回の購入をスムーズにする為に配送情報をユーザーアカウントに登録しますか？</p>
+            <div class="checkbox">
+              <%= check_box_tag 'address[check_user_id]', true, true, {} %><%= label :address, :check_user_id, "登録する" %>
+            </div>
+          </div>
+          <div class="actions">
+            <%= submit_tag ("注文を確定する"), class: 'btn btn-danger btn-lg' %>
+          </div>
+        </div>
+        <% end %>
+          
+      <% else %>
+        
+        <div class="col-md-8">
+          <p><strong>受取人名：</strong> <%= current_user.address.addressee %></p>
+          <p><strong>郵便番号：</strong> <%= current_user.address.zipcode %></p>
+          <p><strong>住所：</strong> <%= current_user.address.prefecture %> <%= current_user.address.city %> <%= current_user.address.street %></p>
+          <p><strong>建物：</strong> <%= current_user.address.building %></p>
+        </div>
+        <div class="col-md-4">
+          <p>配送先を変更する</p> <%= link_to '変更', edit_address_path(current_user.address), class: "btn btn-default btn-xl" %>
+          <%= form_tag(controller: "orders", method: "post") do %>
+          <div class="actions">
+            <%= submit_tag ("注文を確定する"), class: 'btn btn-danger btn-lg' %>
+          </div>
+          <% end %>
+        </div>
+        
       <% end %>
+      
     </div>
-
+    
 </div>

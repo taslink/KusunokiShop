@@ -25,10 +25,10 @@
       <tr>
         <td><%= address.id %></td>
         <td><%= address.user_id %></td>
-        <% unless address.user_id.nil? %>
-        <td><%= address.user.name %></td>
-        <% else %>
+        <% if address.user_id.nil? %>
         <td></td>
+        <% else %>
+        <td><%= address.user.name %></td>
         <% end %>
         <td><%= address.addressee %></td>
         <td><%= address.zipcode %></td>

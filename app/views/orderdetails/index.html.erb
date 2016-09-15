@@ -18,17 +18,17 @@
   </thead>
 
   <tbody>
-    <% @orderdetails.each do |orderdetails| %>
+    <% @orderdetails.each do |orderdetail| %>
       <tr>
-        <td><%= orderdetails.id %></td>
-        <td><%= orderdetails.order_id %></td>
-        <td><%= orderdetails.product_id %></td>
-        <td><%= orderdetails.product_type %></td>
-        <td><%= orderdetails.count %></td>
+        <td><%= orderdetail.id %></td>
+        <td><%= orderdetail.order_id %></td>
+        <td><%= orderdetail.product_id %></td>
+        <td><%= orderdetail.product_type %></td>
+        <td><%= orderdetail.count %></td>
         <td>Show</td>
         <td>Edit</td>
         <td>Destroy</td>
-        <td><%= orderdetails.order.user_id %></td>
+        <td><%= orderdetail.order.user_id %></td>
       </tr>
     <% end %>
   </tbody>

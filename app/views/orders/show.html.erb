@@ -4,9 +4,7 @@
         <h2>製品情報</h2>
 
           <p><strong>金額:<%= @order.amount %>円（税抜）</strong></p>
-          <% @orderdetails.each do |o| %>
-          <p><%= o.id %>｜<%= o.product_type %>｜<%= o.count %><br/></p>
-          <% end %>
+
           <%= link_to 'Back to Top Page', :root , class: "btn btn-default"%>
           
         </div>

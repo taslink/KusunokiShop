@@ -10,12 +10,13 @@
       <th>id</th>
       <th>User_id</th>
       <th>Address_id</th>
-      <th>商品合計</th>
-      <th>税</th>
-      <th>送料</th>
-      <th>合計金額</th>
-      <th>日時</th>
-      <th colspan="2"></th>
+      <th>商品／数量</th>
+      <th class="text-right">金額</th>
+      <th class="text-right">税</th>
+      <th class="text-right">送料</th>
+      <th class="text-right">合計金額</th>
+      <th class="text-right">日時</th>
+
     </tr>
   </thead>
 
@@ -25,13 +26,13 @@
       <td><%= order.id %></td>
       <td><%= order.user_id %></td>
       <td><%= order.address_id %></td>
-      <td><%= order.amount %> 円</td>
-      <td><%= order.tax %> 円</td>
-      <td><%= order.postage %> 円</td>
-      <td><b><%= order.amount + order.tax + order.postage %> 円</b></td>
-      <td><%= order.created_at.strftime("%Y/%m/%d %H:%M") %></td>
-      <td><%= link_to 'Show', order %></td>
-      <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <td><%= order.products.pluck(:product_code) %><br><%= order.orderdetails.pluck(:count) %></td>
+      <td class="text-right"><%= order.amount %> 円</td>
+      <td class="text-right"><%= order.tax %> 円</td>
+      <td class="text-right"><%= order.postage %> 円</td>
+      <td class="text-right"><b><%= order.amount + order.tax + order.postage %> 円</b></td>
+      <td class="text-right"><%= order.created_at.strftime("%Y/%m/%d %H:%M") %></td>
+
     </tr>
     <% end %>
   </tbody>
