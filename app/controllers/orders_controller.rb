@@ -49,16 +49,16 @@ class OrdersController < ApplicationController
         address = params[:address]
         addressee = address['addressee']
         zipcode = address['zipcode']
-        prefecture = address['prefecture']
+        prefecture_name = address['prefecture_name']
         city = address['city']
         street = address['street']
         building = address['building']
         check_user_id = address['check_user_id']
         
         if check_user_id == "true"
-          address_reg = Address.create(user_id:current_user.id, addressee:addressee, zipcode:zipcode, prefecture:prefecture, city:city, street:street, building:building)
+          address_reg = Address.create(user_id:current_user.id, addressee:addressee, zipcode:zipcode, prefecture_name:prefecture_name, city:city, street:street, building:building)
         else
-          address_reg = Address.create(user_id:nil, addressee:addressee, zipcode:zipcode, prefecture:prefecture, city:city, street:street, building:building)
+          address_reg = Address.create(user_id:nil, addressee:addressee, zipcode:zipcode, prefecture_name:prefecture_name, city:city, street:street, building:building)
         end
         
       else

@@ -4,6 +4,7 @@
 
 $ ->
   $("#address_zipcode").jpostal({
+    click : '#btn_zipcode',
     # 郵便番号の入力欄が１つの場合
     # 111-1111と1111111のどちらの入力形式でも住所を自動入力してくれる
     postcode : [ "#address_zipcode" ],
@@ -19,9 +20,9 @@ $ ->
     #   %6  大口事業所の番地
     #   %7  大口事業所の名称
     address  : {
-                  "#address_prefecture" : "%3", # 都道府県が入力される
-                  "#address_city"       : "%4%5", # 市区町村と町域が入力される
-                  "#address_street"     : "%6", # 番地が入力される
-                  "#address_building"   : "%7" # 大口事務所の名称が入力される
+                  "#address_prefecture_name" : "%3", # 都道府県が入力される
+                  "#address_city"            : "%4%5", # 市区町村と町域が入力される
+                  "#address_street"          : "%6", # 番地が入力される
+                  "#address_building"        : "%7" # 大口事務所の名称が入力される
                 }
   })

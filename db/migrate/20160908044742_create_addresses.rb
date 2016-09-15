@@ -4,7 +4,7 @@ class CreateAddresses < ActiveRecord::Migration
       t.integer :user_id
       t.string :addressee
       t.string :zipcode
-      t.string :prefecture
+      t.string :prefecture_name
       t.string :city
       t.string :street
       t.string :building

@@ -101,41 +101,53 @@
     
     <div class="row">
       <h2>配送情報</h2>
-      
+    </div>
+    
       <% if current_user.address.nil? %>
         
         <%= form_tag(controller: "orders", method: "post") do %>
         <div class="col-md-8">
-          <div class="field">
+          <div class="row"><div class="field col-xs-12">
             <%= label :address, :addressee, "受取人名" %><br>
             <%= text_field :address, :addressee, class: 'form-control' %>
+          </div></div>
+          <div class="row">
+            <div class="field col-xs-9 col-sm-7 col-md-6 col-lg-5">
+              <%= label :address, :zipcode, "郵便番号" %><br>
+              <div class="input-group">
+                <%= text_field :address, :zipcode, class: 'form-control' %>
+                <span class="input-group-btn">
+                  <input id="btn_zipcode" class="btn btn-default" type="button" value="自動入力" />
+                </span>
+              </div>
+            </div>
           </div>
-          <div class="field">
-            <%= label :address, :zipcode, "郵便番号" %><br>
-            <%= text_field :address, :zipcode, class: 'form-control' %>
+          <div class="row">
+            <div class="field col-xs-9 col-sm-7 col-md-6 col-lg-5">
+              <%= label :address, :prefecture_name, "都道府県" %><br>
+              <%= collection_select :address, :prefecture_name, Prefecture.all, :name, :name, {include_blank: true}, {:class => 'form-control'} %>
+            </div>
           </div>
-          <div class="field">
-            <%= label :address, :prefecture, "都道府県" %><br>
-            <%= text_field :address, :prefecture, class: 'form-control' %>
-          </div>
-          <div class="field">
+          <div class="row"><div class="field col-sm-12">
             <%= label :address, :city, "市町村" %><br>
             <%= text_field :address, :city, class: 'form-control' %>
-          </div>
-          <div class="field">
+          </div></div>
+          <div class="row"><div class="field col-sm-12">
             <%= label :address, :street, "丁番地" %><br>
             <%= text_field :address, :street, class: 'form-control' %>
-          </div>
-          <div class="field">
+          </div></div>
+          <div class="row"><div class="field col-sm-12">
             <%= label :address, :building, "建物名・部屋番号" %><br>
             <%= text_field :address, :building, class: 'form-control' %>
-          </div>
+          </div></div>
         </div>
         <div class="col-md-4">
           <div>
             <p>次回の購入をスムーズにする為に配送情報をユーザーアカウントに登録しますか？</p>
             <div class="checkbox">
-              <%= check_box_tag 'address[check_user_id]', true, true, {} %><%= label :address, :check_user_id, "登録する" %>
+              <label>
+              <%= check_box_tag 'address[check_user_id]', true, true, {} %> 登録する
+              </label>
             </div>
           </div>
           <div class="actions">
@@ -149,7 +161,7 @@
         <div class="col-md-8">
           <p><strong>受取人名：</strong> <%= current_user.address.addressee %></p>
           <p><strong>郵便番号：</strong> <%= current_user.address.zipcode %></p>
-          <p><strong>住所：</strong> <%= current_user.address.prefecture %> <%= current_user.address.city %> <%= current_user.address.street %></p>
+          <p><strong>住所：</strong> <%= current_user.address.prefecture_name %> <%= current_user.address.city %> <%= current_user.address.street %></p>
           <p><strong>建物：</strong> <%= current_user.address.building %></p>
         </div>
         <div class="col-md-4">
@@ -162,7 +174,5 @@
         </div>
         
       <% end %>
-      
-    </div>
     
 </div>

@@ -1,5 +1,11 @@
 # coding: utf-8
 
+require "csv"
+
+CSV.foreach('db/prefecture.csv') do |row|
+  Prefecture.create(:name => row[0])
+end
+
 User.create(
     name: "Hiroyuki Ota",
     email: "ikuyorihato@gmail.com",

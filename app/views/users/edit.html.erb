@@ -30,7 +30,7 @@
         <hr />
         <p><strong>受取人名：</strong> <%= current_user.address.addressee %></p>
         <p><strong>郵便番号：</strong> <%= current_user.address.zipcode %></p>
-        <p><strong>住所：</strong> <%= current_user.address.prefecture %> <%= current_user.address.city %> <%= current_user.address.street %></p>
+        <p><strong>住所：</strong> <%= current_user.address.prefecture_name %> <%= current_user.address.city %> <%= current_user.address.street %></p>
         <p><strong>建物：</strong> <%= current_user.address.building %></p>
         <hr />    
         <% end %>
