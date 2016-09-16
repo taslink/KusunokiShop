@@ -22,6 +22,7 @@ class AddressesController < ApplicationController
 
   # GET /addresses/1/edit
   def edit
+    @redirect_option = params[:redirect_option]
   end
 
   # POST /addresses
@@ -40,9 +41,14 @@ class AddressesController < ApplicationController
 
   # PATCH/PUT /addresses/1
   def update
+    
+    redirect_option = params[:redirect_option]
+    
     if @address.update(address_params)
-      if logged_in?
+      if logged_in? && redirect_option.empty?
         redirect_to edit_user_url(current_user), notice: '配送先情報を変更しました'
+      elsif logged_in? && redirect_option == "order_new"
+        redirect_to new_order_url, notice: '配送先情報を変更しました'
       else
         redirect_to root_path, notice: '配送先情報を変更しました'
       end

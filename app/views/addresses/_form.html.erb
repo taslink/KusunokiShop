@@ -47,9 +47,20 @@
     <%= f.text_field :building, class: 'form-control' %>
   </div></div>
   
-  <% if logged_in? %>
+  <% if admin_user? %>
+  <div class="row">
+    <div class="field col-xs-9 col-sm-7 col-md-6 col-lg-5">
+      <%= f.label :user_id %><br>
+      <%= f.number_field :user_id, class: 'form-control'  %>
+    </div>
+  </div>
+
+  <% elsif logged_in? %>
   <%= hidden_field_tag 'address[user_id]', current_user.id %>
+  
   <% end %>
+  
+  <%= hidden_field_tag("redirect_option", @redirect_option) %>
   
   <div class="row"><div class="actions col-sm-12">
     <%= f.submit :class => "btn btn-large btn-primary" %>
