@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   get 'pages/about'
   get 'pages/contact'
   
-  resources :users
+  resources :users do
+   patch :info_destroy, on: :member
+  end
   post 'users/info_update'
   
   get    'signup', to: 'users#new'

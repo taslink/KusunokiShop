@@ -86,7 +86,9 @@
       </div>
       
       <div class="col-lg-3"> 
-        <hr />
+      
+      <% if current_user.shipping_prefecture.nil? %>
+      
         <div class="form-group">
         <form>
           お支払方法予定：
@@ -99,21 +101,30 @@
         
         <%= form_tag({controller: "users", action: "info_update"}, {id: "payment01", class: "secondpulldown"}) do %>
           送付先：
-          <%= collection_select(:user, :shipping_prefecture, Prefecture.all, :id, :name, {:prompt => "--選択してください--"}, {:class => "form-control"} ) %>
+          <%= collection_select(:userinfo, :shipping_prefecture, Prefecture.all, :id, :name, {}, {:class => "form-control"} ) %>
           <div class="actions">
             <%= submit_tag "Check", class: "btn btn-info btn-sm" %>
           </div>
         <% end %>
         
         <%= form_tag({controller: "users", action: "info_update"}, {id: "payment02", class: "secondpulldown"}) do %>
-          全国一律：送料450円
-          <%= hidden_field_tag 'user[shipping_prefecture]', 'everyplace' %>
+          全国一律、送料450円
+          <%= hidden_field_tag 'userinfo[shipping_prefecture]', 'everyplace' %>
           <div class="actions">
           <%= submit_tag "Check", class: "btn btn-info btn-sm" %>
           </div>
         <% end %>
         
         </div>
+        
+      <% else %>
+        <p>お支払方法予定：<br />　<b><%= @payment_type %></b></p>
+        <p>配送種類：<br />　<b><%= @shipping_type %></b></p>
+        <p>配送先：<br />　<b><%= @shipping_prefecture %></b></p>
+        <%= link_to '>>お支払い方法をリセット', info_destroy_user_path(current_user), :method => :patch %>
+        
+      <% end %>
+        
         <hr />
         
         
@@ -143,7 +154,7 @@
           <p class="h4 pull-left">総合計：</p>
           <p class="h4 text-right"><%= @total_amount %>円</p>
         </div>
-        <hr />
+
         <%= link_to new_order_url, class: "btn btn-danger btn-lg" do %>
         <i class="glyphicon glyphicon-shopping-cart"></i> ご購入手続き
         <% end %>

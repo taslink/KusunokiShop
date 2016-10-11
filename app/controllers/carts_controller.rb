@@ -6,9 +6,27 @@ class CartsController < ApplicationController
 
   # GET /carts
   def index
-    #@prefectures = Prefecture.all
+    if current_user.payment_type == "payment01"
+      @payment_type = "代金引換"
+    elsif current_user.payment_type == "payment02"
+      @payment_type = "クレジットカード・コンビニ・電子マネー"
+    end
     
-    #@carts = Cart.where(user_id:current_user.id).order(created_at: :desc)
+    if current_user.shipping_type == "takkyubin"
+      @shipping_type = "宅急便"
+    elsif current_user.shipping_type == "nekoposu"
+      @shipping_type = "ポスト投函便"
+    end
+
+    if current_user.shipping_prefecture == "everyplace"
+      @shipping_prefecture = "全国一律、送料450円"
+    else
+      prefecture = Prefecture.find_by(id: current_user.shipping_prefecture.to_i)
+      unless prefecture.nil?
+        @shipping_prefecture = prefecture.name
+      end
+    end    
+    
     @carts = current_user.carts.order(created_at: :desc)
     @add_amount = @carts.sum(:amount)
     @tax = (@add_amount * 0.08).floor
