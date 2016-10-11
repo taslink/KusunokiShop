@@ -14,7 +14,13 @@ class SessionsController < ApplicationController
       render 'new'
     end
   end
-  
+
+  def info_update
+    @s_payment = session[:payment]
+    @s_prefecture = session[:prefecture]
+    ridirect_to cart/index
+  end
+
   def destroy
     session[:user_id] = nil
     redirect_to root_path

@@ -46,7 +46,7 @@ class AddressesController < ApplicationController
     
     if @address.update(address_params)
       if logged_in? && redirect_option.empty?
-        redirect_to edit_user_url(current_user), notice: '配送先情報を変更しました'
+        redirect_to edit_user_url(@address), notice: '配送先情報を変更しました'
       elsif logged_in? && redirect_option == "order_new"
         redirect_to new_order_url, notice: '配送先情報を変更しました'
       else

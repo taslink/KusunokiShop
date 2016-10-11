@@ -2,13 +2,18 @@ Rails.application.routes.draw do
 
   root 'welcome#index'
 
+  get 'pages/about'
+  get 'pages/contact'
+  
   resources :users
+  post 'users/info_update'
+  
   get    'signup', to: 'users#new'
   
   get    'login' , to: 'sessions#new'
   post   'login' , to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
-  
+
   resources :products
   
   resources :carts

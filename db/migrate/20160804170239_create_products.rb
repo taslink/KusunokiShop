@@ -6,6 +6,7 @@ class CreateProducts < ActiveRecord::Migration
       t.text :description
       t.integer :price
       t.string :product_type
+      t.string :jan_code
       t.string :main_image
       t.string :sub1_image
       t.string :sub2_image

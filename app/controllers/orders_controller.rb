@@ -69,9 +69,11 @@ class OrdersController < ApplicationController
       ActiveRecord::Base.transaction do
         @order_reg = Order.create!(user_id:current_user.id, address_id:address_reg.id, amount:amount.to_i, tax:tax.to_i, postage:postage)
         #raise "例外発生"
-          @line_items.each do |li| 
-            Orderdetail.create!(product_id:li.product_id, order_id:@order_reg.id, product_type:li.product_type, count:li.count) 
-          end
+        
+        @line_items.each do |li| 
+          Orderdetail.create!(product_id:li.product_id, order_id:@order_reg.id, product_type:li.product_type, count:li.count) 
+        end
+        
         Cart.destroy_all(user_id:current_user.id)
       end
         redirect_to @order_reg

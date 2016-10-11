@@ -51,13 +51,17 @@ ActiveRecord::Schema.define(version: 20160915145453) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer  "user_id",    null: false
-    t.integer  "address_id", null: false
-    t.integer  "amount",     null: false
-    t.integer  "tax",        null: false
-    t.integer  "postage",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "user_id",        null: false
+    t.integer  "address_id",     null: false
+    t.integer  "amount",         null: false
+    t.integer  "tax",            null: false
+    t.integer  "pay_commission", null: false
+    t.integer  "postage",        null: false
+    t.integer  "payment_type",   null: false
+    t.integer  "shipping_type",  null: false
+    t.string   "note"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "prefectures", force: :cascade do |t|
@@ -72,6 +76,7 @@ ActiveRecord::Schema.define(version: 20160915145453) do
     t.text     "description"
     t.integer  "price"
     t.string   "product_type"
+    t.string   "jan_code"
     t.string   "main_image"
     t.string   "sub1_image"
     t.string   "sub2_image"
@@ -83,9 +88,12 @@ ActiveRecord::Schema.define(version: 20160915145453) do
     t.string   "name"
     t.string   "email"
     t.string   "password_digest"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.boolean  "admin",           default: false, null: false
+    t.string   "payment_type"
+    t.string   "shipping_type"
+    t.string   "shipping_prefecture"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.boolean  "admin",               default: false, null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

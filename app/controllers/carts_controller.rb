@@ -6,6 +6,8 @@ class CartsController < ApplicationController
 
   # GET /carts
   def index
+    #@prefectures = Prefecture.all
+    
     #@carts = Cart.where(user_id:current_user.id).order(created_at: :desc)
     @carts = current_user.carts.order(created_at: :desc)
     @add_amount = @carts.sum(:amount)

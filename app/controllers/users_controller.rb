@@ -39,6 +39,11 @@ class UsersController < ApplicationController
       render :edit
     end
   end
+  
+  def info_update
+    @user = current_user
+    redirect_to root_path
+  end
 
   # DELETE /users/1
   def destroy
@@ -56,5 +61,5 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
-  
+
 end

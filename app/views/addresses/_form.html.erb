@@ -50,7 +50,7 @@
   <% if admin_user? %>
   <div class="row">
     <div class="field col-xs-9 col-sm-7 col-md-6 col-lg-5">
-      <%= f.label :user_id %><br>
+      <%= f.label :user_id, "User id （管理者IDのみ表示されています）" %><br>
       <%= f.collection_select :user_id, User.all, :id, :id, {include_blank: true}, {:class => 'form-control'} %>
     </div>
   </div>
