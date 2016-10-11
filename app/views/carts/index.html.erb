@@ -87,7 +87,7 @@
       
       <div class="col-lg-3"> 
       
-      <% if current_user.shipping_prefecture.nil? %>
+      <% if current_user.payment_type.nil? %>
       
         <div class="form-group">
         <form>
@@ -102,7 +102,7 @@
         <%= form_tag({controller: "users", action: "info_update"}, {id: "payment01", class: "secondpulldown"}) do %>
           送付先：
           <%= collection_select(:userinfo, :shipping_prefecture, Prefecture.all, :id, :name, {}, {:class => "form-control"} ) %>
-          <div class="actions">
+          <div class="actions_min">
             <%= submit_tag "Check", class: "btn btn-info btn-sm" %>
           </div>
         <% end %>
@@ -110,7 +110,7 @@
         <%= form_tag({controller: "users", action: "info_update"}, {id: "payment02", class: "secondpulldown"}) do %>
           全国一律、送料450円
           <%= hidden_field_tag 'userinfo[shipping_prefecture]', 'everyplace' %>
-          <div class="actions">
+          <div class="actions_min">
           <%= submit_tag "Check", class: "btn btn-info btn-sm" %>
           </div>
         <% end %>
@@ -118,46 +118,86 @@
         </div>
         
       <% else %>
-        <p>お支払方法予定：<br />　<b><%= @payment_type %></b></p>
-        <p>配送種類：<br />　<b><%= @shipping_type %></b></p>
-        <p>配送先：<br />　<b><%= @shipping_prefecture %></b></p>
+        <p>お支払方法予定：　<b><%= @payment_type %></b></p>
+        <p>配送種類：　<b><%= @shipping_type %></b></p>
+        <p>配送先：　<b><%= @shipping_prefecture %></b></p>
         <%= link_to '>>お支払い方法をリセット', info_destroy_user_path(current_user), :method => :patch %>
         
       <% end %>
         
         <hr />
-        
-        
-        <div class="clearfix">
-          <p class="h4 pull-left">商　品：</p>
-          <p class="h4 text-right"><%= @add_amount %>円</p>
-        </div>
-        <div class="clearfix">
-          <p class="h4 pull-left">消費税：</p>
-        <p class="h4 text-right"><%= @tax %>円</p>
-        </div>
-        <div class="clearfix">
-          <p class="h4 pull-left">送　料：</p>
-          <p class="h4 text-right"><%= @postage %>円</p>
-        </div>
-        <% if @add_amount < 3000 %>
+        <% if @items_amount < 1800 %>
         <div class="panel panel-danger">
-          <div class="panel-heading">あと <b><%= 3000 - @add_amount %>円</b>（税抜)で送料無料です！</div>
+          <div class="panel-heading">あと <b><%= 1800 - @items_amount %>円</b>（税抜)で送料・代引手数料半額です！</div>
         </div>
+        <% elsif @items_amount >= 1800 && @items_amount < 3600 %>
+        <div class="panel panel-warning">
+          <div class="panel-heading">あと <b><%= 3600 - @items_amount %>円</b>（税抜)で送料・代引手数料無料です！</div>
+        </div>   
         <% else %>
         <div class="panel panel-success">
           <div class="panel-heading">送料が無料になりました！</div>
         </div>
         <% end %>
+        
+        <div class="clearfix">
+          <p class="h5 pull-left">商　品：</p>
+          <p class="h5 text-right"><%= @items_amount %>円</p>
+        </div>
+        <% if current_user.payment_type.nil? %>
+        <div class="clearfix">
+          <p class="h5 pull-left">手数料：</p>
+          <p class="h6 text-right">お支払い方法をCheck！</p>
+        </div>
+        <div class="clearfix">
+          <p class="h5 pull-left">送　料：</p>
+          <p class="h6 text-right">お支払い方法をCheck！</p>
+        </div>
+        <% else %>
+        <div class="clearfix">
+          <p class="h5 pull-left">代引手数料：</p>
+          <p class="h5 text-right"><%= @pay_commission %>円</p>
+        </div>
+        <div class="clearfix">
+          <p class="h5 pull-left">送　料：</p>
+          <p class="h5 text-right"><%= @postage %>円</p>
+        </div>
+        <% end %>
         <hr />
+        
+        <% if current_user.payment_type.nil? %>
+        <div class="clearfix">
+          <p class="h4 pull-left">合　計：</p>
+          <p class="h5 text-right">お支払い方法をCheck！</p>
+        </div>
+        <div class="clearfix">
+          <p class="h4 pull-left">消費税：</p>
+          <p class="h5 text-right">お支払い方法をCheck！</p>
+        </div>
+        <div class="clearfix">
+          <p class="h4 pull-left">総合計：</p>
+          <p class="h5 text-right">お支払い方法をCheck！</p>
+        </div>
+        <% else %>
+        <div class="clearfix">
+          <p class="h4 pull-left">合　計：</p>
+          <p class="h4 text-right"><%= @add_amount %>円</p>
+        </div>
+        <div class="clearfix">
+          <p class="h4 pull-left">消費税：</p>
+          <p class="h4 text-right"><%= @tax %>円</p>
+        </div>
         <div class="clearfix">
           <p class="h4 pull-left">総合計：</p>
           <p class="h4 text-right"><%= @total_amount %>円</p>
         </div>
-
+        <% end %>
+       <hr />
+        
         <%= link_to new_order_url, class: "btn btn-danger btn-lg" do %>
         <i class="glyphicon glyphicon-shopping-cart"></i> ご購入手続き
         <% end %>
+        <p class="h5">※まだ注文確定ではありません。</p>
       </div>
     </div>
     <% end %>

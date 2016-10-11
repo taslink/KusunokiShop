@@ -6,10 +6,12 @@ class CartsController < ApplicationController
 
   # GET /carts
   def index
+    @carts = current_user.carts.order(created_at: :desc)
+    
     if current_user.payment_type == "payment01"
       @payment_type = "代金引換"
     elsif current_user.payment_type == "payment02"
-      @payment_type = "クレジットカード・コンビニ・電子マネー"
+      @payment_type = "クレジットカード他"
     end
     
     if current_user.shipping_type == "takkyubin"
@@ -17,25 +19,64 @@ class CartsController < ApplicationController
     elsif current_user.shipping_type == "nekoposu"
       @shipping_type = "ポスト投函便"
     end
-
+    
     if current_user.shipping_prefecture == "everyplace"
+      cu_prefecture = "everyplace"
+    else
+      cu_prefecture = current_user.shipping_prefecture.to_i
+    end
+    
+    if cu_prefecture == "everyplace"
       @shipping_prefecture = "全国一律、送料450円"
     else
-      prefecture = Prefecture.find_by(id: current_user.shipping_prefecture.to_i)
+      prefecture = Prefecture.find_by(id: cu_prefecture)
       unless prefecture.nil?
         @shipping_prefecture = prefecture.name
       end
     end    
     
-    @carts = current_user.carts.order(created_at: :desc)
-    @add_amount = @carts.sum(:amount)
-    @tax = (@add_amount * 0.08).floor
-    if @add_amount < 3000
-      @postage = 540
+    @items_amount = @carts.sum(:amount)
+    
+    if  current_user.payment_type == "payment01"
+      @pay_commission = 300
+      if cu_prefecture == 1
+        @postage = 1400
+      elsif cu_prefecture == 2 || cu_prefecture == 3 || cu_prefecture == 5
+        @postage = 1000
+      elsif cu_prefecture == 4 || cu_prefecture == 6 || cu_prefecture == 7
+        @postage = 900      
+      elsif cu_prefecture >= 8 && cu_prefecture <= 15
+        @postage = 800
+      elsif cu_prefecture == 19 || cu_prefecture == 20
+        @postage = 800
+      elsif cu_prefecture == 16 || cu_prefecture == 17 || cu_prefecture == 18
+        @postage = 700   
+      elsif cu_prefecture >= 19 && cu_prefecture <= 35
+        @postage = 700
+      elsif cu_prefecture >= 36 && cu_prefecture <= 46
+        @postage = 800
+      elsif cu_prefecture == 47
+        @postage = 1200
+      end
+    elsif current_user.payment_type == "payment02"
+      @pay_commission = 0
+      @postage = 450
     else
-      @postage = 0
+      @pay_commission = 0
+      @postage = 0      
     end
-    @total_amount = @add_amount + @tax + @postage
+    
+    if @items_amount >= 1800 && @items_amount < 3600 
+      @pay_commission = @pay_commission / 2
+      @postage = @postage / 2
+    elsif @items_amount >= 3600
+      @pay_commission = 0
+      @postage = 0    
+    end
+    
+    @add_amount = @items_amount + @pay_commission + @postage
+    @tax = (@add_amount * 0.08).floor
+    @total_amount = @add_amount + @tax
     
   end
 
