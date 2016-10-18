@@ -8,13 +8,17 @@
   <thead>
     <tr>
       <th>id</th>
-      <th>User_id</th>
-      <th>Address_id</th>
+      <th>User</th>
+      <th>Addres</th>
       <th>商品／数量</th>
-      <th class="text-right">金額</th>
-      <th class="text-right">税</th>
+      <th>支払</th>
+      <th>配送</th>
+      <th class="text-right">小計</th>
+      <th class="text-right">手数料</th>
       <th class="text-right">送料</th>
-      <th class="text-right">合計金額</th>
+      <th class="text-right">合計</th>
+      <th class="text-right">税</th>
+      <th class="text-right">総合計</th>
       <th class="text-right">日時</th>
 
     </tr>
@@ -25,14 +29,17 @@
     <tr>
       <td><%= order.id %></td>
       <td><%= order.user_id %></td>
-      <td><%= order.address_id %></td>
+      <td><%= order.address_id %>｜<%= link_to '確認', address_path(order.address) %></td>
       <td><%= order.products.pluck(:product_code) %><br><%= order.orderdetails.pluck(:count) %></td>
-      <td class="text-right"><%= order.amount %> 円</td>
-      <td class="text-right"><%= order.tax %> 円</td>
-      <td class="text-right"><%= order.postage %> 円</td>
-      <td class="text-right"><b><%= order.amount + order.tax + order.postage %> 円</b></td>
+      <td><%= order.payment_type %></td>
+      <td><%= order.shipping_type %></td>
+      <td class="text-right"><%= order.amount %></td>
+      <td class="text-right"><%= order.pay_commission %></td>
+      <td class="text-right"><%= order.postage %></td>
+      <td class="text-right"><%= order.add_amount %></td>
+      <td class="text-right"><%= order.tax %></td>
+      <td class="text-right"><%= order.total_amount %></td>
       <td class="text-right"><%= order.created_at.strftime("%Y/%m/%d %H:%M") %></td>
-
     </tr>
     <% end %>
   </tbody>

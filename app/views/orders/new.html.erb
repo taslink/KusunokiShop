@@ -14,7 +14,7 @@
     <% end %>
     
     <div class="row">
-      <div class="col-lg-10">
+      <div class="col-lg-9">
         <table class="table">
           <thead>
             <tr>
@@ -29,11 +29,11 @@
             </tr>
           </thead>
           <tbody>
-            <% @cart_to_orders.each_with_index do |cart_order,i| %>
+            <% @carts.each_with_index do |cart,i| %>
             <tr>
               <td><%= "#{h(i + 1)}" %></td>
               
-              <% cart_order.products.each do |product| %>
+              <% cart.products.each do |product| %>
               <% if product.product_type == "envelope" %>
                 <td>
                 <div class="order-box">
@@ -61,39 +61,47 @@
               <% end %>
               <% end %>
               
-              <td class="text-right"><%= cart_order.products.sum(:price) %> 円</td>
+              <td class="text-right"><%= cart.products.sum(:price) %> 円</td>
               
-              <% cart_order.line_items.each do |li| %>
+              <% cart.line_items.each do |li| %>
               <% if li.product_type == "envelope" %>
               <td class="text-right"><b><%= li.count %></b></td>
               <% end %>
               <% end %>
               
-              <td class="text-right"><%= cart_order.amount %> 円</td>  
+              <td class="text-right"><%= cart.amount %> 円</td>  
             </tr>
             <% end %>
           </tbody>
         </table>
       </div>
       
-      <div class="col-lg-2"> 
+      <div class="col-lg-3"> 
         <hr />
         <div class="clearfix">
-          <p class="h4 pull-left">商　品：</p>
+          <p class="h5 pull-left">商　品：</p>
+          <p class="h5 text-right"><%= @items_amount %>円</p>
+        </div>
+        <div class="clearfix">
+          <p class="h5 pull-left">代引手数料：</p>
+          <p class="h5 text-right"><%= @pay_commission %>円</p>
+        </div>
+        <div class="clearfix">
+          <p class="h5 pull-left">送　料：</p>
+          <p class="h5 text-right"><%= @postage %>円</p>
+        </div>
+        <hr />
+        <div class="clearfix">
+          <p class="h4 pull-left">合　計：</p>
           <p class="h4 text-right"><%= @add_amount %>円</p>
         </div>
         <div class="clearfix">
           <p class="h4 pull-left">消費税：</p>
-        <p class="h4 text-right"><%= @tax %>円</p>
+          <p class="h4 text-right"><%= @tax %>円</p>
         </div>
-        <div class="clearfix">
-          <p class="h4 pull-left">送　料：</p>
-          <p class="h4 text-right"><%= @postage %>円</p>
-        </div>
-        <hr />
         <div class="clearfix">
           <p class="h4 pull-left">総合計：</p>
-          <p class="h4 text-right text-danger"><%= @total_amount %>円</p>
+          <p class="h4 text-right"><%= @total_amount %>円</p>
         </div>
         <hr />
       </div>
@@ -143,6 +151,14 @@
         </div>
         <div class="col-md-4">
           <div>
+          <hr />
+            <p>お支払方法：　<b><%= @payment_type %></b></p>
+            <p>配送種類：　<b><%= @shipping_type %></b></p>
+            <p><%= link_to '>>お支払い方法をリセット', info_destroy_user_path(current_user), :method => :patch %>
+              <br />　（一旦カートに戻る）</p>
+          <hr />
+          </div>
+          <div>
             <p>次回の購入をスムーズにする為に配送情報をユーザーアカウントに登録しますか？</p>
             <div class="checkbox">
               <label>
@@ -150,6 +166,10 @@
               </label>
             </div>
           </div>
+          <%= hidden_field_tag("payment_type", @payment_type) %>
+          <%= hidden_field_tag("shipping_type", @shipping_type) %>
+          <%= hidden_field_tag("pay_commission", @pay_commission) %>
+          <%= hidden_field_tag("postage", @postage) %>
           <div class="actions">
             <%= submit_tag ("注文を確定する"), class: 'btn btn-danger btn-lg' %>
           </div>
@@ -171,7 +191,17 @@
           <% end %>
         </div>
         <div class="col-md-4">
+          <div>
+            <p>お支払方法：　<b><%= @payment_type %></b></p>
+            <p>配送種類：　<b><%= @shipping_type %></b></p>
+            <p><%= link_to '>>お支払い方法をリセット', info_destroy_user_path(current_user), :method => :patch %>
+              <br />　（一旦カートに戻る）</p>
+          </div>
           <%= form_tag(controller: "orders", method: "post") do %>
+          <%= hidden_field_tag("payment_type", @payment_type) %>
+          <%= hidden_field_tag("shipping_type", @shipping_type) %>
+          <%= hidden_field_tag("pay_commission", @pay_commission) %>
+          <%= hidden_field_tag("postage", @postage) %>
           <div class="actions">
             <%= submit_tag ("注文を確定する"), class: 'btn btn-danger btn-lg' %>
           </div>

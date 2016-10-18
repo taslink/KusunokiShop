@@ -1,12 +1,66 @@
 <div class="container">
   <div class="row">
         <h1>ご注文ありがとうございました。</h1>
-        <h2>製品情報</h2>
 
-          <p><strong>金額:<%= @order.amount %>円（税抜）</strong></p>
-
-          <%= link_to 'Back to Top Page', :root , class: "btn btn-default"%>
-          
+       <div class="col-lg-3"> 
+       <h3>確定金額</h3>
+        <hr />
+        <div class="clearfix">
+          <p class="h5 pull-left">商　品：</p>
+          <p class="h5 text-right"><%= @order.amount %>円</p>
         </div>
+        <div class="clearfix">
+          <p class="h5 pull-left">代引手数料：</p>
+          <p class="h5 text-right"><%= @order.pay_commission %>円</p>
+        </div>
+        <div class="clearfix">
+          <p class="h5 pull-left">送　料：</p>
+          <p class="h5 text-right"><%= @order.postage %>円</p>
+        </div>
+        <p class="h5">※宅急便の場合の送料につきまして、カートページの配送先と実際の「配送情報」とで違いがある場合は、金額が変更されている場合がございます。</p>
+        <hr />
+        <div class="clearfix">
+          <p class="h4 pull-left">合　計：</p>
+          <p class="h4 text-right"><%= @order.add_amount %>円</p>
+        </div>
+        <div class="clearfix">
+          <p class="h4 pull-left">消費税：</p>
+          <p class="h4 text-right"><%= @order.tax %>円</p>
+        </div>
+        <div class="clearfix">
+          <p class="h4 pull-left">総合計：</p>
+          <p class="h4 text-right"><%= @order.total_amount %>円</p>
+        </div>
+        <hr />
+      </div>
+          
+       <div class="col-lg-3"> 
+       <h3>お支払方法</h3>
+        <hr />
+        <div class="clearfix">
+          <p class="h5 pull-left">お支払方法：</p>
+          <p class="h5 text-right"><%= @order.payment_type %></p>
+        </div>
+        <div class="clearfix">
+          <p class="h5 pull-left">配送方法：</p>
+          <p class="h5 text-right"><%= @order.shipping_type %></p>
+        </div>
+        <hr />
+        <p>お支払方法が「クレジットカード・コンビニ・電子マネー」の場合は、後程ご登録のメールアドレスにメールを配信いたします。（送信アドレス*****@****）<br />
+        そのメールに記載のURLよりお支払ページにアクセスしていただき、決済をお願い致します。</p>
+        <p>17時以降はメール送信が翌日になる可能性がございます。土日祝の場合は、弊社翌営業日になります</p>
+        <hr />
+      </div>
+      
+      <div class="col-lg-3"> 
+      <h3>備考欄</h3>
+      <hr />
+      <p class="h5">※ご要望などございましたらご記入ください。</p>
+      </div>
+      
+      <div class="col-lg-3"> 
+          <%= link_to 'Back to Top Page', :root , class: "btn btn-default"%>
+      </div>
+      
   </div>
 </div>

@@ -1,39 +1,45 @@
+<div class="container">
+
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>User:</strong>
-  <%= @address.user_id %>
-</p>
+<h1>Addressee</h1>
 
-<p>
-  <strong>Addressee:</strong>
-  <%= @address.addressee %>
-</p>
-
-<p>
-  <strong>Zipcode:</strong>
-  <%= @address.zipcode %>
-</p>
-
-<p>
-  <strong>Prefecture:</strong>
-  <%= @address.prefecture %>
-</p>
-
-<p>
-  <strong>City:</strong>
-  <%= @address.city %>
-</p>
-
-<p>
-  <strong>Street:</strong>
-  <%= @address.street %>
-</p>
-
-<p>
-  <strong>Building:</strong>
-  <%= @address.building %>
-</p>
-
-<%= link_to 'Edit', edit_address_path(@address) %> |
-<%= link_to 'Back', addresses_path %>
+<div class="col-sm-6 col-sm-offset-3">
+<table class="table">
+  <tbody>
+    <tr>
+      <th>アドレスid</th>
+      <td><%= @address.id %></td>
+    </tr>
+    <tr>
+      <th>登録ユーザー</th>
+      <td>id＞<%= @address.user.id %>｜name＞<%= @address.user.name %></td>
+    </tr>
+    <tr>
+      <th>配送先名義</th>
+      <td><%= @address.addressee %></td>
+    </tr>
+    <tr>
+      <th>郵便番号</th>
+      <td><%= @address.zipcode %></td>
+    </tr>
+    <tr>
+      <th>都道府県</th>
+      <td><%= @address.prefecture_name %></td>
+    </tr>
+    <tr>
+      <th>市</th>
+      <td><%= @address.city %></td>
+    </tr>
+    <tr>
+      <th>町</th>
+      <td><%= @address.street %></td>
+    </tr>
+    <tr>
+      <th>建物</th>
+      <td><%= @address.building %></td>
+    </tr>
+  </tbody>
+</table>
+<%= link_to 'オーダー一覧に戻る', orders_path %>
+</div>

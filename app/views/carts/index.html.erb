@@ -83,6 +83,11 @@
             <% end %>
           </tbody>
         </table>
+        
+        <div class="actions_min text-center">
+          <%= link_to '買い物を続ける', :root , class: "btn btn-default btn-lg"%>
+        </div>
+        
       </div>
       
       <div class="col-lg-3"> 
@@ -91,7 +96,7 @@
       
         <div class="form-group">
         <form>
-          お支払方法予定：
+          お支払方法：
           <select name="user[payment_type]" onchange="SetSubMenu(value);" class="form-control">
             <option value="" selected>--選択してください--</option>
             <option value="payment01">代金引換</option>
@@ -126,25 +131,56 @@
       <% end %>
         
         <hr />
-        <% if @items_amount < 1800 %>
+        
+      <% if @items_amount < 720 %>
         <div class="panel panel-danger">
-          <div class="panel-heading">あと <b><%= 1800 - @items_amount %>円</b>（税抜)で送料・代引手数料半額です！</div>
+          <div class="panel-heading">あと <sapn class="h3"><b>４セット</b></sapn>で送料・代引手数料<b>半額</b>です！</div>
         </div>
-        <% elsif @items_amount >= 1800 && @items_amount < 3600 %>
+      <% elsif @items_amount < 1080 && @items_amount >= 720 %>
+        <div class="panel panel-danger">
+          <div class="panel-heading">あと <sapn class="h3"><b>３セット</b></sapn>で送料・代引手数料<b>半額</b>です！</div>
+        </div>
+      <% elsif @items_amount < 1440 && @items_amount >= 1080 %>
+        <div class="panel panel-danger">
+          <div class="panel-heading">あと <sapn class="h3"><b>２セット</b></sapn>で送料・代引手数料<b>半額</b>です！</div>
+        </div>
+      <% elsif @items_amount < 1800 && @items_amount >= 1440 %>
+        <div class="panel panel-danger">
+          <div class="panel-heading">あと <sapn class="h3"><b>１セット</b></sapn>で送料・代引手数料<b>半額</b>です！</div>
+        </div>      
+      <% elsif @items_amount < 2160 && @items_amount >= 1800 %>
         <div class="panel panel-warning">
-          <div class="panel-heading">あと <b><%= 3600 - @items_amount %>円</b>（税抜)で送料・代引手数料無料です！</div>
-        </div>   
-        <% else %>
-        <div class="panel panel-success">
-          <div class="panel-heading">送料が無料になりました！</div>
+          <div class="panel-heading">あと <sapn class="h3"><b>５セット</b></sapn>で送料・代引手数料<b>無料</b>です！</div>
+        </div>                 
+      <% elsif @items_amount < 2520 && @items_amount >= 2160 %>
+        <div class="panel panel-warning">
+          <div class="panel-heading">あと <sapn class="h3"><b>４セット</b></sapn>で送料・代引手数料<b>無料</b>です！</div>
         </div>
-        <% end %>
+      <% elsif @items_amount < 2880 && @items_amount >= 2520 %>
+        <div class="panel panel-warning">
+          <div class="panel-heading">あと <sapn class="h3"><b>３セット</b></sapn>で送料・代引手数料<b>無料</b>です！</div>
+        </div>
+      <% elsif @items_amount < 3240 && @items_amount >= 2880 %>
+        <div class="panel panel-warning">
+          <div class="panel-heading">あと <sapn class="h3"><b>２セット</b></sapn>で送料・代引手数料<b>無料</b>です！</div>
+        </div>
+      <% elsif @items_amount < 3600 && @items_amount >= 3240 %>
+        <div class="panel panel-warning">
+          <div class="panel-heading">あと <sapn class="h3"><b>１セット</b></sapn>で送料・代引手数料<b>無料</b>です！</div>
+        </div>      
+      <% elsif @items_amount >= 3600 %>
+        <div class="panel panel-success">
+          <div class="panel-heading"><b>送料が無料になりました！</b></div>
+        </div>
+      <% end %>
         
         <div class="clearfix">
           <p class="h5 pull-left">商　品：</p>
           <p class="h5 text-right"><%= @items_amount %>円</p>
         </div>
+        
         <% if current_user.payment_type.nil? %>
+        
         <div class="clearfix">
           <p class="h5 pull-left">手数料：</p>
           <p class="h6 text-right">お支払い方法をCheck！</p>
@@ -153,19 +189,7 @@
           <p class="h5 pull-left">送　料：</p>
           <p class="h6 text-right">お支払い方法をCheck！</p>
         </div>
-        <% else %>
-        <div class="clearfix">
-          <p class="h5 pull-left">代引手数料：</p>
-          <p class="h5 text-right"><%= @pay_commission %>円</p>
-        </div>
-        <div class="clearfix">
-          <p class="h5 pull-left">送　料：</p>
-          <p class="h5 text-right"><%= @postage %>円</p>
-        </div>
-        <% end %>
         <hr />
-        
-        <% if current_user.payment_type.nil? %>
         <div class="clearfix">
           <p class="h4 pull-left">合　計：</p>
           <p class="h5 text-right">お支払い方法をCheck！</p>
@@ -178,7 +202,23 @@
           <p class="h4 pull-left">総合計：</p>
           <p class="h5 text-right">お支払い方法をCheck！</p>
         </div>
+        <hr />
+        <button type="button" class="btn btn-danger btn-lg" disabled="disabled">
+        <i class="glyphicon glyphicon-shopping-cart"></i> ご購入手続き</button>
+        <p class="h5">※お支払い方法をCheckしてください。</p>
+        <hr />
+        
         <% else %>
+        
+        <div class="clearfix">
+          <p class="h5 pull-left">代引手数料：</p>
+          <p class="h5 text-right"><%= @pay_commission %>円</p>
+        </div>
+        <div class="clearfix">
+          <p class="h5 pull-left">送　料：</p>
+          <p class="h5 text-right"><%= @postage %>円</p>
+        </div>
+        <hr />
         <div class="clearfix">
           <p class="h4 pull-left">合　計：</p>
           <p class="h4 text-right"><%= @add_amount %>円</p>
@@ -191,13 +231,15 @@
           <p class="h4 pull-left">総合計：</p>
           <p class="h4 text-right"><%= @total_amount %>円</p>
         </div>
-        <% end %>
-       <hr />
-        
+        <hr />
         <%= link_to new_order_url, class: "btn btn-danger btn-lg" do %>
         <i class="glyphicon glyphicon-shopping-cart"></i> ご購入手続き
         <% end %>
         <p class="h5">※まだ注文確定ではありません。</p>
+        <% end %>
+       
+        
+
       </div>
     </div>
     <% end %>
