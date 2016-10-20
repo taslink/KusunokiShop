@@ -1,77 +1,56 @@
+<div id="contents_pb">
 <div class="container-fluid">
   <div class="row">
-    
-    <div class="col-md-7">
-      <div class="row  show-image-row">
-      <div class="col-xs-8">
-        <div class="main_image">
-          <% if @product.main_image.present? %>
-            <%= image_tag(@product.main_image) %>
-          <% else %>
-            <%= image_tag("no-image-envelope.png") %>
-          <% end %>
+    <div class="col-md-12">
+      <div class="row show-image-row">
+        <div class="col-sm-8 col-xs12">
+          <div class="main_image">
+            <% if @product.main_image.present? %>
+              <%= image_tag(@product.main_image) %>
+            <% else %>
+              <%= image_tag("no-image-envelope.png") %>
+            <% end %>
+          </div>
         </div>
-      </div>
-      <div class="col-xs-4">
-        <div class="sub1_image">
-          <% if @product.sub1_image.present? %>
-            <%= image_tag(@product.sub1_image) %>
-          <% else %>
-            <%= image_tag("no-image-envelope.png") %>
-          <% end %>
-        </div>
-        <div class="sub2_image">
-          <% if @product.sub2_image.present? %>
-            <%= image_tag(@product.sub2_image) %>
-          <% else %>
-            <%= image_tag("no-image-envelope.png") %>
-          <% end %>
+        <div class="col-sm-4 col-xs12">
+          <div class="sub1_image">
+            <% if @product.sub1_image.present? %>
+              <%= image_tag(@product.sub1_image) %>
+            <% else %>
+              <%= image_tag("no-image-envelope.png") %>
+            <% end %>
+          </div>
+          <div class="sub2_image">
+            <% if @product.sub2_image.present? %>
+              <%= image_tag(@product.sub2_image) %>
+            <% else %>
+              <%= image_tag("no-image-envelope.png") %>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
-    </div>
-    
-    <div class="col-md-5">
-      <h1><%= @product.name %></h1>
+    <div class="col-md-12">
+      <h2><%= @product.name %></h2>
       <hr />
       <%= simple_format(@product.description) %>
       <p><strong>Product_code:</strong><%= @product.product_code %></p>
       <p><strong>1セット:</strong>360円（税抜）</p>
       <p>封筒とメッセージカードのセット販売になります。</p>
-      <p>以下よりカードを選んでください。</p>
     </div>
     
   </div>
   
   <hr />
   
+  <div class="waku">
+    <p><i class="glyphicon glyphicon-plus"></i>　封筒に入れる「メッセージカード」を選択してください</p>
+  </div>
+  
   <div class="row">
-    <% if flash[:notice] %>
+<%= form_tag(controller: "carts", method: "post") do %>
     <div class="col-md-12">
-      <div class="alert alert-danger col-md-12">
-        <%= flash[:notice] %>
-      </div>
-    </div>
-    <% end %>
-    
-    <%= form_tag(controller: "carts", method: "post") do %>
-    <div class="field col-md-3">
-      <div class="main_image">
-        <% if @product.main_image.present? %>
-          <%= image_tag(@product.main_image) %>
-        <% else %>
-          <%= image_tag("no-image-envelope.png") %>
-        <% end %>
-        <%= hidden_field_tag("envelope_id", @product.id) %>
-      </div>
-    </div>
-    <div class="field col-md-3">
-      <%= label_tag :count, "セット数" %>
-      <%= number_field_tag 'count', 1, in: 1...31 %>
-    </div>
-    <div class="field col-md-12">
-      <%= label_tag :card_id, "カード種類" %>
-      <select name="card_id" id="card_id" class="image-picker">
+      <select name="card_id" id="card_id" class="image-picker form-control">
         <% @product_cards.each do |card| %>
           <% if card.main_image.present? %>
             <option data-img-src='<%= card.main_image %>' value="<%= card.id %>"><%= card.name %></option>
@@ -81,26 +60,44 @@
         <% end %>
       </select>
     </div>
-    <div class="actions col-md-12">
-      <%= submit_tag ("カートに入れる"), class: 'btn btn-large btn-secondary' %>
+  </div>
+  
+  <div class="row">
+    
+    <% if flash[:notice] %>
+    <div class="col-md-8 col-md-offset-2">
+      <div class="alert alert-danger col-md-12">
+        <%= flash[:notice] %>
+      </div>
     </div>
     <% end %>
     
-  </div>
-  
-  <hr />
-
-  <div class="row">
-    <div class="col-md-12">
-      <%= link_to 'Add to Cart', "#" , class: "btn btn-default"%> 
-      <%= link_to 'Back to Top Page', :root , class: "btn btn-default"%>
+    <div class="col-md-8 col-md-offset-2">  
+      <div class="waku">
+        <p><i class="glyphicon glyphicon-plus"></i>　数量を決めてください</p>
+      </div>
     </div>
   </div>
   
+  <div class="row">
+    <div class="col-md-5 col-md-offset-2">
+      <%= number_field_tag 'count', 1, class: 'form-control', in: 1...31 %>
+    </div>
+    <%= hidden_field_tag("envelope_id", @product.id) %>
+    <div class="actions_min text-center col-md-3">
+    <%= button_tag(type: "submit", class: "btn btn-danger btn-lg") do %>
+    <i class="glyphicon glyphicon-shopping-cart"></i>　<b>カートに入れる</b>
+    <% end %>
+    </div>
+<% end %>
+  </div>
+
 </div>
+</div><!-- contents_pb -->
 
 <script type="text/javascript">
   jQuery("select.image-picker").imagepicker({
     hide_select:  false,
   });
 </script>
+

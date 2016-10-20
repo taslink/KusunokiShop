@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <title>KusunokiEc</title>
+  <title>KusunokiShop</title>
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
@@ -10,9 +10,9 @@
 <body>
   <div id="wrap">
     <%= render partial: "layouts/header" %>
-      <div id="contents">
+      
       <%= yield %>
-      </div><!-- contents -->
+      
     <%= render partial: "layouts/footer" %>
   </div><!-- wrap -->
 </body>

@@ -124,7 +124,7 @@ class CartsController < ApplicationController
           #raise "例外発生"
           LineItem.create!(product_id:card_id, cart_id:@cart_item.id, product_type:"card",count:@card_count)
         end
-          redirect_to @cart_item
+          redirect_to carts_path, flash: {notice: 'カートに入れました'}
           #render :show
         rescue => e
         redirect_to @envelope, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}

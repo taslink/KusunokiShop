@@ -1,8 +1,8 @@
-html,body{
+html,body {
   height: 100%;
 }
 
-#wrap{
+#wrap {
   width: 100%;
   position: relative;
   height: auto !important; /*IE6対策*/
@@ -10,8 +10,12 @@ html,body{
   min-height: 100%;
 }
 
-#contents{
-  padding-bottom: 30px; /*フッターの高さと同じ*/
+#contents {
+  padding-bottom: 30px; /*フッターの高さ30px*/
+}
+
+#contents_pb {
+  padding-bottom: 80px; /*フッターの高さ30px + @ */
 }
 
 #footer {
