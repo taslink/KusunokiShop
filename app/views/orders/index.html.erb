@@ -9,6 +9,7 @@
   <thead>
     <tr>
       <th>id</th>
+      <th class="text-right">日時</th>
       <th>User</th>
       <th>Addres</th>
       <th>商品／数量</th>
@@ -20,15 +21,14 @@
       <th class="text-right">合計</th>
       <th class="text-right">税</th>
       <th class="text-right">総合計</th>
-      <th class="text-right">日時</th>
-
     </tr>
   </thead>
 
   <tbody>
     <% @orders.each do |order| %>
     <tr>
-      <td><%= order.id %></td>
+      <td><%= order.created_at.strftime("%Y%m%d") %> <%= order.id %></td>
+      <td class="text-right"><%= order.created_at.strftime("%H:%M") %></td>
       <td><%= order.user_id %></td>
       <td><%= order.address_id %>｜<%= link_to '確認', address_path(order.address) %></td>
       <td><%= order.products.pluck(:product_code) %><br><%= order.orderdetails.pluck(:count) %></td>
@@ -40,7 +40,6 @@
       <td class="text-right"><%= order.add_amount %></td>
       <td class="text-right"><%= order.tax %></td>
       <td class="text-right"><%= order.total_amount %></td>
-      <td class="text-right"><%= order.created_at.strftime("%Y/%m/%d %H:%M") %></td>
     </tr>
     <% end %>
   </tbody>

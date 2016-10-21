@@ -165,6 +165,7 @@ class OrdersController < ApplicationController
           end
           
           Cart.destroy_all(user_id:current_user.id)
+          NoticeMailer.send_when_order(@order_reg).deliver
         end
           redirect_to @order_reg
         rescue => e
