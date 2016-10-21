@@ -6,7 +6,9 @@
     
     <% if @carts.empty? %>
     <div class="row">
-      <h2>カートには何も入っていません</h2>
+      <div class="waku2">
+        <p class="h2 text-center">カートには何も入っていません</p>
+      </div>
     </div>
     <% else %>
     
@@ -238,9 +240,7 @@
         <% end %>
         <p class="h5">※まだ注文確定ではありません。</p>
         <% end %>
-       
         
-
       </div>
     </div>
     <% end %>

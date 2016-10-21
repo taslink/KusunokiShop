@@ -8,21 +8,22 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:session][:password])
       session[:user_id] = @user.id
       flash[:info] = "logged in as #{@user.name}"
-      redirect_to :root
+      
+      if session[:forwarding_url].nil?
+        redirect_to root_path
+      else
+        redirect_to session[:forwarding_url]
+      end
+      
     else
       flash[:danger] = 'invalid email/password combination'
       render 'new'
     end
   end
 
-  def info_update
-    @s_payment = session[:payment]
-    @s_prefecture = session[:prefecture]
-    ridirect_to cart/index
-  end
-
   def destroy
     session[:user_id] = nil
+    session[:forwarding_url] = nil
     redirect_to root_path
   end
 

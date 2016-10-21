@@ -26,7 +26,13 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       NoticeMailer.send_when_signin(@user).deliver
-      redirect_to @user, notice: 'User was successfully created.'
+      session[:user_id] = @user.id
+
+      if session[:forwarding_url].nil?
+        redirect_to @user, notice: 'ユーザー登録が完了しました'
+      else
+        redirect_to session[:forwarding_url]
+      end
     else
       render :new
     end

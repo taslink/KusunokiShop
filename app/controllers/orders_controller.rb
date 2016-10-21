@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :logged_in_admin_user, only: [:index]
-  before_action :set_order, only: [:show, :edit, :update,:destroy]
+  before_action :logged_in_order_user, only: [:show]
+  before_action :set_order, only: [:edit, :update,:destroy]
   
   # coding: utf-8
   
@@ -195,6 +196,16 @@ class OrdersController < ApplicationController
   
   def set_order
     @order = Order.find(params[:id])
+  end
+  
+  def logged_in_order_user
+    @order = Order.find(params[:id])
+    if current_user.id == @order.user_id
+      return true
+    else
+      store_location
+      redirect_to login_url, flash: {notice: '他ユーザーの注文詳細はご覧になれません'}
+    end
   end
 
 end

@@ -13,6 +13,7 @@ class ProductsController < ApplicationController
     #@product_envelopes = Product.where(product_type: 'envelope').order(product_code: :asc)
     #Productモデルからtypeがcardのすべてのレコードを取得
     @product_cards = Product.where(product_type: 'card').order(product_code: :asc)
+    session[:forwarding_url] = request.url
   end
 
   # GET /products/new
