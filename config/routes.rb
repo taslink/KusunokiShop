@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   resources :addresses
   
   resources :orders
+  post 'orders/note_update'
   #get    'orders/provision' , to: 'orders#provision' 
 
   resources :orderdetails

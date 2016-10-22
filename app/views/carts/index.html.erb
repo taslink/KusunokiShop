@@ -235,8 +235,10 @@
           <p class="h4 text-right"><%= @total_amount %>円</p>
         </div>
         <hr />
-        <%= link_to new_order_url, class: "btn btn-danger btn-lg" do %>
+        <%= form_tag new_order_path, method: :get do %>
+        <%= button_tag(type: "submit", class: "btn btn-danger btn-lg") do %>
         <i class="glyphicon glyphicon-shopping-cart"></i> ご購入手続き
+        <% end %>
         <% end %>
         <p class="h5">※まだ注文確定ではありません。</p>
         <% end %>

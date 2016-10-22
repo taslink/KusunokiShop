@@ -1,13 +1,21 @@
 <div id="contents_pb">
 <div class="container">
-  <div class="row">
+
         <h1>ご注文ありがとうございました。</h1>
         
        <div class="waku">
          <p><i class="glyphicon glyphicon-ok"></i>　ご注文Noは、「<%= @order.created_at.strftime("%Y%m%d") %><%= @order.id %>」です。</p>
        </div>
+       
+    <% if flash[:notice] %>
+        <div class="alert alert-danger">
+          <%= flash[:notice] %>
+        </div>
+    <% end %>
 
-       <div class="col-lg-3"> 
+  
+   <div class="row"> 
+      <div class="col-md-3"> 
        <h3>確定金額</h3>
         <hr />
         <div class="clearfix">
@@ -37,8 +45,8 @@
         </div>
         <p class="h5">※宅急便の場合の送料につきまして、カートページの配送先と実際の「配送情報」とで違いがある場合は、金額が変更されている場合がございます。</p>
       </div>
-          
-       <div class="col-lg-3"> 
+      
+      <div class="col-md-3"> 
        <h3>お支払方法</h3>
         <hr />
         <div class="clearfix">
@@ -55,13 +63,20 @@
         <p>17時以降はメール送信が翌日になる可能性がございます。土日祝の場合は、弊社翌営業日になります</p>
       </div>
       
-      <div class="col-lg-3"> 
+      <div class="col-md-3">
       <h3>備考欄</h3>
       <hr />
-      <p class="h5">※ご要望などございましたらご記入ください。</p>
+      <p class="h5">ご要望やご質問などがございましたら、入力後「登録・更新」ボタンを押してください。</p>
+      <%= form_tag(controller: "orders", action: "note_update") do %>
+      <%= text_area_tag 'note', @note, placeholder: "入力してください", class: "form-control", rows: "10" %>
+      <div class="actions_min">
+        <%= hidden_field_tag("order_id", @order.id) %>
+        <%= submit_tag "登録・更新", class: "btn btn-default btn-sm" %>
+      </div>
+      <% end %>
       </div>
       
-      <div class="col-lg-3"> 
+      <div class="col-md-3"> 
           <%= link_to 'Back to Top Page', :root , class: "btn btn-default"%>
       </div>
       

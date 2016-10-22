@@ -29,9 +29,9 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
 
       if session[:forwarding_url].nil?
-        redirect_to @user, notice: 'ユーザー登録が完了しました'
+        redirect_to @user, flash: {notice: 'ユーザー登録が完了しました。メールが届いていることをご確認ください。'}
       else
-        redirect_to session[:forwarding_url]
+        redirect_to session[:forwarding_url], flash: {notice: 'ユーザー登録が完了しました。メールが届いていることをご確認ください。'}
       end
     else
       render :new
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
-      redirect_to edit_user_url, notice: '内容を変更しました'
+      redirect_to edit_user_url, flash: {notice: 'ユーザー内容を変更しました'}
     else
       render :edit
     end

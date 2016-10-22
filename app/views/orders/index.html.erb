@@ -21,6 +21,7 @@
       <th class="text-right">合計</th>
       <th class="text-right">税</th>
       <th class="text-right">総合計</th>
+      <th>備考</th>
     </tr>
   </thead>
 
@@ -40,6 +41,7 @@
       <td class="text-right"><%= order.add_amount %></td>
       <td class="text-right"><%= order.tax %></td>
       <td class="text-right"><%= order.total_amount %></td>
+      <td><%= order.note %></td>
     </tr>
     <% end %>
   </tbody>

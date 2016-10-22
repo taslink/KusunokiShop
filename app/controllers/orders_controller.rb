@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   before_action :logged_in_admin_user, only: [:index]
   before_action :logged_in_order_user, only: [:show]
-  before_action :set_order, only: [:edit, :update,:destroy]
+  before_action :set_order, only: [:edit, :update, :destroy]
   
   # coding: utf-8
   
@@ -12,6 +12,7 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
+    @note = @order.note
   end
 
   # GET /orders/new
@@ -91,6 +92,13 @@ class OrdersController < ApplicationController
 
   # GET /orders/1/edit
   def edit
+  end
+  
+  def note_update
+    @order = Order.find(params["order_id"])
+    note = params["note"]
+    @order.update(note:note)
+    redirect_to @order, flash: {notice: '備考欄を更新しました。'}
   end
   
   # POST /orders
@@ -200,11 +208,16 @@ class OrdersController < ApplicationController
   
   def logged_in_order_user
     @order = Order.find(params[:id])
-    if current_user.id == @order.user_id
-      return true
-    else
+    unless logged_in?
       store_location
-      redirect_to login_url, flash: {notice: '他ユーザーの注文詳細はご覧になれません'}
+      redirect_to login_url, flash: {notice: '注文詳細の確認にはログインが必要です'}
+    else
+      if current_user.id == @order.user_id
+        return true
+      else
+        store_location
+        redirect_to login_url, flash: {notice: '他ユーザーの注文詳細はご覧になれません'}
+      end
     end
   end
 
