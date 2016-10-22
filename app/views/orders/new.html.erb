@@ -1,8 +1,10 @@
 <div id="contents_pb">
 <div class="container">
     <div class="row">
+      <div class="col-sm-12">
       <h1>ご注文内容</h1>
-    </div>
+      </div>
+    </div><!-- row -->
     
     <% if flash[:notice] %>
     <div class="row">
@@ -11,22 +13,22 @@
           <%= flash[:notice] %>
         </div>
       </div>
-    </div>
+    </div><!-- row -->
     <% end %>
     
     <div class="row">
       <div class="col-lg-9">
-        <table class="table">
+        <table class="table table-responsive" style="width:848px;">
           <thead>
             <tr>
-              <th>No</th>
+              <th style="width:30px;">No</th>
               <th>商品名</th>
               <th></th>
               <th></th>
               <th></th>
-              <th class="text-center">値段</th>
-              <th class="text-center">数量</th>
-              <th class="text-center">小計</th>
+              <th class="text-center" style="width:60px;">値段</th>
+              <th class="text-center" style="width:60px;">数量</th>
+              <th class="text-center" style="width:60px;">小計</th>
             </tr>
           </thead>
           <tbody>
@@ -106,12 +108,15 @@
         </div>
         <hr />
       </div>
-    </div>
+    </div><!-- row -->
     
     <div class="row">
+      <div class="col-sm-12">
       <h2>配送情報</h2>
-    </div>
+      </div>
+    </div><!-- row -->
     
+    <div class="row">
       <% if current_user.address.nil? %>
         
         <%= form_tag(controller: "orders", method: "post") do %>
@@ -210,6 +215,6 @@
         </div>
         
       <% end %>
-    
+    </div><!-- row -->
 </div>
 </div><!-- contents_pb -->

@@ -18,8 +18,13 @@
         <%= render 'form' %>
       </div>
       <div class="col-sm-2">
-        <p class="h5">登録済の方はこちら！</p> 
-        <%= link_to "Log in now!", login_path, class: "btn btn-default"%>
+        <div>
+          <p class="h5">登録済の方はこちら！</p> 
+          <%= link_to "Log in now!", login_path, class: "btn btn-default"%>
+        </div>
+        <div class="waku2">
+          <i class="glyphicon glyphicon-warning-sign"></i> ユーザー登録後、登録されたメールアドレスにメールが受信されていることをご確認ください。
+        </div>
       </div>
     </div>
     

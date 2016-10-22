@@ -51,11 +51,11 @@ p {
 /* cover */
 .cover {
   width: 100%;
-  height: 400px;
+  height: 580px;
   background: image-url("cover.jpg") center center no-repeat;
   background-size: cover;
   .cover-inner {
-    width: 300px;
+    width: 320px;
     height: 100%;
     margin: auto;
     display: table;
@@ -65,11 +65,22 @@ p {
       text-align: center;
       position: relative;
       h1 {
-        margin: 0 0 20px 0;
         color: #fff;
-        font-weight: bold;
-        letter-spacing: 0.15em;
-        text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        font-family: 'Yellowtail', cursive;
+        font-size: 50px;
+        line-height: 1.2em;
+        letter-spacing: 0.03em;
+        text-shadow: 0 3px 3px rgba(0,0,0,0.5);
+        margin: 0;
+      }
+      h2 {
+        color: #fff;
+        font-family: 'Yellowtail', cursive;
+        font-size: 27px;
+        line-height: 1.2em;
+        letter-spacing: 0.03em;
+        text-shadow: 0 2px 2px rgba(0,0,0,0.5);
+        margin: 0 0 100px 0;
       }
     }
   }
@@ -257,7 +268,7 @@ input {
 .waku:after {
 	content: "";
 	position: absolute;
-	bottom: -16px; left: 8%;
+	bottom: -16px; left: 50%;
 	margin-left: -20px;
 	display: block;
 	width: 0px;
@@ -278,7 +289,7 @@ input {
 
 .waku2 {
 	padding: 20px 10px 20px 10px;
-  background-color: #fafad2;
+  background: repeating-linear-gradient(-45deg, #fafafa, #fafafa 7px, #e8e8e8 0, #e8e8e8 14px);
   border-radius: 4px;
 	margin: 30px 0 30px 0;
 }
@@ -301,4 +312,12 @@ input[type=number] {
 textarea {
   width: 100%;
   height: 10em;
+}
+
+.btn-mg10 {
+  margin-bottom: 10px;
+}
+
+.thwidth60 {
+  width: 60px;
 }
