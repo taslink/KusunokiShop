@@ -1,9 +1,12 @@
 class PagesController < ApplicationController
 
-  def about
+  def guide
   end
   
-  def contact
+  def law
+  end
+  
+  def brand
   end
   
 end

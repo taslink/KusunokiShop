@@ -11,24 +11,97 @@ html,body {
 }
 
 #contents {
-  padding-bottom: 30px; /*フッターの高さ30px*/
+  padding-bottom: 0px; /*フッター画面下に固定の時にフッターの高さを入力*/
 }
 
 #contents_pb {
-  padding-bottom: 80px; /*フッターの高さ30px + @ */
+  padding-bottom: 50px; /* #contents + 50px */
 }
 
 #footer {
-  height: 30px;
-  width: 100%;
-  position: absolute;
+  /*フッター画面下に固定の時に使用*/
+  /*height: 30px;*/
+  /*width: 100%;*/
+  /*position: absolute;*/
   bottom: 0;
   background-color: #222 ;
+  
+  h3 {
+    color: #aaa;
+    font-family: 'Yellowtail', cursive;
+    font-size: 28px;
+    line-height: 1.2em;
+    letter-spacing: 0.05em;
+    margin: 0;
+    padding: 20px 0;
+  }
+  
+  ul {
+    font-family: YuGothic, "游ゴシック", "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", sans-serif;
+    font-size: 14px;
+    color: #aaa;
+    list-style-type: none;
+    list-style-image: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  li {
+    position:relative;
+    padding: 0 0 0 20px;
+    margin: 0 0 10px 0;
+  }
+  
+  li:before {
+    content:''; 
+	  display:block; 
+	  position:absolute; 
+	  box-shadow: 0 0 2px 2px rgba(255,255,255,0.2) inset;
+	  top:3px; 
+	  left:2px; 
+	  height:0; 
+	  width:0; 
+	  border-top: 5px solid transparent;
+	  border-right: 7px solid transparent;
+	  border-bottom: 5px solid transparent;
+	  border-left: 6px solid #aaa;
+  }
+  
+  a:link {
+    color: #aaa;
+    text-decoration: none;
+    background-color: #222
+  }
+    
+  a:visited {
+    color: #aaa;
+    text-decoration: none;
+    background-color: #222
+  }
+  a:active {
+    color: #aaa;
+    text-decoration: none;
+    background-color: #222
+  }      
+  a:hover {
+    color: #fdfdfd;
+    text-decoration: none;
+    background-color: #222
+  } 
+  
+  hr {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #2a2a2a;
+    border: 0;  /*デフォルトデザインでは線がある場合があるので、消しておく。*/
+  }
   
   .copyright {
     font-size: 13px;
     text-align: center;
     color: #aaa;
-    padding: 5px 0;
+    margin: 0;
+    padding: 0 0 10px 0;
   }
 }

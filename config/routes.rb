@@ -2,8 +2,12 @@ Rails.application.routes.draw do
 
   root 'welcome#index'
 
-  get 'pages/about'
-  get 'pages/contact'
+  get 'pages/law'
+  get 'pages/guide'
+  get 'pages/brand'
+  get 'inquiries', to: 'inquiries#index'
+  post 'inquiries/confirm'
+  post 'inquiries/thanks'
   
   resources :users do
    patch :info_destroy, on: :member

@@ -1,5 +1,67 @@
 <footer id="footer">
+  <div class="container">
+    <div class="col-sm-4">
+      <h3>Info</h3>
+      <ul>
+      <li>
+        <%= link_to root_path do %>
+          トップ
+        <% end %>
+      </li>
+      <li>
+        <%= link_to pages_guide_path do %>
+          お支払い方法について
+        <% end %>
+      </li>
+      <li>
+        <%= link_to pages_guide_path do %>
+          送料について
+        <% end %>
+      </li>
+      <li>
+        <%= link_to pages_law_path do %>
+          特定商取引法に基づく表記
+        <% end %>
+      </li>
+      <li>
+        <%= link_to pages_law_path do %>
+          プライバシーポリシー
+        <% end %>
+      </li>
+      <li>
+        <%= link_to inquiries_path do %>
+          お問い合わせ
+        <% end %>
+      </li>
+      </ul>
+    </div>
+    <div class="col-sm-4">
+      <h3>Corporation</h3>
+      <p>ロゴ</p>
+      <p>住所</p>
+      <p>住所</p>
+      <p>電話番号</p>
+    </div>
+    <div class="col-sm-4">
+      <h3>Link to Brand</h3>
+      <ul>
+      <li>
+        <%= link_to "Facebook", "https://www.facebook.com/u.kusunoki", target: "_blank" %>
+      </li>
+      <li>
+        <%= link_to "Kusunokidea", "http://www.kusunokidea.co.jp", target: "_blank" %>
+      </li>
+      <li>
+        <%= link_to "有限会社KUSUNOKI", "http://www.kusunoki210.jp", target: "_blank" %>
+      </li>
+      <li>
+        <%= link_to "株式会社楠紙工社", "http://www.kusunoki-shikohsya.co.jp", target: "_blank" %>
+      </li>
+      </ul>
+    </div>
+  </div>
   <div class="container-fluid">
+    <hr />
     <div class="copyright">© <%= Date.today.year %> KUSUNOKI Inc.</div>
   </div>
 </footer>

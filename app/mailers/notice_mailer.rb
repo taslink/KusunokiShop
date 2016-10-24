@@ -13,4 +13,10 @@ class NoticeMailer < ApplicationMailer
          subject: 'ご注文ありがとうございます'
   end
   
+  def received_inquiry(inquiry)
+    @inquiry = inquiry
+        mail to: "kusu.ikuyorihato@gmail.com",
+         subject: 'WEB SHOP からの問い合わせ'
+  end
+  
 end
