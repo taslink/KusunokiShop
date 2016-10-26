@@ -3,10 +3,8 @@
 <%= form_for(@product) do |f| %>
 
   <% if @product.errors.any? %>
-    <div id="error_explanation">
       <div class="alert alert-danger">
-        <%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:
-      </div>
+        <strong><i class="glyphicon glyphicon-pencil"></i> <%= @product.errors.count %> 項目のエラーがあります</strong>
       <ul>
       <% @product.errors.full_messages.each do |message| %>
         <li><%= message %></li>

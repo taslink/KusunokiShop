@@ -1,12 +1,8 @@
-<div>
-
 <%= form_for(@user) do |f| %>
 
   <% if @user.errors.any? %>
-    <div id="error_explanation">
       <div class="alert alert-danger">
-        <%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:
-      </div>
+        <strong><i class="glyphicon glyphicon-pencil"></i> <%= @user.errors.count %> 項目のエラーがあります</strong>
       <ul>
       <% @user.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -37,5 +33,3 @@
   </div>
 
 <% end %>
-
-</div>

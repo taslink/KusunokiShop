@@ -1,7 +1,12 @@
 <div id="contents_pb">
-<div class="container">
+  <div class="container">
     
-    <h1>Editing User</h1>
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Editing User</h1>
+        <hr />
+      </div>
+    </div>
     
     <% if flash[:notice] %>
     <div class="row">
@@ -35,11 +40,11 @@
         <p><strong>建物：</strong> <%= current_user.address.building %></p>
         <hr />    
         <% end %>
-        <div>
-          <%= link_to '買い物ページに戻る', root_path %>
+        <div class="actions">
+          <%= link_to '商品選択ページへ', :root , class: "btn btn-default"%>
         </div>
       </div>
     </div>
     
-</div>
+  </div>
 </div><!-- contents_pb -->

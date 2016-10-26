@@ -1,35 +1,52 @@
 <div id="contents_pb">
-<div class="container">
-
-<%= form_for @inquiry, :url => inquiries_confirm_path do |f| %>
-
-      <% if @inquiry.errors.any? %>
-        <div class="alert alert-danger" role="alert">
-          <strong>入力内容にエラーがあります</strong>
+  <div class="container">
+    
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <h1>お問い合わせフォーム</h1>
+        <hr />
+      </div>
+    </div>
+      
+    <%= form_for @inquiry, :url => inquiries_confirm_path do |f| %>
+      
+    <% if @inquiry.errors.any? %>
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <div class="alert alert-danger">
+          <strong><i class="glyphicon glyphicon-pencil"></i> <%= @inquiry.errors.count %> 項目のエラーがあります</strong>
           <ul>
             <% @inquiry.errors.each do |attr, msg| %>
-              <li><%= msg %></li>
+            <li><%= msg %></li>
             <% end %>
           </ul>
         </div>
-      <% end %>
-
-        <table class="table">
-          <tr>
-            <th>名前<span class="text-danger">（必須）</span></th>
-            <td><%= f.text_field :name %></td>
-          </tr>
-          <tr>
-            <th>メールアドレス<span class="text-danger">（必須）</span></th>
-            <td><%= f.text_field :email %></td>
-          </tr>
-          <tr>
-            <th>お問い合わせ内容<span class="text-danger">（必須）</span></th>
-            <td><%= f.text_area :message %></td>
-          </tr>
-        </table>
-        <%= f.submit '確認', class: 'btn btn-primary' %>
+      </div>
+    </div>
     <% end %>
-
-</div>
+      
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <div class="field">
+          <%= f.label :name, "name" %>
+          <%= f.text_field :name, placeholder: "お名前をご記入ください。", class: 'form-control' %>
+        </div>
+        <div class="field">
+          <%= f.label :email, "email" %>
+          <%= f.text_field :email, placeholder: "メールアドレスをご記入ください。", class: 'form-control' %>
+        </div>
+        <p><i class="glyphicon glyphicon-circle-arrow-up"></i><b> ご返答に使用しますので、お間違いのないようにお願い致します。</b></p>
+        <div class="field">
+          <%= f.label :message, "message" %>
+          <%= f.text_area :message, placeholder: "ご質問、ご要望などを記入してください。", class: 'form-control', rows: "10" %>
+        </div>
+        <div class="actions">
+          <%= f.submit '確認画面へ', class: 'btn btn-large btn-primary' %>
+        </div>
+      </div>
+    </div>
+      
+    <% end %>
+    
+  </div>
 </div>

@@ -9,9 +9,13 @@
     <% if @carts.empty? %>
     <div class="row">
       <div class="col-sm-12">
-      <div class="waku2">
-        <p class="h2 text-center"><i class="glyphicon glyphicon-zoom-out"></i> カートには何も入っていません</p>
-      </div>
+        <div class="waku2">
+          <p class="h2 text-center"><i class="glyphicon glyphicon-zoom-out"></i>　Anything not included in the cart !</p>
+        </div>
+        <p class="h4 text-center">現在、買い物かごには商品が入っておりません。ぜひお買い物をお楽しみください。ご利用お待ちしております。</p>
+        <div class="actions text-center">
+          <%= link_to '商品選択ページへ', :root , class: "btn btn-default btn-lg"%>
+        </div>
       </div>
     </div>
     <% else %>

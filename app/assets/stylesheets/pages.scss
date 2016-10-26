@@ -1,3 +1,67 @@
-// Place all the styles related to the Pages controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+#law,#etc,#privacy,#postage,#payment,#about_product {
+  margin-top: -60px; /*ヘッダーの高さ*/
+  padding-top: 80px; /*ヘッダーの高さ+@*/
+  margin-bottom: 30px;
+  
+  p {
+    font-family: YuGothic, "游ゴシック", "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", sans-serif;
+    font-size: 15px;
+    line-height: 28px;
+  }
+ 
+  table tr td,table tr th {
+    font-family: YuGothic, "游ゴシック", "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", sans-serif;
+    font-size: 15px;
+    line-height: 28px;
+  }
+  
+  dl dd, dl dt {
+    font-family: YuGothic, "游ゴシック", "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", sans-serif;
+    font-size: 15px;
+    line-height: 28px;
+  }
+
+  
+  h1 {
+    font-size: 28px;
+    letter-spacing: -1px;
+    position: relative;
+    padding: 15px 0 20px 0;
+    margin: 0 0 30px 0;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  h1::after {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    z-index: 2;
+    content: '';
+    width: 20%;
+    height: 3px;
+    background-color: #333;
+  }
+  
+  h2 {
+    font-family: YuGothic, "游ゴシック", "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", sans-serif;
+    font-size: 22px;
+    font-weight: bolder;
+    line-height: 33px;
+    margin: 10px 0 5px 0;
+  }
+  
+  h3 {
+    font-family: YuGothic, "游ゴシック", "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", sans-serif;
+    font-size: 18px;
+    font-weight: bolder;
+    line-height: 28px;
+    padding: 15px 0 5px 0;
+    margin: 10px 0 0 0;
+  }
+  
+  .payment_img img {
+    width: 100%;
+    max-width: 700px;
+  }
+  
+}

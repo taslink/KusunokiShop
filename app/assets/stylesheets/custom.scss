@@ -71,7 +71,8 @@ p {
         line-height: 1.2em;
         letter-spacing: 0.03em;
         text-shadow: 0 3px 3px rgba(0,0,0,0.5);
-        margin: 0;
+        margin: 0 0 -5px 0;
+        padding: 0;
       }
       h2 {
         color: #fff;
@@ -80,7 +81,7 @@ p {
         line-height: 1.2em;
         letter-spacing: 0.03em;
         text-shadow: 0 2px 2px rgba(0,0,0,0.5);
-        margin: 0 0 100px 0;
+        margin: 0 0 40px 0;
       }
     }
   }
@@ -93,7 +94,7 @@ p {
   margin-bottom: 0px;
   margin-left: 0px;
   margin-right: 0px;
-  background: #333;
+  background: #222;
     > div{
         padding-right: 0px;
         padding-left: 0px;
@@ -252,10 +253,6 @@ input {
 /* product show */
 
 .waku {
-
-}
-
-.waku {
 	position: relative;
   padding: 20px 20px 23px 20px;
   border-radius: 4px;
@@ -289,17 +286,32 @@ input {
 
 .waku2 {
 	padding: 20px 10px 20px 10px;
-  background: repeating-linear-gradient(-45deg, #fafafa, #fafafa 7px, #e8e8e8 0, #e8e8e8 14px);
+  background: repeating-linear-gradient(-45deg, #f5f5f5, #f5f5f5 7px, #e8e8e8 0, #e8e8e8 14px);
   border-radius: 4px;
 	margin: 30px 0 30px 0;
+	p {
+	  color: #333333;
+	  font-family: YuGothic, "游ゴシック", "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", sans-serif;
+	  font-size: 20px;
+	  font-weight: bolder;
+	  padding: 10px 0 20px 0;
+	}
 }
 
-.waku2 p {
-  color: #333333;
-  font-family: YuGothic, "游ゴシック", "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", sans-serif;
-  font-size: 20px;
-  font-weight: bolder;
-  padding: 10px 0 20px 0;
+.waku3 {
+	padding: 10px 10px 10px 10px;
+  background: repeating-linear-gradient(-45deg, #f5f5f5, #f5f5f5 7px, #e8e8e8 0, #e8e8e8 14px);
+  border-radius: 4px;
+	margin: 10px 0 20px 0;
+	ul {
+	  color: #333333;
+	  font-family: YuGothic, "游ゴシック", "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", sans-serif;
+	  font-size: 18px;
+	  line-height: 26px;
+	  li {
+	    margin: 10px 0;
+	  }
+	}
 }
 
 input[type=number] {
@@ -316,8 +328,4 @@ textarea {
 
 .btn-mg10 {
   margin-bottom: 10px;
-}
-
-.thwidth60 {
-  width: 60px;
 }

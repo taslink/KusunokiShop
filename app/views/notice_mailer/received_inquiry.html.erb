@@ -3,17 +3,25 @@
     <head>
         <meta content="text/html; charset=UTF-8" />
         <style type="text/css">
+        h2 {
+            color: #d2691e;
+        }
         p hr {
             color: #404040;
         }
         </style>
     </head>
     <body>
-        <p>Web Shop からお問い合わせがありました。</p>
+        <h2><%= @inquiry.name %> 様</h2>
         <hr />
-        <p> Name：<%= @inquiry.name %> 様<br /><br />
-            Email：<%= @inquiry.email %><br /><br />
-            Message:<%= @inquiry.message %><br /><br />
+        <p>KUSUNOKI SHOP へのお問い合わせありがとうございます。以下の内容で受け付けました。</p>
+        <hr />
+        <p> メールアドレス：<%= @inquiry.email %><br />
+            お問い合わせ内容：<%= @inquiry.message %><br /><br />
+        </p>
+        <p>なお、お問い合わせ内容によってはお時間をいただく場合がございます。<br />
+           土日祝の場合は、弊社翌営業日以降でのご回答になります。<br />
+           予めご了承ください。<br />
         </p>
         <hr />
         <p>KUSUNOKI SHOP （info.kusunokishop@gmail.com）</p>

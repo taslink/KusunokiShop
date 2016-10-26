@@ -1,32 +1,25 @@
 <footer id="footer">
   <div class="container">
+  <div class="row">
     <div class="col-sm-4">
       <h3>Info</h3>
       <ul>
       <li>
-        <%= link_to root_path do %>
-          トップ
+        <%= link_to pages_brand_path do %>
+          商品詳細とこだわり
         <% end %>
       </li>
       <li>
-        <%= link_to pages_guide_path do %>
-          お支払い方法について
-        <% end %>
+        <%= link_to "送料について", pages_guide_path(anchor: 'postage') %>
       </li>
       <li>
-        <%= link_to pages_guide_path do %>
-          送料について
-        <% end %>
+        <%= link_to "お支払い方法について", pages_guide_path(anchor: 'payment') %>
       </li>
       <li>
-        <%= link_to pages_law_path do %>
-          特定商取引法に基づく表記
-        <% end %>
+        <%= link_to "特定商取引法に基づく表記", pages_law_path(anchor: 'law') %>
       </li>
       <li>
-        <%= link_to pages_law_path do %>
-          プライバシーポリシー
-        <% end %>
+        <%= link_to "プライバシーポリシー", pages_law_path(anchor: 'privacy') %>
       </li>
       <li>
         <%= link_to inquiries_path do %>
@@ -34,13 +27,6 @@
         <% end %>
       </li>
       </ul>
-    </div>
-    <div class="col-sm-4">
-      <h3>Corporation</h3>
-      <p>ロゴ</p>
-      <p>住所</p>
-      <p>住所</p>
-      <p>電話番号</p>
     </div>
     <div class="col-sm-4">
       <h3>Link to Brand</h3>
@@ -59,9 +45,26 @@
       </li>
       </ul>
     </div>
+    <div class="col-sm-4">
+      <h3>Corporation</h3>
+        <h4>
+          <div class="logo_footer"></div>
+        </h4>
+        <p><b>封筒の企画・開発・販売</b><br />
+          有限会社KUSUNOKI<br />
+          〒538-0043 大阪市鶴見区今津南2-1-22<br />
+          TEL：06-6967-2347<br />
+          FAX：06-6969-3150
+        </p>
+    </div>
+  </div>
   </div>
   <div class="container-fluid">
+  <div class="row"> 
     <hr />
-    <div class="copyright">© <%= Date.today.year %> KUSUNOKI Inc.</div>
+    <div class="col-xs-12">
+      <div class="copyright">© <%= Date.today.year %> KUSUNOKI Inc.</div>
+    </div>
+  </div>
   </div>
 </footer>

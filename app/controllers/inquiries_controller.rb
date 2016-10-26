@@ -17,7 +17,7 @@ class InquiriesController < ApplicationController
   def thanks
     @inquiry = Inquiry.new(inquiry_params)
     NoticeMailer.received_inquiry(@inquiry).deliver
-    flash[:notice] = "お問い合わせ頂き、ありがとうございました。"
+    #flash[:notice] = "お問い合わせいただき、ありがとうございました。"
     render :action => 'thanks'
   end
 

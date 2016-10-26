@@ -7,9 +7,9 @@ body {
 }
 
 p, ol, ul, td {
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px;
-  line-height: 18px;
+  font-family: YuGothic, "游ゴシック", "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", sans-serif;
+  font-size: 14px;
+  line-height: 16px;
 }
 
 pre {
@@ -42,8 +42,9 @@ div {
 }
 
 .field_with_errors {
+  width: 100%;
   padding: 2px;
-  background-color: red;
+  background-color: #FF6666;
   display: table;
 }
 

@@ -1,8 +1,9 @@
+<div>
+<%= form_for(@address) do |f| %>
+
   <% if @address.errors.any? %>
-    <div id="error_explanation">
       <div class="alert alert-danger">
-        <h2><%= pluralize(@address.errors.count, "error") %> prohibited this address from being saved:</h2>
-      </div>
+        <strong><i class="glyphicon glyphicon-pencil"></i> <%= @address.errors.count %> 項目のエラーがあります</strong>
       <ul>
       <% @address.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -11,14 +12,15 @@
     </div>
   <% end %>
   
-  <%= form_for(@address) do |f| %>
-  <div class="form-group">
-  <div class="row"><div class="field col-xs-12">
-    <%= f.label :addressee, "受取人名" %><br>
-    <%= f.text_field :addressee, class: 'form-control' %>
-  </div></div>
-  <div class="row">
-    <div class="field col-xs-9 col-sm-7 col-md-6 col-lg-5">
+<div class="row">
+  <div class="col-xs-12">
+    <div class="field">
+      <%= f.label :addressee, "受取人名" %><br>
+      <%= f.text_field :addressee, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="col-xs-9 col-sm-7 col-md-6 col-lg-5">
+    <div class="field">
       <%= f.label :zipcode, "郵便番号" %><br>
       <div class="input-group">
         <%= f.text_field :zipcode, class: 'form-control' %>
@@ -28,45 +30,50 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="field col-xs-9 col-sm-7 col-md-6 col-lg-5">
+  <div class="col-xs-9 col-sm-7 col-md-6 col-lg-5">
+    <div class="field">
       <%= f.label :prefecture_name, "都道府県" %><br>
       <%= f.collection_select :prefecture_name, Prefecture.all, :name, :name, {include_blank: true}, {:class => 'form-control'} %>
     </div>
   </div>
-  <div class="row"><div class="field col-sm-12">
-    <%= f.label :city, "市町村" %><br>
-    <%= f.text_field :city, class: 'form-control' %>
-  </div></div>
-  <div class="row"><div class="field col-sm-12">
-    <%= f.label :street, "丁番地" %><br>
-    <%= f.text_field :street, class: 'form-control' %>
-  </div></div>
-  <div class="row"><div class="field col-sm-12">
-    <%= f.label :building, "建物名・部屋番号" %><br>
-    <%= f.text_field :building, class: 'form-control' %>
-  </div></div>
+  <div class="col-xs-12">
+    <div class="field">
+      <%= f.label :city, "市町村" %><br>
+      <%= f.text_field :city, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="col-xs-12">
+    <div class="field">
+      <%= f.label :street, "丁番地" %><br>
+      <%= f.text_field :street, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="col-xs-12">
+    <div class="field">
+      <%= f.label :building, "建物名・部屋番号" %><br>
+      <%= f.text_field :building, class: 'form-control' %>
+    </div>
+  </div>
   
   <% if admin_user? %>
-  <div class="row">
-    <div class="field col-xs-9 col-sm-7 col-md-6 col-lg-5">
+  <div class="col-xs-9 col-sm-7 col-md-6 col-lg-5">
+    <div class="field">
       <%= f.label :user_id, "User id （管理者IDのみ表示されています）" %><br>
       <%= f.collection_select :user_id, User.all, :id, :id, {include_blank: true}, {:class => 'form-control'} %>
     </div>
   </div>
-
   <% elsif logged_in? %>
-  <%= hidden_field_tag 'address[user_id]', current_user.id %>
-  
+    <%= hidden_field_tag 'address[user_id]', current_user.id %>
   <% end %>
-  
-  <%= hidden_field_tag("redirect_option", @redirect_option) %>
-  
-  <div class="row"><div class="actions col-sm-12">
-    <%= f.submit :class => "btn btn-large btn-primary" %>
-  </div></div>
 
+  <div class="col-xs-12">
+    <div class="actions">
+      <%= hidden_field_tag "redirect_option", @redirect_option %>
+      <%= f.submit :class => "btn btn-large btn-primary" %>
+    </div>
   </div>
-  <% end %>
 
+</div>
+
+<% end %>
 </div>
