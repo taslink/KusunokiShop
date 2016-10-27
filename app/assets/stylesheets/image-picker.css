@@ -4,12 +4,13 @@ ul.thumbnails.image_picker_selector {
   list-style-type: none;
   list-style-position: outside;
   padding: 0;
-  margin: 20px 0;
+  margin: 30px 0;
+  width: 100%;
 }
   ul.thumbnails.image_picker_selector ul {
     overflow: auto;
     list-style-image: none;
-	list-style-type: none;
+    list-style-type: none;
     list-style-position: outside;
     padding: 0;
     margin: 0;
@@ -22,14 +23,15 @@ ul.thumbnails.image_picker_selector {
     float: left;
   }
     ul.thumbnails.image_picker_selector li .thumbnail {
-      padding: 7px 0;
+      padding: 7px 7px;
+      margin: 0;
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
 	}
     ul.thumbnails.image_picker_selector li .thumbnail img {
       -webkit-user-drag: none;
-	  width: 75%;
+      width:100%;
 	}
     ul.thumbnails.image_picker_selector li .thumbnail.selected {
 	  background: #000000;

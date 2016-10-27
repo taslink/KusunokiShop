@@ -15,13 +15,13 @@
 <div class="row">
   <div class="col-xs-12">
     <div class="field">
-      <%= f.label :addressee, "受取人名" %><br>
+      <%= f.label :addressee, "受取人名" %>
       <%= f.text_field :addressee, class: 'form-control' %>
     </div>
   </div>
   <div class="col-xs-9 col-sm-7 col-md-6 col-lg-5">
     <div class="field">
-      <%= f.label :zipcode, "郵便番号" %><br>
+      <%= f.label :zipcode, "郵便番号" %>
       <div class="input-group">
         <%= f.text_field :zipcode, class: 'form-control' %>
         <span class="input-group-btn">
@@ -32,25 +32,25 @@
   </div>
   <div class="col-xs-9 col-sm-7 col-md-6 col-lg-5">
     <div class="field">
-      <%= f.label :prefecture_name, "都道府県" %><br>
+      <%= f.label :prefecture_name, "都道府県" %>
       <%= f.collection_select :prefecture_name, Prefecture.all, :name, :name, {include_blank: true}, {:class => 'form-control'} %>
     </div>
   </div>
   <div class="col-xs-12">
     <div class="field">
-      <%= f.label :city, "市町村" %><br>
+      <%= f.label :city, "市町村" %>
       <%= f.text_field :city, class: 'form-control' %>
     </div>
   </div>
   <div class="col-xs-12">
     <div class="field">
-      <%= f.label :street, "丁番地" %><br>
+      <%= f.label :street, "丁番地" %>
       <%= f.text_field :street, class: 'form-control' %>
     </div>
   </div>
   <div class="col-xs-12">
     <div class="field">
-      <%= f.label :building, "建物名・部屋番号" %><br>
+      <%= f.label :building, "建物名・部屋番号" %>
       <%= f.text_field :building, class: 'form-control' %>
     </div>
   </div>
@@ -58,7 +58,7 @@
   <% if admin_user? %>
   <div class="col-xs-9 col-sm-7 col-md-6 col-lg-5">
     <div class="field">
-      <%= f.label :user_id, "User id （管理者IDのみ表示されています）" %><br>
+      <%= f.label :user_id, "User id （管理者IDのみ表示されています）" %>
       <%= f.collection_select :user_id, User.all, :id, :id, {include_blank: true}, {:class => 'form-control'} %>
     </div>
   </div>

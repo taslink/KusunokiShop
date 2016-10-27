@@ -97,4 +97,7 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  
+  get '*anything' => 'errors#routing_error'
+  
 end
