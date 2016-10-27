@@ -57,7 +57,7 @@
                 <td>
                 <div class="cart-box">
                   <% if product.main_image.present? %>
-                    <%= image_tag(product.main_image) %>
+                    <%= image_tag(product.main_image.url) %>
                   <% else %>
                     <%= image_tag("no-image-envelope.png") %>
                   <% end %>
@@ -69,7 +69,7 @@
                 <td>
                 <div class="cart-box">
                   <% if product.main_image.present? %>
-                    <%= image_tag(product.main_image) %>
+                    <%= image_tag(product.main_image.url) %>
                   <% else %>
                     <%= image_tag("no-image-card.png") %>
                   <% end %>
