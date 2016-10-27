@@ -43,6 +43,7 @@ gem 'bcrypt', '~> 3.1.7'
 # 画像アップロード
 gem 'carrierwave'
 # gem 'rmagick'
+gem 'cloudinary'
 
 # app名リネーム
 gem 'rename'

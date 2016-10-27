@@ -6,7 +6,7 @@
         <div class="col-sm-8 col-xs12">
           <div class="main_image">
             <% if @product.main_image.present? %>
-              <%= image_tag(@product.main_image) %>
+              <%= image_tag(@product.main_image.url) %>
             <% else %>
               <%= image_tag("no-image-envelope.png") %>
             <% end %>
@@ -15,14 +15,14 @@
         <div class="col-sm-4 col-xs12">
           <div class="sub1_image">
             <% if @product.sub1_image.present? %>
-              <%= image_tag(@product.sub1_image) %>
+              <%= image_tag(@product.sub1_image.url) %>
             <% else %>
               <%= image_tag("no-image-envelope.png") %>
             <% end %>
           </div>
           <div class="sub2_image">
             <% if @product.sub2_image.present? %>
-              <%= image_tag(@product.sub2_image) %>
+              <%= image_tag(@product.sub2_image.url) %>
             <% else %>
               <%= image_tag("no-image-envelope.png") %>
             <% end %>
@@ -53,7 +53,7 @@
       <select name="card_id" id="card_id" class="image-picker form-control">
         <% @product_cards.each do |card| %>
           <% if card.main_image.present? %>
-            <option data-img-src='<%= card.main_image %>' value="<%= card.id %>"><%= card.name %></option>
+            <option data-img-src='<%= card.main_image.url %>' value="<%= card.id %>"><%= card.name %></option>
           <% else %>
             <option data-img-src='/assets/no-image-card.png' value="<%= card.id %>"><%= card.name %></option>
           <% end %>

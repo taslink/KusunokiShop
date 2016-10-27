@@ -3,7 +3,7 @@
     <% product_envelopes.each do |envelope| %>
     <div class="envelope-box col-sm-6 col-lg-4">
       <% if envelope.main_image.present? %>
-        <%= link_to image_tag(envelope.main_image) , envelope %>
+        <%= link_to image_tag(envelope.main_image.url) , envelope %>
       <% else %>
         <%= link_to image_tag("no-image-envelope.png") , envelope %>
       <% end %>
