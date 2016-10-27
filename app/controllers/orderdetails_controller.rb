@@ -4,7 +4,7 @@ class OrderdetailsController < ApplicationController
   
   # GET /orderdetails
   def index
-    @orderdetails = Orderdetail.all
+    @orderdetails = Orderdetail.all.order(id: :asc)
   end
 
   # GET /orderdetails/1
