@@ -21,3 +21,15 @@ User.seed do |s|
   s.shipping_prefecture = nil
   s.admin = true
 end
+
+User.seed do |s|
+  s.id = 3
+  s.name = "Guest"
+  s.email = "guest.kusunoki@gmail.com"
+  s.password = "guestkusunoki"
+  s.password_confirmation = "guestkusunoki"
+  s.payment_type = nil
+  s.shipping_type = nil
+  s.shipping_prefecture = nil
+  s.admin = false
+end
