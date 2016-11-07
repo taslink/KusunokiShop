@@ -5,6 +5,8 @@
         
        <div class="waku">
          <p><i class="glyphicon glyphicon-ok"></i>　ご注文Noは、「<%= @order.created_at.strftime("%Y%m%d") %><%= @order.id %>」です。</p>
+         <hr />
+         <p>ご登録いただいたメールアドレス宛（<%= current_user.email %>）に確認のメールをお送りいたします。</p>
        </div>
        
     <% if flash[:notice] %>

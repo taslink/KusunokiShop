@@ -15,8 +15,19 @@
       <div class="collapse navbar-collapse" id="site-menu">
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <%= link_to carts_path do %>
-            <i class="glyphicon glyphicon-shopping-cart"></i> <b>カート</b>
+            <%= link_to root_path do %>
+            <i class="glyphicon glyphicon-home"></i> 商品一覧
+            <% end %>
+          </li>          
+          <li>
+            <% if logged_in? %>
+              <%= link_to carts_path do %>
+              <i class="glyphicon glyphicon-shopping-cart"></i> <b>カート</b>（<%= current_user.carts.count %>）
+              <% end %>
+            <% else %>
+              <%= link_to carts_path do %>
+              <i class="glyphicon glyphicon-shopping-cart"></i> <b>カート</b>
+              <% end %>
             <% end %>
           </li>
           <li>
