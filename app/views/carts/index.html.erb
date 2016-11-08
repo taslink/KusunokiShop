@@ -2,12 +2,12 @@
 <div class="container">
     <div class="row">
       <div class="col-sm-12">
-        <h1><%= current_user.name %>'s Cart</h1>
+        <h1>Shopping Cart (No：<%= session[:cart_id] %>)後で削除</h1>
         <hr />
       </div>
     </div>
     
-    <% if @carts.empty? %>
+    <% if @cart.nil? %>
     <div class="row">
       <div class="col-sm-12">
         <div class="waku2">
@@ -38,9 +38,9 @@
             <tr>
               <th style="width:30px;">No</th>
               <th>商品名</th>
-              <th></th>
-              <th></th>
-              <th></th>
+              <th>　</th>
+              <th>　</th>
+              <th>　</th>
               <th style="width:60px;">値段</th>
               <th colspan="2" class="text-center" style="width:60px;">数量</th>
               <th style="width:50px;"></th>
@@ -48,54 +48,48 @@
             </tr>
           </thead>
           <tbody>
-            <% @carts.each_with_index do |cart,i| %>
+            <% @cart_pockets.each_with_index do |pocket,i| %>
             <tr>
-              <td><%= "#{h(i + 1)}" %></td>
-              
-              <% cart.products.each do |product| %>
-              <% if product.product_type == "envelope" %>
-                <td>
-                <div class="cart-box">
-                  <% if product.main_image.present? %>
-                    <%= image_tag(product.main_image.url) %>
-                  <% else %>
-                    <%= image_tag("no-image-envelope.png") %>
+                <td><%= "#{h(i + 1)}" %></td>
+                
+                <% pocket.products.each do |product| %>
+                  <% if product.product_type == "envelope" %>
+                  <td>
+                  <div class="cart-box">
+                    <% if product.main_image.present? %>
+                      <%= image_tag(product.main_image.url) %>
+                    <% else %>
+                      <%= image_tag("no-image-envelope.png") %>
+                    <% end %>
+                  </div>
+                  </td>
+                  <td><%= product.name %><br />
+                      <%= product.product_code %></td>
+                  <% else product.product_type == "card" %>
+                  <td>
+                  <div class="cart-box">
+                    <% if product.main_image.present? %>
+                      <%= image_tag(product.main_image.url) %>
+                    <% else %>
+                      <%= image_tag("no-image-card.png") %>
+                    <% end %>
+                  </div>
+                  </td>
+                  <td><%= product.name %><br />
+                      <%= product.product_code %></td>
                   <% end %>
-                </div>
-                </td>
-                <td><%= product.name %><br />
-                    <%= product.product_code %></td>
-              <% else product.product_type == "card" %>
-                <td>
-                <div class="cart-box">
-                  <% if product.main_image.present? %>
-                    <%= image_tag(product.main_image.url) %>
-                  <% else %>
-                    <%= image_tag("no-image-card.png") %>
-                  <% end %>
-                </div>
-                </td>
-                <td><%= product.name %><br />
-                    <%= product.product_code %></td>
-              <% end %>
-              <% end %>
+                <% end %>
+                
+              <td class="text-right">000 円</td>
               
-              <td class="text-right"><%= cart.products.sum(:price) %> 円</td>
-              
-              <% cart.line_items.each do |li| %>
-              <% if li.product_type == "envelope" %>
-              <td class="text-right"><b><%= li.count %></b></td>
-              <td><%= link_to '▲', update_count_up_line_item_path(li), method: :patch %><br />
-                  <%= link_to '▼', update_count_down_line_item_path(li), method: :patch %></td>
-              <% end %>
-              <% end %>
-              <td><%= link_to '削除', cart, method: :delete %></td>
-              <td class="text-right"><%= cart.amount %> 円</td>  
+
+              <td><%= link_to '削除', method: :delete %></td>
+              <td class="text-right">0000 円</td>  
             </tr>
             <% end %>
           </tbody>
         </table>
-        
+
         <div class="actions_min text-center btn-mg10">
           <%= link_to '買い物を続ける', :root , class: "btn btn-default btn-lg"%>
         </div>
@@ -103,10 +97,10 @@
         <hr />
         
       </div>
-      
+
       <div class="col-lg-3"> 
       
-      <% if current_user.payment_type.nil? %>
+      <% if @payment_type.nil? %>
       
         <div class="form-group">
           <div class="waku">現在は「代金引換+宅急便」のみご利用可能です。<br />
@@ -195,7 +189,7 @@
           <p class="h5 text-right"><%= @items_amount %>円</p>
         </div>
         
-        <% if current_user.payment_type.nil? %>
+        <% if @payment_type.nil? %>
         
         <div class="clearfix">
           <p class="h5 pull-left">手数料：</p>

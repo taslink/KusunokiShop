@@ -22,7 +22,7 @@
           <li>
             <% if logged_in? %>
               <%= link_to carts_path do %>
-              <i class="glyphicon glyphicon-shopping-cart"></i> <b>カート</b>（<%= current_user.carts.count %>）
+              <i class="glyphicon glyphicon-shopping-cart"></i> <b>カート</b>
               <% end %>
             <% else %>
               <%= link_to carts_path do %>

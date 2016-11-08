@@ -48,7 +48,7 @@
   </div>
   
   <div class="row">
-<%= form_tag(controller: "carts", method: "post") do %>
+<%= form_tag(controller: "line_items", method: "post") do %>
     <div class="col-md-12">
       <select name="card_id" id="card_id" class="image-picker form-control">
         <% @product_cards.each do |card| %>
@@ -84,44 +84,16 @@
       <%= number_field_tag 'count', 1, class: 'form-control', in: 1...31 %>
     </div>
     <%= hidden_field_tag("envelope_id", @product.id) %>
-    
-    <% if logged_in? %>
-      <div class="actions_min text-center col-md-3">
+
+    <div class="actions_min text-center col-md-3">
       <%= button_tag(type: "submit", class: "btn btn-danger btn-lg") do %>
       <i class="glyphicon glyphicon-shopping-cart"></i> カートに入れる
       <% end %>
-      </div>
-    <% else %>
-      <div class="actions_min text-center col-md-3">
-      <button type="button" class="btn btn-danger btn-lg" disabled="disabled">
-      <i class="glyphicon glyphicon-shopping-cart"></i> カートに入れる</button>
-      </div>
-    <% end %>
+    </div>
     
 <% end %>
   </div>
   
-  <% unless logged_in? %>
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2 ">
-        <div class="waku2">
-        <p class="text-center"><i class="glyphicon glyphicon-ok"></i> ご利用にはユーザー登録が必要です。</p>
-        <div class="row">
-          <div class="col-md-6 text-center">
-            <div class="btn-mg10">
-            <%= link_to "ログインはこちらから", login_path, class: "btn btn-default btn-lg btn-mg10"%>
-            </div>
-          </div>
-          <div class="col-md-6 text-center">
-            <div class="btn-mg10">
-            <%= link_to "初めての方はこちらから", signup_path, class: "btn btn-default btn-lg"%> 
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-    </div>
-  <% end %>
 
 </div>
 </div><!-- contents_pb -->

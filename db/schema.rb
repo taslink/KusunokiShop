@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160915145453) do
+ActiveRecord::Schema.define(version: 20161108164335) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer  "user_id"
@@ -25,20 +25,25 @@ ActiveRecord::Schema.define(version: 20160915145453) do
     t.datetime "updated_at",      null: false
   end
 
-  create_table "carts", force: :cascade do |t|
-    t.integer  "user_id"
+  create_table "cart_pockets", force: :cascade do |t|
+    t.integer  "cart_id"
     t.integer  "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "carts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "line_items", force: :cascade do |t|
+    t.integer  "cart_pocket_id"
     t.integer  "product_id"
-    t.integer  "cart_id"
     t.string   "product_type"
     t.integer  "count"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "orderdetails", force: :cascade do |t|
@@ -85,6 +90,16 @@ ActiveRecord::Schema.define(version: 20160915145453) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
+
+  create_table "sessions", force: :cascade do |t|
+    t.string   "session_id", null: false
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true
+  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

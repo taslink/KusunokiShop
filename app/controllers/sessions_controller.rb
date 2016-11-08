@@ -24,6 +24,7 @@ class SessionsController < ApplicationController
   def destroy
     session[:user_id] = nil
     session[:forwarding_url] = nil
+    #session[:cart_id] = nil
     redirect_to root_path
   end
 

@@ -1,5 +1,5 @@
 class LineItemsController < ApplicationController
-  before_action :logged_in_admin_user, only: [:index, :show]
+
   before_action :set_line_item, only: [:show, :edit, :update, :destroy]
 
   # GET /line_items
@@ -24,6 +24,35 @@ class LineItemsController < ApplicationController
 
   # POST /line_items
   def create
+    
+    envelope_id = params["envelope_id"]
+    card_id = params["card_id"]
+
+    envelope_count = params["count"].to_i
+    card_count = params["count"].to_i
+      
+    envelope = Product.find(envelope_id)
+    card = Product.find(card_id)
+      
+    amount = (envelope.price * envelope_count) + (card.price * card_count)
+      
+    if envelope_count == 0 || card_count == 0
+      redirect_to envelope, flash: {notice: 'セット数を入力してください。'}
+    else
+      begin
+        ActiveRecord::Base.transaction do
+          @cart = current_cart
+          cart_pocket = CartPocket.create!(cart_id:@cart.id, amount:amount)
+          #raise "例外発生"
+          LineItem.create!(product_id:envelope_id, cart_pocket_id:cart_pocket.id, product_type:"envelope",count:envelope_count)
+          LineItem.create!(product_id:card_id, cart_pocket_id:cart_pocket.id, product_type:"card",count:card_count)
+        end
+          redirect_to carts_path, flash: {notice: 'カートに入れました'}
+        rescue => e
+        redirect_to envelope, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
+      end
+    end
+    
   end
 
   # PATCH/PUT /line_items/1
