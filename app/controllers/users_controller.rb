@@ -47,24 +47,6 @@ class UsersController < ApplicationController
     end
   end
   
-  def info_update
-    userinfo = params[:userinfo]
-    shipping_prefecture = userinfo['shipping_prefecture']
-    
-    if shipping_prefecture == "everyplace"
-     current_user.update(payment_type:"payment02", shipping_type:"nekoposu", shipping_prefecture:shipping_prefecture )
-    else
-     current_user.update(payment_type:"payment01", shipping_type:"takkyubin", shipping_prefecture:shipping_prefecture )
-    end
-    
-    redirect_to carts_path
-  end
-
-  def info_destroy
-    current_user.update(payment_type:nil, shipping_type:nil, shipping_prefecture:nil )
-    redirect_to carts_path
-  end
-
   # DELETE /users/1
   def destroy
     @user.destroy

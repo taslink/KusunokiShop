@@ -105,12 +105,9 @@ ActiveRecord::Schema.define(version: 20161108164335) do
     t.string   "name"
     t.string   "email"
     t.string   "password_digest"
-    t.string   "payment_type"
-    t.string   "shipping_type"
-    t.string   "shipping_prefecture"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.boolean  "admin",               default: false, null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "admin",           default: false, null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

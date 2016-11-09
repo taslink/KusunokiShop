@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row">
       <div class="col-sm-12">
-        <h1>Shopping Cart (No：<%= session[:cart_id] %>)後で削除</h1>
+        <h1>Shopping Cart</h1>
         <hr />
       </div>
     </div>
@@ -41,10 +41,10 @@
               <th>　</th>
               <th>　</th>
               <th>　</th>
-              <th style="width:60px;">値段</th>
+              <th class="text-center" style="width:70px;">値段</th>
               <th colspan="2" class="text-center" style="width:60px;">数量</th>
               <th style="width:50px;"></th>
-              <th style="width:60px;">小計</th>
+              <th class="text-center" style="width:90px;">小計</th>
             </tr>
           </thead>
           <tbody>
@@ -80,11 +80,17 @@
                   <% end %>
                 <% end %>
                 
-              <td class="text-right">000 円</td>
+              <td class="text-right"><%= pocket.products.sum(:price) %> 円</td>
               
-
-              <td><%= link_to '削除', method: :delete %></td>
-              <td class="text-right">0000 円</td>  
+              <% pocket.line_items.each do |li| %>
+              <% if li.product_type == "envelope" %>
+              <td class="text-right"><b><%= li.count %></b></td>
+              <td><%= link_to '▲', update_count_up_line_item_path(li), method: :patch %><br />
+                  <%= link_to '▼', update_count_down_line_item_path(li), method: :patch %></td>
+              <% end %>
+              <% end %>
+              <td><%= link_to '削除', pocket, method: :delete %></td>
+              <td class="text-right"><%= pocket.amount %> 円</td>
             </tr>
             <% end %>
           </tbody>
@@ -93,7 +99,7 @@
         <div class="actions_min text-center btn-mg10">
           <%= link_to '買い物を続ける', :root , class: "btn btn-default btn-lg"%>
         </div>
-        
+        <p>カート管理No（<%= session[:cart_id] %>）</p>
         <hr />
         
       </div>
@@ -107,24 +113,24 @@
           「クレジットカード」等のご利用については、11月下旬開始の予定です。</div>
         <form>
           お支払方法：
-          <select name="user[payment_type]" onchange="SetSubMenu(value);" class="form-control">
+          <select name="cartinfo[payment_type]" onchange="SetSubMenu(value);" class="form-control">
             <option value="" selected>--選択してください--</option>
             <option value="payment01">代金引換</option>
             <!-- <option value="payment02">クレジットカード・コンビニ・電子マネー</option> -->
           </select>
         </form>
         
-        <%= form_tag({controller: "users", action: "info_update"}, {id: "payment01", class: "secondpulldown"}) do %>
+        <%= form_tag({controller: "sessions", action: "info_update"}, {id: "payment01", class: "secondpulldown"}) do %>
           送付先：
-          <%= collection_select(:userinfo, :shipping_prefecture, Prefecture.all, :id, :name, {}, {:class => "form-control"} ) %>
+          <%= collection_select(:cartinfo, :shipping_prefecture, Prefecture.all, :id, :name, {}, {:class => "form-control"} ) %>
           <div class="actions_min">
             <%= submit_tag "Check", class: "btn btn-info btn-sm" %>
           </div>
         <% end %>
         
-        <%= form_tag({controller: "users", action: "info_update"}, {id: "payment02", class: "secondpulldown"}) do %>
+        <%= form_tag({controller: "sessions", action: "info_update"}, {id: "payment02", class: "secondpulldown"}) do %>
           全国一律、送料450円
-          <%= hidden_field_tag 'userinfo[shipping_prefecture]', 'everyplace' %>
+          <%= hidden_field_tag 'cartinfo[shipping_prefecture]', 'everyplace' %>
           <div class="actions_min">
           <%= submit_tag "Check", class: "btn btn-info btn-sm" %>
           </div>
@@ -136,7 +142,7 @@
         <p>お支払方法予定：　<b><%= @payment_type %></b></p>
         <p>配送種類：　<b><%= @shipping_type %></b></p>
         <p>配送先：　<b><%= @shipping_prefecture %></b></p>
-        <%= link_to '>>お支払い方法をリセット', info_destroy_user_path(current_user), :method => :patch %>
+        <%= link_to '>>お支払い方法をリセット', sessions_info_destroy_path, method: :delete %>
         
       <% end %>
         

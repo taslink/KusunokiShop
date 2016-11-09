@@ -1,6 +1,6 @@
 class CartsController < ApplicationController
   #before_action :logged_in_user, only: [:index, :show, :new, :create]
-  #before_action :set_cart, only: [:edit, :update, :destroy]
+  before_action :set_cart, only: [:edit, :update, :destroy]
   
   include SessionsHelper
 
@@ -12,6 +12,11 @@ class CartsController < ApplicationController
     else
       @cart = Cart.find_by(id: session[:cart_id])
       @cart_pockets = CartPocket.where(cart_id: @cart).order(created_at: :desc)
+      if @cart_pockets.empty?
+        @cart.destroy
+        @cart = nil
+        session[:cart_id] = nil
+      end
     end
     
     if session[:payment_type] == "payment01"
@@ -39,14 +44,17 @@ class CartsController < ApplicationController
       unless prefecture.nil?
         @shipping_prefecture = prefecture.name
       end
-    end    
+    end
     
-    #@items_amount = @cart.amount
-    @items_amount = 100
+    if @cart_pockets.nil?
+      @items_amount = 0
+    else
+      @items_amount = @cart_pockets.sum(:amount)
+    end
     
     if  session[:payment_type] == "payment01"
       @pay_commission = 300
-      if se_prefecturee == 1
+      if se_prefecture == 1
         @postage = 1400
       elsif se_prefecture == 2 || se_prefecture == 3 || se_prefecture == 5
         @postage = 1000
@@ -103,26 +111,6 @@ class CartsController < ApplicationController
 
   # POST /carts
   def create
-    
-    envelope_id = params["envelope_id"]
-    card_id = params["card_id"]
-      
-    envelope_count = params["count"].to_i
-    card_count = params["count"].to_i
-      
-    envelope = Product.find(envelope_id)
-    card = Product.find(card_id)
-      
-    #amount = (envelope.price * envelope_count) + (card.price * card_count)
-      
-    if envelope_count == 0 || card_count == 0
-      redirect_to envelope, flash: {notice: 'セット数を入力してください。'}
-    else
-      @cart = find_cart
-      @cart.add_product(envelope)
-      @cart.add_product(card)
-      redirect_to carts_path, flash: {notice: 'カートに入れました'}
-    end
   end
 
   # PATCH/PUT /carts/1
@@ -159,12 +147,5 @@ class CartsController < ApplicationController
     def cart_params
       params.fetch(:cart, {})
     end
-    
-    def find_cart
-      session[:cart] ||= Cart.new
-    end
-    
-    def new_cart
-      session[:cart] = Cart.new
-    end
+
 end

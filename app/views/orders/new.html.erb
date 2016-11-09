@@ -26,53 +26,53 @@
               <th></th>
               <th></th>
               <th></th>
-              <th class="text-center" style="width:60px;">値段</th>
+              <th class="text-center" style="width:70px;">値段</th>
               <th class="text-center" style="width:60px;">数量</th>
-              <th class="text-center" style="width:60px;">小計</th>
+              <th class="text-center" style="width:90px;">小計</th>
             </tr>
           </thead>
           <tbody>
-            <% @carts.each_with_index do |cart,i| %>
+            <% @cart_pockets.each_with_index do |pocket,i| %>
             <tr>
               <td><%= "#{h(i + 1)}" %></td>
-              
-              <% cart.products.each do |product| %>
-              <% if product.product_type == "envelope" %>
-                <td>
-                <div class="order-box">
-                  <% if product.main_image.present? %>
-                    <%= image_tag(product.main_image.url) %>
-                  <% else %>
-                    <%= image_tag("no-image-envelope.png") %>
+                
+                <% pocket.products.each do |product| %>
+                  <% if product.product_type == "envelope" %>
+                  <td>
+                  <div class="cart-box">
+                    <% if product.main_image.present? %>
+                      <%= image_tag(product.main_image.url) %>
+                    <% else %>
+                      <%= image_tag("no-image-envelope.png") %>
+                    <% end %>
+                  </div>
+                  </td>
+                  <td><%= product.name %><br />
+                      <%= product.product_code %></td>
+                  <% else product.product_type == "card" %>
+                  <td>
+                  <div class="cart-box">
+                    <% if product.main_image.present? %>
+                      <%= image_tag(product.main_image.url) %>
+                    <% else %>
+                      <%= image_tag("no-image-card.png") %>
+                    <% end %>
+                  </div>
+                  </td>
+                  <td><%= product.name %><br />
+                      <%= product.product_code %></td>
                   <% end %>
-                </div>
-                </td>
-                <td><%= product.name %><br />
-                    <%= product.product_code %></td>
-              <% else product.product_type == "card" %>
-                <td>
-                <div class="order-box">
-                  <% if product.main_image.present? %>
-                    <%= image_tag(product.main_image.url) %>
-                  <% else %>
-                    <%= image_tag("no-image-card.png") %>
-                  <% end %>
-                </div>
-                </td>
-                <td><%= product.name %><br />
-                    <%= product.product_code %></td>
-              <% end %>
-              <% end %>
+                <% end %>
+                
+              <td class="text-right"><%= pocket.products.sum(:price) %> 円</td>
               
-              <td class="text-right"><%= cart.products.sum(:price) %> 円</td>
-              
-              <% cart.line_items.each do |li| %>
+              <% pocket.line_items.each do |li| %>
               <% if li.product_type == "envelope" %>
               <td class="text-right"><b><%= li.count %></b></td>
               <% end %>
               <% end %>
               
-              <td class="text-right"><%= cart.amount %> 円</td>  
+              <td class="text-right"><%= pocket.amount %> 円</td> 
             </tr>
             <% end %>
           </tbody>

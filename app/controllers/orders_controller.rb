@@ -17,59 +17,60 @@ class OrdersController < ApplicationController
 
   # GET /orders/new
   def new
-    @carts = current_user.carts.order(created_at: :desc)
-    
-    if current_user.payment_type == "payment01"
+    @cart = Cart.find_by(id: session[:cart_id])
+    @cart_pockets = CartPocket.where(cart_id: @cart).order(created_at: :desc)
+
+    if session[:payment_type] == "payment01"
       @payment_type = "代金引換"
-    elsif current_user.payment_type == "payment02"
+    elsif session[:payment_type] == "payment02"
       @payment_type = "クレジットカード他"
     end
     
-    if current_user.shipping_type == "takkyubin"
+    if session[:shipping_type] == "takkyubin"
       @shipping_type = "宅急便"
-    elsif current_user.shipping_type == "nekoposu"
+    elsif session[:shipping_type] == "nekoposu"
       @shipping_type = "ポスト投函便"
     end
     
-    if current_user.shipping_prefecture == "everyplace"
-      cu_prefecture = "everyplace"
+    if session[:shipping_prefecture] == "everyplace"
+      se_prefecture = "everyplace"
     else
-      cu_prefecture = current_user.shipping_prefecture.to_i
+      se_prefecture = session[:shipping_prefecture].to_i
     end
     
-    if cu_prefecture == "everyplace"
+    if se_prefecture == "everyplace"
       @shipping_prefecture = "全国一律、送料450円"
     else
-      prefecture = Prefecture.find_by(id: cu_prefecture)
+      prefecture = Prefecture.find_by(id: se_prefecture)
       unless prefecture.nil?
         @shipping_prefecture = prefecture.name
       end
-    end    
+    end
     
-    @items_amount = @carts.sum(:amount)
+    @items_amount = @cart_pockets.sum(:amount)
     
-    if  current_user.payment_type == "payment01"
+    if  session[:payment_type] == "payment01"
       @pay_commission = 300
-      if cu_prefecture == 1
+      if se_prefecture == 1
         @postage = 1400
-      elsif cu_prefecture == 2 || cu_prefecture == 3 || cu_prefecture == 5
+      elsif se_prefecture == 2 || se_prefecture == 3 || se_prefecture == 5
         @postage = 1000
-      elsif cu_prefecture == 4 || cu_prefecture == 6 || cu_prefecture == 7
+      elsif se_prefecture == 4 || se_prefecture == 6 || se_prefecture == 7
         @postage = 900      
-      elsif cu_prefecture >= 8 && cu_prefecture <= 15
+      elsif se_prefecture >= 8 && se_prefecture <= 15
         @postage = 800
-      elsif cu_prefecture == 19 || cu_prefecture == 20
+      elsif se_prefecture == 19 || se_prefecture == 20
         @postage = 800
-      elsif cu_prefecture == 16 || cu_prefecture == 17 || cu_prefecture == 18
+      elsif se_prefecture == 16 || se_prefecture == 17 || se_prefecture == 18
         @postage = 700   
-      elsif cu_prefecture >= 19 && cu_prefecture <= 35
+      elsif se_prefecture >= 19 && se_prefecture <= 35
         @postage = 700
-      elsif cu_prefecture >= 36 && cu_prefecture <= 46
+      elsif se_prefecture >= 36 && se_prefecture <= 46
         @postage = 800
-      elsif cu_prefecture == 47
+      elsif se_prefecture == 47
         @postage = 1200
       end
-    elsif current_user.payment_type == "payment02"
+    elsif session[:payment_type] == "payment02"
       @pay_commission = 0
       @postage = 450
     else
@@ -88,6 +89,7 @@ class OrdersController < ApplicationController
     @add_amount = @items_amount + @pay_commission + @postage
     @tax = (@add_amount * 0.08).floor
     @total_amount = @add_amount + @tax
+    
   end
 
   # GET /orders/1/edit

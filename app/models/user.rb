@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   has_one :address
-  has_many :carts
-  has_many :line_items, through: :carts
+  #has_many :carts
+  #has_many :line_items, through: :carts
   has_many :orders
   has_many :orderdetails, through: :oders
 

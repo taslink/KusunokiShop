@@ -71,8 +71,8 @@ class LineItemsController < ApplicationController
   
   def update_count_up
     li_e = LineItem.find(params[:id])
-    li_c = LineItem.find_by(cart_id: li_e.cart_id, product_type: 'card')
-    cart = Cart.find_by(id: li_e.cart_id)
+    li_c = LineItem.find_by(cart_pocket_id: li_e.cart_pocket_id, product_type: 'card')
+    cart_pocket = CartPocket.find_by(id: li_e.cart_pocket_id)
     
     li_e.count += 1
     li_c.count += 1
@@ -85,8 +85,8 @@ class LineItemsController < ApplicationController
           li_e.save
           li_c.save
           #raise "例外発生"
-          cart.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
-          cart.save
+          cart_pocket.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
+          cart_pocket.save
         end
           redirect_to carts_url
         rescue => e
@@ -97,8 +97,8 @@ class LineItemsController < ApplicationController
   
   def update_count_down
     li_e = LineItem.find(params[:id])
-    li_c = LineItem.find_by(cart_id: li_e.cart_id, product_type: 'card')
-    cart = Cart.find_by(id: li_e.cart_id)
+    li_c = LineItem.find_by(cart_pocket_id: li_e.cart_pocket_id, product_type: 'card')
+    cart_pocket = CartPocket.find_by(id: li_e.cart_pocket_id)
     
     li_e.count -= 1
     li_c.count -= 1
@@ -111,8 +111,8 @@ class LineItemsController < ApplicationController
           li_e.save
           li_c.save
           #raise "例外発生"
-          cart.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
-          cart.save
+          cart_pocket.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
+          cart_pocket.save
         end
           redirect_to carts_url
         rescue => e

@@ -9,21 +9,22 @@ Rails.application.routes.draw do
   post 'inquiries/confirm'
   post 'inquiries/thanks'
   
-  resources :users do
-   patch :info_destroy, on: :member
-  end
-  post 'users/info_update'
-  
+  resources :users
+
   get    'signup', to: 'users#new'
   
   get    'login' , to: 'sessions#new'
   post   'login' , to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
-
+  post 'sessions/info_update'
+  delete 'sessions/info_destroy'
+  
   resources :products
   
   resources :carts
   
+  resources :cart_pockets, :only => [:destroy]
+
   resources :line_items do
     patch :update_count_up, on: :member
     patch :update_count_down, on: :member
