@@ -139,7 +139,7 @@ class OrdersController < ApplicationController
       or_prefecture = Prefecture.find_by(name: @address_reg.prefecture_name)
       
       if payment_type == "クレジットカード他"
-          postage = params[:postage].to_i
+          postage = 400
       elsif  payment_type == "代金引換"
         if or_prefecture.id == 1
           postage = 1400
@@ -161,6 +161,12 @@ class OrdersController < ApplicationController
           postage = 1200
         end
       end
+      
+    if amount >= 1800 && amount < 3600 
+      postage = postage / 2
+    elsif amount >= 3600
+      postage = 0    
+    end
       
       add_amount = amount + pay_commission + postage
       tax = (add_amount * 0.08).floor
