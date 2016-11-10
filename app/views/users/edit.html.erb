@@ -27,6 +27,7 @@
         <h3>配送先情報 <%= link_to '登録', new_address_url, class: "btn btn-default btn-xs" %> </h3>
         <hr />
         <p><strong>受取人名：</strong>  <span class="text-muted">未登録</span></p>
+        <p><strong>ご注文時使用するemail：</strong>  <span class="text-muted">未登録</span></p>
         <p><strong>郵便番号：</strong>  <span class="text-muted">未登録</span></p>
         <p><strong>住所：</strong>  <span class="text-muted">未登録</span></p>
         <p><strong>建物：</strong>  <span class="text-muted">未登録</span></p>
@@ -35,6 +36,7 @@
         <h3>配送先情報 <%= link_to '変更', edit_address_path(current_user.address), class: "btn btn-default btn-xs" %> </h3>
         <hr />
         <p><strong>受取人名：</strong> <%= current_user.address.addressee %></p>
+        <p><strong>ご注文時使用するemail：</strong> <%= current_user.address.order_email %></p>
         <p><strong>郵便番号：</strong> <%= current_user.address.zipcode %></p>
         <p><strong>住所：</strong> <%= current_user.address.prefecture_name %> <%= current_user.address.city %> <%= current_user.address.street %></p>
         <p><strong>建物：</strong> <%= current_user.address.building %></p>

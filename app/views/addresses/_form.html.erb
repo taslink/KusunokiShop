@@ -18,6 +18,14 @@
       <%= f.label :addressee, "受取人名" %>
       <%= f.text_field :addressee, class: 'form-control' %>
     </div>
+    <div class="field">
+      <%= f.label :order_email, "ご注文時使用するemail" %>
+    <% if @address.order_email.nil? %>
+      <%= f.text_field :order_email, value: current_user.email, class: 'form-control' %>
+    <% else %>
+      <%= f.text_field :order_email, class: 'form-control' %>    
+    <% end %>
+    </div>
   </div>
   <div class="col-xs-9 col-sm-7 col-md-6 col-lg-5">
     <div class="field">

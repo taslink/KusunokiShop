@@ -8,9 +8,16 @@ class NoticeMailer < ApplicationMailer
   
   def send_when_order(order)
     @order = order
-    @user = @order.user
-    mail to: @user.email,
+    
+    if @order.user_id.nil?
+      @user_name = @order.address.address
+    else
+      @user_name = @order.user.name
+    end
+    
+    mail to: @order.address.order_email,
          subject: 'ご注文ありがとうございます'
+
   end
   
   def received_inquiry(inquiry)

@@ -3,6 +3,7 @@ class CreateAddresses < ActiveRecord::Migration
     create_table :addresses do |t|
       t.integer :user_id
       t.string :addressee
+      t.string :order_email
       t.string :zipcode
       t.string :prefecture_name
       t.string :city

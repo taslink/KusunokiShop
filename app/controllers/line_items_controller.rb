@@ -88,7 +88,7 @@ class LineItemsController < ApplicationController
           cart_pocket.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
           cart_pocket.save
         end
-          redirect_to carts_url
+          redirect_to carts_url, flash: {notice: '数量を増やしました'}
         rescue => e
         redirect_to carts_url, flash: {notice: '処理に失敗しました'}
       end
@@ -114,7 +114,7 @@ class LineItemsController < ApplicationController
           cart_pocket.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
           cart_pocket.save
         end
-          redirect_to carts_url
+          redirect_to carts_url, flash: {notice: '数量を減らしました'}
         rescue => e
         redirect_to carts_url, flash: {notice: '処理に失敗しました'}
       end

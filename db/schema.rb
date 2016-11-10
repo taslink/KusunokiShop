@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20161108164335) do
   create_table "addresses", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "addressee"
+    t.string   "order_email"
     t.string   "zipcode"
     t.string   "prefecture_name"
     t.string   "city"
@@ -33,6 +34,7 @@ ActiveRecord::Schema.define(version: 20161108164335) do
   end
 
   create_table "carts", force: :cascade do |t|
+    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -24,3 +24,12 @@ User.seed do |s|
   s.password_confirmation = "guestkusunoki"
   s.admin = false
 end
+
+User.seed do |s|
+  s.id = 5
+  s.name = "Sample User5"
+  s.email = "sample5@gmail.com"
+  s.password = "hiroyuki21"
+  s.password_confirmation = "hiroyuki21"
+  s.admin = true
+end

@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_admin_user, except: :show
+  before_action :store_location, only: [:show]
 
   # GET /products
   def index
@@ -13,7 +14,6 @@ class ProductsController < ApplicationController
     #@product_envelopes = Product.where(product_type: 'envelope').order(product_code: :asc)
     #Productモデルからtypeがcardのすべてのレコードを取得
     @product_cards = Product.where(product_type: 'card').order(product_code: :asc)
-    session[:forwarding_url] = request.url
   end
 
   # GET /products/new
