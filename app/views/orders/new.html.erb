@@ -192,7 +192,7 @@
           <p><strong>郵便番号：</strong> <%= current_user.address.zipcode %></p>
           <p><strong>住所：</strong> <%= current_user.address.prefecture_name %> <%= current_user.address.city %> <%= current_user.address.street %></p>
           <p><strong>建物：</strong> <%= current_user.address.building %></p>
-          <%= form_tag edit_address_path(current_user.address) do %>
+          <%= form_tag edit_address_path(current_user.address), :method => 'get' do %>
             <%= hidden_field_tag("redirect_option", "order_new") %>
             <div class="actions">
               <%= submit_tag ("配送情報を変更する"), class: 'btn btn-default btn-xl' %>
