@@ -39,18 +39,18 @@ class LineItemsController < ApplicationController
     if envelope_count == 0 || card_count == 0
       redirect_to envelope, flash: {notice: 'セット数を入力してください。'}
     else
-      begin
-        ActiveRecord::Base.transaction do
+      #begin
+        #ActiveRecord::Base.transaction do
           @cart = current_cart
           cart_pocket = CartPocket.create!(cart_id:@cart.id, amount:amount)
           #raise "例外発生"
           LineItem.create!(product_id:envelope_id, cart_pocket_id:cart_pocket.id, product_type:"envelope",count:envelope_count)
           LineItem.create!(product_id:card_id, cart_pocket_id:cart_pocket.id, product_type:"card",count:card_count)
-        end
+        #end
           redirect_to carts_path, flash: {notice: 'カートに入れました'}
-        rescue => e
-        redirect_to envelope, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
-      end
+        #rescue => e
+        #redirect_to envelope, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
+      #end
     end
     
   end
