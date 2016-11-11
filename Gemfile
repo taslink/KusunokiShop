@@ -50,7 +50,8 @@ gem 'rename'
 
 gem 'seed-fu'
 
-gem 'activerecord-session_store'
+# セッションをデータベースで使う
+#gem 'activerecord-session_store'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

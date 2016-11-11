@@ -194,8 +194,9 @@ class OrdersController < ApplicationController
           
             cart.destroy
             session[:cart_id] = nil
-            NoticeMailer.send_when_order(@order_reg).deliver
+            ########################NoticeMailer.send_when_order(@order_reg).deliver
           end
+            session[:forwarding_url] = nil
             redirect_to @order_reg
           rescue => e
           redirect_to new_order_url, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
@@ -267,8 +268,9 @@ class OrdersController < ApplicationController
             
             cart.destroy
             session[:cart_id] = nil
-            NoticeMailer.send_when_order(@order_reg).deliver
+            ########################NoticeMailer.send_when_order(@order_reg).deliver
           end
+            session[:forwarding_url] = nil
             redirect_to @order_reg
           rescue => e
           redirect_to new_order_url, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
