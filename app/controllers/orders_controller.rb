@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   before_action :logged_in_admin_user, only: [:index]
   #before_action :logged_in_order_user, only: [:show]
-  before_action :set_order, only: [:edit, :update, :destroy]
+  before_action :set_order, only: [:show, :edit, :update, :destroy]
   before_action :store_location, only: [:new]
   
   # coding: utf-8
@@ -106,12 +106,20 @@ class OrdersController < ApplicationController
   
   # POST /orders
   def create
+    cart = Cart.find_by(id: session[:cart_id])
+    cart_pockets = CartPocket.where(cart_id:cart).order(created_at: :desc)
+    line_items = LineItem.where(cart_pocket_id:cart_pockets.ids).order(created_at: :asc)
+    payment_type = params[:payment_type]
+    amount = cart_pockets.sum(:amount).to_i
+    shipping_type = params[:shipping_type] 
+    pay_commission = params[:pay_commission].to_i
+    
     if logged_in?
     #ログインしている場合↓↓
     @user_id = current_user.id
     
-      if current_user.address.nil?
-      #ログインuserがアドレスを持っていない場合↓↓
+      if current_user.address.nil? 
+      #ログインユーザーがアドレスを持っていない場合↓↓
       
         address = params[:address]
         addressee = address['addressee']
@@ -123,25 +131,80 @@ class OrdersController < ApplicationController
         building = address['building']
         check_user_id = address['check_user_id']
         if check_user_id == "true"
-          @address_reg = Address.new(user_id:@user_id, addressee:addressee, order_email:order_email,zipcode:zipcode, prefecture_name:prefecture_name, city:city, street:street, building:building)
+          @address_reg = Address.create(user_id:@user_id, addressee:addressee, order_email:order_email, zipcode:zipcode, prefecture_name:prefecture_name, city:city, street:street, building:building)
         else
-          @address_reg = Address.new(user_id:nil, addressee:addressee, order_email:order_email,zipcode:zipcode, prefecture_name:prefecture_name, city:city, street:street, building:building)
-        end
-        if @address_reg.save
-        else
-          redirect_to new_order_url, flash: {notice: '配送先の保存に失敗しました。住所の入力は「丁番地」まで必須です。お手数ですがもう一度お願いします。'}
+          @address_reg = Address.create(user_id:nil, addressee:addressee, order_email:order_email, zipcode:zipcode, prefecture_name:prefecture_name, city:city, street:street, building:building)
         end
         
       else
-      #ログインuserがアドレスを持っている場合↓↓
+      #ログインユーザーがアドレスを持っている場合↓↓
         @address_reg = current_user.address
+      end
+      
+      if @address_reg.addressee.empty? || @address_reg.order_email.empty? || @address_reg.zipcode.empty? || @address_reg.prefecture_name.empty? || @address_reg.city.empty? || @address_reg.street.empty?
+        redirect_to new_order_url, flash: {notice: '配送先の保存に失敗しました。住所の入力は「丁番地」まで必須です。お手数ですがもう一度お願いします。'}
+      
+      else
+      #アドレスの保存に成功していたら↓↓
+      
+        or_prefecture = Prefecture.find_by(name: @address_reg.prefecture_name)
         
+        if payment_type == "クレジットカード他"
+          postage = 400
+        elsif  payment_type == "代金引換"
+          if or_prefecture.id == 1
+            postage = 1400
+          elsif or_prefecture.id == 2 || or_prefecture.id == 3 || or_prefecture.id == 5
+            postage = 1000
+          elsif or_prefecture.id == 4 || or_prefecture.id == 6 || or_prefecture.id == 7
+            postage = 900      
+          elsif or_prefecture.id >= 8 && or_prefecture.id <= 15
+            postage = 800
+          elsif or_prefecture.id == 19 || or_prefecture.id == 20
+            postage = 800
+          elsif or_prefecture.id == 16 || or_prefecture.id == 17 || or_prefecture.id == 18
+            postage = 700   
+          elsif or_prefecture.id >= 19 && or_prefecture.id <= 35
+            postage = 700
+          elsif or_prefecture.id >= 36 && or_prefecture.id <= 46
+            postage = 800
+          elsif or_prefecture.id == 47
+            postage = 1200
+          end
+        end
+        
+        if amount >= 1800 && amount < 3600 
+          postage = postage / 2
+        elsif amount >= 3600
+          postage = 0    
+        end
+        
+        add_amount = amount + pay_commission + postage
+        tax = (add_amount * 0.08).floor
+        total_amount = add_amount + tax
+      
+        begin
+          ActiveRecord::Base.transaction do
+            @order_reg = Order.create(user_id:@user_id, address_id:@address_reg.id, payment_type:payment_type, shipping_type:shipping_type, amount:amount, pay_commission:pay_commission, postage:postage, add_amount:add_amount, tax:tax, total_amount:total_amount)
+            #raise "例外発生"
+          
+            line_items.each do |li| 
+              Orderdetail.create(product_id:li.product_id, order_id:@order_reg.id, product_type:li.product_type, count:li.count) 
+            end
+          
+            cart.destroy
+            session[:cart_id] = nil
+            NoticeMailer.send_when_order(@order_reg).deliver
+          end
+            redirect_to @order_reg
+          rescue => e
+          redirect_to new_order_url, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
+        end
       end
       
     else
     #ログインしていない場合↓↓
     @user_id = nil
-    
       address = params[:address]
       addressee = address['addressee']
       order_email = address['order_email']
@@ -150,75 +213,69 @@ class OrdersController < ApplicationController
       city = address['city']
       street = address['street']
       building = address['building']
-      @address_reg = Address.new(user_id:nil, addressee:addressee, order_email:order_email,zipcode:zipcode, prefecture_name:prefecture_name, city:city, street:street, building:building)
-      if @address_reg.save
-      else
+      @address_reg = Address.new(user_id:nil, addressee:addressee, order_email:order_email, zipcode:zipcode, prefecture_name:prefecture_name, city:city, street:street, building:building)
+      
+      unless @address_reg.save
         redirect_to new_order_url, flash: {notice: '配送先の保存に失敗しました。住所の入力は「丁番地」まで必須です。お手数ですがもう一度お願いします。'}
-      end
       
-    end
-      
-    cart = Cart.find_by(id: session[:cart_id])
-    cart_pockets = CartPocket.where(cart_id:cart).order(created_at: :desc)
-    line_items = LineItem.where(cart_pocket_id:cart_pockets.ids).order(created_at: :asc)
-    payment_type = params[:payment_type]
-    amount = cart_pockets.sum(:amount).to_i
-    shipping_type = params[:shipping_type] 
-    pay_commission = params[:pay_commission].to_i
-      
-    or_prefecture = Prefecture.find_by(name: @address_reg.prefecture_name)
-      
-    if payment_type == "クレジットカード他"
-      postage = 400
-    elsif  payment_type == "代金引換"
-      if or_prefecture.id == 1
-        postage = 1400
-      elsif or_prefecture.id == 2 || or_prefecture.id == 3 || or_prefecture.id == 5
-        postage = 1000
-      elsif or_prefecture.id == 4 || or_prefecture.id == 6 || or_prefecture.id == 7
-        postage = 900      
-      elsif or_prefecture.id >= 8 && or_prefecture.id <= 15
-        postage = 800
-      elsif or_prefecture.id == 19 || or_prefecture.id == 20
-        postage = 800
-      elsif or_prefecture.id == 16 || or_prefecture.id == 17 || or_prefecture.id == 18
-        postage = 700   
-      elsif or_prefecture.id >= 19 && or_prefecture.id <= 35
-        postage = 700
-      elsif or_prefecture.id >= 36 && or_prefecture.id <= 46
-        postage = 800
-      elsif or_prefecture.id == 47
-        postage = 1200
-      end
-    end
-      
-    if amount >= 1800 && amount < 3600 
-      postage = postage / 2
-    elsif amount >= 3600
-      postage = 0    
-    end
-      
-    add_amount = amount + pay_commission + postage
-    tax = (add_amount * 0.08).floor
-    total_amount = add_amount + tax
-      
-    begin
-      ActiveRecord::Base.transaction do
-        @order_reg = Order.create!(user_id:@user_id, address_id:@address_reg.id, payment_type:payment_type, shipping_type:shipping_type, amount:amount, pay_commission:pay_commission, postage:postage, add_amount:add_amount, tax:tax, total_amount:total_amount)
-        #raise "例外発生"
-          
-        line_items.each do |li| 
-          Orderdetail.create!(product_id:li.product_id, order_id:@order_reg.id, product_type:li.product_type, count:li.count) 
+      else 
+      #アドレスの保存に成功していたら↓↓
+        or_prefecture = Prefecture.find_by(name: @address_reg.prefecture_name)
+        
+        if payment_type == "クレジットカード他"
+          postage = 400
+        elsif  payment_type == "代金引換"
+          if or_prefecture.id == 1
+            postage = 1400
+          elsif or_prefecture.id == 2 || or_prefecture.id == 3 || or_prefecture.id == 5
+            postage = 1000
+          elsif or_prefecture.id == 4 || or_prefecture.id == 6 || or_prefecture.id == 7
+            postage = 900      
+          elsif or_prefecture.id >= 8 && or_prefecture.id <= 15
+            postage = 800
+          elsif or_prefecture.id == 19 || or_prefecture.id == 20
+            postage = 800
+          elsif or_prefecture.id == 16 || or_prefecture.id == 17 || or_prefecture.id == 18
+            postage = 700   
+          elsif or_prefecture.id >= 19 && or_prefecture.id <= 35
+            postage = 700
+          elsif or_prefecture.id >= 36 && or_prefecture.id <= 46
+            postage = 800
+          elsif or_prefecture.id == 47
+            postage = 1200
+          end
         end
-          
-        Cart.destroy_all(user_id:current_user.id)
-        NoticeMailer.send_when_order(@order_reg).deliver
+        
+        if amount >= 1800 && amount < 3600 
+          postage = postage / 2
+        elsif amount >= 3600
+          postage = 0    
+        end
+        
+        add_amount = amount + pay_commission + postage
+        tax = (add_amount * 0.08).floor
+        total_amount = add_amount + tax
+        
+        begin
+          ActiveRecord::Base.transaction do
+            @order_reg = Order.create(user_id:@user_id, address_id:@address_reg.id, payment_type:payment_type, shipping_type:shipping_type, amount:amount, pay_commission:pay_commission, postage:postage, add_amount:add_amount, tax:tax, total_amount:total_amount)
+            #raise "例外発生"
+            
+            line_items.each do |li| 
+              Orderdetail.create(product_id:li.product_id, order_id:@order_reg.id, product_type:li.product_type, count:li.count) 
+            end
+            
+            cart.destroy
+            session[:cart_id] = nil
+            NoticeMailer.send_when_order(@order_reg).deliver
+          end
+            redirect_to @order_reg
+          rescue => e
+          redirect_to new_order_url, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
+        end  
       end
-        redirect_to @order_reg
-      rescue => e
-      redirect_to new_order_url, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
+      
     end
-    
   end
   
   # PATCH/PUT /orders/1

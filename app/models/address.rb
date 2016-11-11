@@ -6,7 +6,7 @@ class Address < ActiveRecord::Base
     validates :addressee, presence: true
     
     VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-    validates :order_email, presence: true, length: { maximum: 255 }, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
+    validates :order_email, presence: true, length: { maximum: 255 }, format: { with: VALID_EMAIL_REGEX }
     
     validates :zipcode, presence: true
     validates :prefecture_name, presence: true

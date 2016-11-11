@@ -1,7 +1,6 @@
 class ChangeColumnToOrder < ActiveRecord::Migration
   # 変更内容
   def up
-    change_column :orders, :user_id, :integer, null: false, index: true
     change_column :orders, :address_id, :integer, null: false, index: true
     change_column :orders, :payment_type, :string, null: false
     change_column :orders, :shipping_type, :string, null: false
@@ -15,7 +14,6 @@ class ChangeColumnToOrder < ActiveRecord::Migration
 
   # 変更前の状態
   def down
-    change_column :orders, :user_id, :integer
     change_column :orders, :address_id, :integer
     change_column :orders, :payment_type, :string
     change_column :orders, :shipping_type, :string

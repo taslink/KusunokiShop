@@ -8,7 +8,7 @@ class AddressesController < ApplicationController
 
   # GET /addresses
   def index
-    @addresses = Address.all
+    @addresses = Address.all.order(created_at: :desc)
   end
 
   # GET /addresses/1

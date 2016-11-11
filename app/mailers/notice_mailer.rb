@@ -10,7 +10,7 @@ class NoticeMailer < ApplicationMailer
     @order = order
     
     if @order.user_id.nil?
-      @user_name = @order.address.address
+      @user_name = @order.address.addressee
     else
       @user_name = @order.user.name
     end
