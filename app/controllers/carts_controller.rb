@@ -12,14 +12,10 @@ class CartsController < ApplicationController
     else
       @cart = Cart.find_by(id: session[:cart_id])
       @cart_pockets = CartPocket.where(cart_id: @cart).order(created_at: :desc)
-      if @cart_pockets.nil?
-        if @cart.nil?
-          session[:cart_id] = nil
-        else
-          @cart.destroy
-          @cart = nil
-          session[:cart_id] = nil
-        end
+      if @cart_pockets.empty?
+        @cart.destroy
+        @cart = nil
+        session[:cart_id] = nil
       end
     end
     
