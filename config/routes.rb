@@ -99,6 +99,6 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
   
-  get '*anything' => 'errors#routing_error'
+  #get '*anything' => 'errors#routing_error'
   
 end
