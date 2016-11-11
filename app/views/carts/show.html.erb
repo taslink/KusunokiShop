@@ -1,33 +1,11 @@
 <div id="contents_pb">
 <div class="container">
   <div class="row">
-        <h1>カートに入れました</h1>
-        <div class="col-sm-4">
-          <div class="envelope-fix-box">
-          <% if @envelope.main_image.present? %>
-            <%= image_tag(@envelope.main_image) %>
-          <% else %>
-            <%= image_tag("no-image-envelope.png") %>
-          <% end %>
-          </div>
-          <p>封筒個数:<%= @li_envelope.count %></p>
-        </div>
-        <div class="col-sm-4">
-          <div class="card-fix-box">
-          <% if @card.main_image.present? %>
-            <%= image_tag(@card.main_image) %>
-          <% else %>
-            <%= image_tag("no-image-card.png") %>
-          <% end %>
-          </div>
-          <p>カード個数:<%= @li_card.count %></p>
-        </div>
-        <div class="col-sm-5">
-          <p><strong>合計金額:<%= @cart.amount %>円（税抜）</strong></p>
-          <p>ユーザー：<%= current_user.name %></p>
-          <%= link_to 'カートをみる', carts_path, class: "btn btn-default" %>
-          <%= link_to 'Back to Top Page', root_path, class: "btn btn-default" %>
-        </div>
+
+    <% @carts.each do |cart| %>
+    <%= cart.id %> <%= cart.cart_pockets.ids %> <%= cart.line_items.ids %><br />
+    <% end %>
+
   </div>
 </div>
 </div><!-- contents_pb -->

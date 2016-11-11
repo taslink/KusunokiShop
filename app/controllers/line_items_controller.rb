@@ -1,5 +1,5 @@
 class LineItemsController < ApplicationController
-  before_action :logged_in_admin_user, only: [:index, :show]
+
   before_action :set_line_item, only: [:show, :edit, :update, :destroy]
 
   # GET /line_items
@@ -24,6 +24,35 @@ class LineItemsController < ApplicationController
 
   # POST /line_items
   def create
+    
+    envelope_id = params["envelope_id"]
+    card_id = params["card_id"]
+
+    envelope_count = params["count"].to_i
+    card_count = params["count"].to_i
+      
+    envelope = Product.find(envelope_id)
+    card = Product.find(card_id)
+      
+    amount = (envelope.price * envelope_count) + (card.price * card_count)
+      
+    if envelope_count == 0 || card_count == 0
+      redirect_to envelope, flash: {notice: 'セット数を入力してください。'}
+    else
+      begin
+        ActiveRecord::Base.transaction do
+          @cart = current_cart
+          cart_pocket = CartPocket.create!(cart_id:@cart.id, amount:amount)
+          #raise "例外発生"
+          LineItem.create!(product_id:envelope_id, cart_pocket_id:cart_pocket.id, product_type:"envelope",count:envelope_count)
+          LineItem.create!(product_id:card_id, cart_pocket_id:cart_pocket.id, product_type:"card",count:card_count)
+        end
+          redirect_to carts_path, flash: {notice: 'カートに入れました'}
+        rescue => e
+        redirect_to envelope, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
+      end
+    end
+    
   end
 
   # PATCH/PUT /line_items/1
@@ -42,8 +71,8 @@ class LineItemsController < ApplicationController
   
   def update_count_up
     li_e = LineItem.find(params[:id])
-    li_c = LineItem.find_by(cart_id: li_e.cart_id, product_type: 'card')
-    cart = Cart.find_by(id: li_e.cart_id)
+    li_c = LineItem.find_by(cart_pocket_id: li_e.cart_pocket_id, product_type: 'card')
+    cart_pocket = CartPocket.find_by(id: li_e.cart_pocket_id)
     
     li_e.count += 1
     li_c.count += 1
@@ -56,10 +85,10 @@ class LineItemsController < ApplicationController
           li_e.save
           li_c.save
           #raise "例外発生"
-          cart.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
-          cart.save
+          cart_pocket.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
+          cart_pocket.save
         end
-          redirect_to carts_url
+          redirect_to carts_url, flash: {notice: '数量を増やしました'}
         rescue => e
         redirect_to carts_url, flash: {notice: '処理に失敗しました'}
       end
@@ -68,8 +97,8 @@ class LineItemsController < ApplicationController
   
   def update_count_down
     li_e = LineItem.find(params[:id])
-    li_c = LineItem.find_by(cart_id: li_e.cart_id, product_type: 'card')
-    cart = Cart.find_by(id: li_e.cart_id)
+    li_c = LineItem.find_by(cart_pocket_id: li_e.cart_pocket_id, product_type: 'card')
+    cart_pocket = CartPocket.find_by(id: li_e.cart_pocket_id)
     
     li_e.count -= 1
     li_c.count -= 1
@@ -82,10 +111,10 @@ class LineItemsController < ApplicationController
           li_e.save
           li_c.save
           #raise "例外発生"
-          cart.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
-          cart.save
+          cart_pocket.amount = (li_e.product.price * li_e.count) + (li_c.product.price * li_c.count) 
+          cart_pocket.save
         end
-          redirect_to carts_url
+          redirect_to carts_url, flash: {notice: '数量を減らしました'}
         rescue => e
         redirect_to carts_url, flash: {notice: '処理に失敗しました'}
       end

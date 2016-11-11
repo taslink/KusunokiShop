@@ -3,6 +3,7 @@
     <div class="row">
       <div class="col-sm-12">
       <h1>ご注文内容</h1>
+      <hr />
       </div>
     </div><!-- row -->
     
@@ -26,53 +27,53 @@
               <th></th>
               <th></th>
               <th></th>
-              <th class="text-center" style="width:60px;">値段</th>
+              <th class="text-center" style="width:70px;">値段</th>
               <th class="text-center" style="width:60px;">数量</th>
-              <th class="text-center" style="width:60px;">小計</th>
+              <th class="text-center" style="width:90px;">小計</th>
             </tr>
           </thead>
           <tbody>
-            <% @carts.each_with_index do |cart,i| %>
+            <% @cart_pockets.each_with_index do |pocket,i| %>
             <tr>
               <td><%= "#{h(i + 1)}" %></td>
-              
-              <% cart.products.each do |product| %>
-              <% if product.product_type == "envelope" %>
-                <td>
-                <div class="order-box">
-                  <% if product.main_image.present? %>
-                    <%= image_tag(product.main_image.url) %>
-                  <% else %>
-                    <%= image_tag("no-image-envelope.png") %>
+                
+                <% pocket.products.each do |product| %>
+                  <% if product.product_type == "envelope" %>
+                  <td>
+                  <div class="cart-box">
+                    <% if product.main_image.present? %>
+                      <%= image_tag(product.main_image.url) %>
+                    <% else %>
+                      <%= image_tag("no-image-envelope.png") %>
+                    <% end %>
+                  </div>
+                  </td>
+                  <td><%= product.name %><br />
+                      <%= product.product_code %></td>
+                  <% else product.product_type == "card" %>
+                  <td>
+                  <div class="cart-box">
+                    <% if product.main_image.present? %>
+                      <%= image_tag(product.main_image.url) %>
+                    <% else %>
+                      <%= image_tag("no-image-card.png") %>
+                    <% end %>
+                  </div>
+                  </td>
+                  <td><%= product.name %><br />
+                      <%= product.product_code %></td>
                   <% end %>
-                </div>
-                </td>
-                <td><%= product.name %><br />
-                    <%= product.product_code %></td>
-              <% else product.product_type == "card" %>
-                <td>
-                <div class="order-box">
-                  <% if product.main_image.present? %>
-                    <%= image_tag(product.main_image.url) %>
-                  <% else %>
-                    <%= image_tag("no-image-card.png") %>
-                  <% end %>
-                </div>
-                </td>
-                <td><%= product.name %><br />
-                    <%= product.product_code %></td>
-              <% end %>
-              <% end %>
+                <% end %>
+                
+              <td class="text-right"><%= pocket.products.sum(:price) %> 円</td>
               
-              <td class="text-right"><%= cart.products.sum(:price) %> 円</td>
-              
-              <% cart.line_items.each do |li| %>
+              <% pocket.line_items.each do |li| %>
               <% if li.product_type == "envelope" %>
               <td class="text-right"><b><%= li.count %></b></td>
               <% end %>
               <% end %>
               
-              <td class="text-right"><%= cart.amount %> 円</td>  
+              <td class="text-right"><%= pocket.amount %> 円</td> 
             </tr>
             <% end %>
           </tbody>
@@ -80,7 +81,6 @@
       </div>
       
       <div class="col-lg-3"> 
-        <hr />
         <div class="clearfix">
           <p class="h5 pull-left">商　品：</p>
           <p class="h5 text-right"><%= @items_amount %>円</p>
@@ -106,24 +106,29 @@
           <p class="h4 pull-left">総合計：</p>
           <p class="h4 text-right"><%= @total_amount %>円</p>
         </div>
-        <hr />
       </div>
     </div><!-- row -->
     
     <div class="row">
       <div class="col-sm-12">
       <h2>配送情報</h2>
+      <hr />
       </div>
     </div><!-- row -->
     
     <div class="row">
-      <% if current_user.address.nil? %>
-        
+    <% if logged_in? %><!-- ログインしている場合↓↓ -->
+      
+      <% if current_user.address.nil? %><!-- ログインuserがアドレスを持っていない場合↓↓ -->
         <%= form_tag(controller: "orders", method: "post") do %>
         <div class="col-md-8">
           <div class="row"><div class="field col-xs-12">
             <%= label :address, :addressee, "受取人名" %><br>
             <%= text_field :address, :addressee, class: 'form-control' %>
+          </div></div>
+          <div class="row"><div class="field col-xs-12">
+            <%= label :address, :order_email, "ご注文時使用する email" %><br>
+            <%= text_field :address, :order_email, value: current_user.email, class: 'form-control', :readonly => true %>
           </div></div>
           <div class="row">
             <div class="field col-xs-9 col-sm-7 col-md-6 col-lg-5">
@@ -135,8 +140,6 @@
                 </span>
               </div>
             </div>
-          </div>
-          <div class="row">
             <div class="field col-xs-9 col-sm-7 col-md-6 col-lg-5">
               <%= label :address, :prefecture_name, "都道府県" %><br>
               <%= collection_select :address, :prefecture_name, Prefecture.all, :name, :name, {include_blank: true}, {:class => 'form-control'} %>
@@ -157,10 +160,9 @@
         </div>
         <div class="col-md-4">
           <div>
-          <hr />
             <p>お支払方法：　<b><%= @payment_type %></b></p>
             <p>配送種類：　<b><%= @shipping_type %></b></p>
-            <p><%= link_to '>>お支払い方法をリセット', info_destroy_user_path(current_user), :method => :patch %>
+            <p><%= link_to '>>お支払い方法をリセット', sessions_info_destroy_path, method: :delete %>
               <br />　（一旦カートに戻る）</p>
           <hr />
           </div>
@@ -181,29 +183,97 @@
           </div>
         </div>
         <% end %>
-          
-      <% else %>
+        
+      <% else %><!-- ログインuserがアドレスを持っている場合↓↓ -->
         
         <div class="col-md-8">
           <p><strong>受取人名：</strong> <%= current_user.address.addressee %></p>
+          <p><strong>ご注文時使用する email：</strong> <%= current_user.address.order_email %></p>
           <p><strong>郵便番号：</strong> <%= current_user.address.zipcode %></p>
           <p><strong>住所：</strong> <%= current_user.address.prefecture_name %> <%= current_user.address.city %> <%= current_user.address.street %></p>
           <p><strong>建物：</strong> <%= current_user.address.building %></p>
           <%= form_tag edit_address_path(current_user.address), :method => 'get' do %>
-          <%= hidden_field_tag("redirect_option", "order_new") %>
-          <div class="actions">
-            <%= submit_tag ("配送情報を変更する"), class: 'btn btn-default btn-xl' %>
-          </div>
+            <%= hidden_field_tag("redirect_option", "order_new") %>
+            <div class="actions">
+              <%= submit_tag ("配送情報を変更する"), class: 'btn btn-default btn-xl' %>
+            </div>
           <% end %>
         </div>
         <div class="col-md-4">
           <div>
             <p>お支払方法：　<b><%= @payment_type %></b></p>
             <p>配送種類：　<b><%= @shipping_type %></b></p>
-            <p><%= link_to '>>お支払い方法をリセット', info_destroy_user_path(current_user), :method => :patch %>
+            <p><%= link_to '>>お支払い方法をリセット', sessions_info_destroy_path, method: :delete %>
               <br />　（一旦カートに戻る）</p>
           </div>
           <%= form_tag(controller: "orders", method: "post") do %>
+            <%= hidden_field_tag("payment_type", @payment_type) %>
+            <%= hidden_field_tag("shipping_type", @shipping_type) %>
+            <%= hidden_field_tag("pay_commission", @pay_commission) %>
+            <%= hidden_field_tag("postage", @postage) %>
+            <div class="actions">
+              <%= submit_tag ("注文を確定する"), class: 'btn btn-danger btn-lg' %>
+            </div>
+          <% end %>
+        </div>
+        
+      <% end %> 
+        
+        
+    <% else %><!-- ログインしていない場合↓↓ -->
+      
+      <div class="col-md-8">
+        <div>
+          <p>ユーザーアカウントをお持ちの場合
+          <%= link_to "Log in now!", login_path, class: "btn btn-default btn-xs"%></p>
+          <hr />
+        </div>
+        
+        <%= form_tag(controller: "orders", method: "post") do %>
+          <div class="row"><div class="field col-xs-12">
+            <%= label :address, :addressee, "受取人名" %><br>
+            <%= text_field :address, :addressee, class: 'form-control' %>
+          </div></div>
+          <div class="row"><div class="field col-xs-12">
+            <%= label :address, :order_email, "ご注文時使用する email" %><br>
+            <%= text_field :address, :order_email, class: 'form-control' %>
+          </div></div>
+          <div class="row">
+            <div class="field col-xs-9 col-sm-7 col-md-6 col-lg-5">
+              <%= label :address, :zipcode, "郵便番号" %><br>
+              <div class="input-group">
+                <%= text_field :address, :zipcode, class: 'form-control' %>
+                <span class="input-group-btn">
+                  <input id="btn_zipcode" class="btn btn-default" type="button" value="自動入力" />
+                </span>
+              </div>
+            </div>
+            <div class="field col-xs-9 col-sm-7 col-md-6 col-lg-5">
+              <%= label :address, :prefecture_name, "都道府県" %><br>
+              <%= collection_select :address, :prefecture_name, Prefecture.all, :name, :name, {include_blank: true}, {:class => 'form-control'} %>
+            </div>
+          </div>
+          <div class="row"><div class="field col-sm-12">
+            <%= label :address, :city, "市町村" %><br>
+            <%= text_field :address, :city, class: 'form-control' %>
+          </div></div>
+          <div class="row"><div class="field col-sm-12">
+            <%= label :address, :street, "丁番地" %><br>
+            <%= text_field :address, :street, class: 'form-control' %>
+          </div></div>
+          <div class="row"><div class="field col-sm-12">
+            <%= label :address, :building, "建物名・部屋番号" %><br>
+            <%= text_field :address, :building, class: 'form-control' %>
+          </div></div>
+      </div>
+      <div class="col-md-4">
+          <div>
+            <p>お支払方法：　<b><%= @payment_type %></b></p>
+            <p>配送種類：　<b><%= @shipping_type %></b></p>
+            <p><%= link_to '>>お支払い方法をリセット', sessions_info_destroy_path, method: :delete %>
+              <br />　（一旦カートに戻る）</p>
+          <hr />
+          </div>
           <%= hidden_field_tag("payment_type", @payment_type) %>
           <%= hidden_field_tag("shipping_type", @shipping_type) %>
           <%= hidden_field_tag("pay_commission", @pay_commission) %>
@@ -211,10 +281,11 @@
           <div class="actions">
             <%= submit_tag ("注文を確定する"), class: 'btn btn-danger btn-lg' %>
           </div>
-          <% end %>
-        </div>
+        <% end %>
+      </div>
         
-      <% end %>
+    <% end %>
+
     </div><!-- row -->
 </div>
 </div><!-- contents_pb -->

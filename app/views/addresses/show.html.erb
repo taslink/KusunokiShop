@@ -14,7 +14,11 @@
     </tr>
     <tr>
       <th>登録ユーザー</th>
+      <% if @address.user.nil? %>
+      <td>User情報に関連していない住所です</td>
+      <% else %>
       <td>id＞<%= @address.user.id %>｜name＞<%= @address.user.name %></td>
+      <% end %>
     </tr>
     <tr>
       <th>配送先名義</th>
@@ -43,5 +47,7 @@
   </tbody>
 </table>
 <%= link_to 'オーダー一覧に戻る', orders_path %>
+</div>
+
 </div>
 </div><!-- contents_pb -->
