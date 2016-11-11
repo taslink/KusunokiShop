@@ -31,5 +31,5 @@ User.seed do |s|
   s.email = "sample5@gmail.com"
   s.password = "hiroyuki21"
   s.password_confirmation = "hiroyuki21"
-  s.admin = true
+  s.admin = false
 end
