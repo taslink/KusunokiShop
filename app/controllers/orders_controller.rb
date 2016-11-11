@@ -194,7 +194,7 @@ class OrdersController < ApplicationController
           
             cart.destroy
             session[:cart_id] = nil
-            ########################NoticeMailer.send_when_order(@order_reg).deliver
+            NoticeMailer.send_when_order(@order_reg).deliver
           end
             session[:forwarding_url] = nil
             redirect_to @order_reg
@@ -268,7 +268,7 @@ class OrdersController < ApplicationController
             
             cart.destroy
             session[:cart_id] = nil
-            ########################NoticeMailer.send_when_order(@order_reg).deliver
+            NoticeMailer.send_when_order(@order_reg).deliver
           end
             session[:forwarding_url] = nil
             redirect_to @order_reg
