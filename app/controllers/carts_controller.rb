@@ -147,5 +147,4 @@ class CartsController < ApplicationController
     def cart_params
       params.fetch(:cart, {})
     end
-
 end
