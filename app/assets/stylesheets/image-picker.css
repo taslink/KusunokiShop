@@ -23,7 +23,7 @@ ul.thumbnails.image_picker_selector {
     float: left;
   }
     ul.thumbnails.image_picker_selector li .thumbnail {
-      padding: 7px 7px;
+      padding: 20px 45px;
       margin: 0;
       -webkit-user-select: none;
       -moz-user-select: none;
@@ -34,7 +34,7 @@ ul.thumbnails.image_picker_selector {
       width:100%;
 	}
     ul.thumbnails.image_picker_selector li .thumbnail.selected {
-	  background: #000000;
+	  background: repeating-linear-gradient(-45deg, #222222, #222222 7px, #555555 0, #555555 14px);
 	  filter:alpha(opacity=70);
 	  opacity: 0.70;
 	}

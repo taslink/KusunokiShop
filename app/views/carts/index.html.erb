@@ -33,6 +33,9 @@
     
     <div class="row">
       <div class="col-lg-9">
+        
+        <!-- <p>session:cart_id（<%= session[:cart_id] %>）</p> -->
+        
         <table class="table table-hover table-responsive" style="width:848px;">
           <thead>
             <tr>
@@ -64,7 +67,8 @@
                   </div>
                   </td>
                   <td><%= product.name %><br />
-                      <%= product.product_code %></td>
+                      <%= product.product_code %>
+                  </td>
                   <% else product.product_type == "card" %>
                   <td>
                   <div class="cart-box">
@@ -76,7 +80,8 @@
                   </div>
                   </td>
                   <td><%= product.name %><br />
-                      <%= product.product_code %></td>
+                      <%= product.product_code %>
+                  </td>
                   <% end %>
                 <% end %>
                 
@@ -95,36 +100,37 @@
             <% end %>
           </tbody>
         </table>
-
+        
         <div class="actions_min text-center btn-mg10">
           <%= link_to '買い物を続ける', :root , class: "btn btn-default btn-lg"%>
         </div>
-        <!-- <p>カート管理No（<%= session[:cart_id] %>）</p> -->
-        <!-- <hr /> -->
         
-      </div>
-
+      </div><!-- col-lg-9 -->
+      
       <div class="col-lg-3"> 
       
       <% if @payment_type.nil? %>
       
         <div class="form-group">
-          <div class="waku">現在は「代金引換+宅急便」のみご利用可能です。<br />
-          「クレジットカード」等のご利用については、11月下旬開始の予定です。</div>
-        <form>
-          お支払方法：
-          <select name="cartinfo[payment_type]" onchange="SetSubMenu(value);" class="form-control">
-            <option value="" selected>--選択してください--</option>
-            <option value="payment01">代金引換</option>
-            <!-- <option value="payment02">クレジットカード・コンビニ・電子マネー</option> -->
-          </select>
-        </form>
+          <div class="waku">
+            <p>まずは、お支払方法・送付先を決めてください。</p>
+          </div>
+          <p><strong>●現在は「代金引換+宅急便」のみご利用可能です。「クレジットカード」等のご利用は、11月下旬開始予定です。</strong></p>
+          <hr />
+          <form>
+            お支払方法：
+            <select name="cartinfo[payment_type]" onchange="SetSubMenu(value);" class="form-control">
+              <option value="" selected>--選択してください--</option>
+              <option value="payment01">代金引換</option>
+              <%#<option value="payment02">クレジットカード・コンビニ・電子マネー</option>%>
+            </select>
+          </form>
         
         <%= form_tag({controller: "sessions", action: "info_update"}, {id: "payment01", class: "secondpulldown"}) do %>
           送付先：
           <%= collection_select(:cartinfo, :shipping_prefecture, Prefecture.all, :id, :name, {}, {:class => "form-control"} ) %>
           <div class="actions_min">
-            <%= submit_tag "Check", class: "btn btn-info btn-sm" %>
+            <%= submit_tag "お支払方法・送付先の決定", class: "btn btn-danger btn-lg" %>
           </div>
         <% end %>
         
@@ -132,7 +138,7 @@
           全国一律、送料450円
           <%= hidden_field_tag 'cartinfo[shipping_prefecture]', 'everyplace' %>
           <div class="actions_min">
-          <%= submit_tag "Check", class: "btn btn-info btn-sm" %>
+          <%= submit_tag "お支払方法・送付先の決定", class: "btn btn-danger btn-lg" %>
           </div>
         <% end %>
         
@@ -142,7 +148,7 @@
         <p>お支払方法予定：　<b><%= @payment_type %></b></p>
         <p>配送種類：　<b><%= @shipping_type %></b></p>
         <p>配送先：　<b><%= @shipping_prefecture %></b></p>
-        <%= link_to '>>お支払い方法をリセット', sessions_info_destroy_path, method: :delete %>
+        <%= link_to 'お支払い方法をリセット', sessions_info_destroy_path, method: :delete, class: "btn btn-default"  %>
         
       <% end %>
         
@@ -195,7 +201,7 @@
           <p class="h5 text-right"><%= @items_amount %>円</p>
         </div>
         
-        <% if @payment_type.nil? %>
+      <% if @payment_type.nil? %>
         
         <div class="clearfix">
           <p class="h5 pull-left">手数料：</p>
@@ -218,13 +224,13 @@
           <p class="h4 pull-left">総合計：</p>
           <p class="h5 text-right">お支払い方法をCheck！</p>
         </div>
-        <hr />
+        <%#<hr />
         <button type="button" class="btn btn-danger btn-lg" disabled="disabled">
         <i class="glyphicon glyphicon-shopping-cart"></i> ご購入手続き</button>
         <p class="h5">※お支払い方法をCheckしてください。</p>
-        <hr />
+        <hr />%>
         
-        <% else %>
+      <% else %>
         
         <div class="clearfix">
           <p class="h5 pull-left">代引手数料：</p>
@@ -249,15 +255,15 @@
         </div>
         <hr />
         <%= form_tag new_order_path, method: :get do %>
-        <%= button_tag(type: "submit", class: "btn btn-danger btn-lg") do %>
-        <i class="glyphicon glyphicon-shopping-cart"></i> ご購入手続き
-        <% end %>
+          <%= button_tag(type: "submit", class: "btn btn-danger btn-lg") do %>
+          <i class="glyphicon glyphicon-shopping-cart"></i> ご購入手続き
+          <% end %>
         <% end %>
         <p class="h5">※まだ注文確定ではありません。</p>
-        <% end %>
+      <% end %>
         
-      </div>
-    </div>
+      </div><!-- col-lg-3 -->
+    </div><!-- low -->
     <% end %>
-</div>
+</div><!-- container -->
 </div><!-- contents_pb -->
