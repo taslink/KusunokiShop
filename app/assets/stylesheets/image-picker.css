@@ -34,7 +34,7 @@ ul.thumbnails.image_picker_selector {
       width:100%;
 	}
     ul.thumbnails.image_picker_selector li .thumbnail.selected {
-	  background: repeating-linear-gradient(-45deg, #222222, #222222 7px, #555555 0, #555555 14px);
+	  background: #222222;
 	  filter:alpha(opacity=100);
 	  opacity: 1.00;
 	}
