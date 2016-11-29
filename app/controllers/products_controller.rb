@@ -5,7 +5,7 @@ class ProductsController < ApplicationController
 
   # GET /products
   def index
-    @products = Product.all.order(id: :asc)
+    @products = Product.all.order(sort_no: :asc)
   end
 
   # GET /products/1
