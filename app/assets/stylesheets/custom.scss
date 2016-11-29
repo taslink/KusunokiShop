@@ -55,34 +55,41 @@ p {
   height: 580px;
   background: image-url("cover.jpg") center center no-repeat;
   background-size: cover;
+  position: relative;
   .cover-inner {
-    width: 320px;
-    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     margin: auto;
-    display: table;
+    min-width: 340px;
+    width: 30%;
+    height: 240px;
+    padding: 38px 0;
+    background: #fff;
+    filter:alpha(opacity=80);
+    opacity: 0.80;
     .cover-contents {
-      display: table-cell;
-      vertical-align: middle;
       text-align: center;
-      position: relative;
       h1 {
-        color: #fff;
+        color: #003300;
         font-family: 'Yellowtail', cursive;
         font-size: 50px;
         line-height: 1.2em;
         letter-spacing: 0.03em;
         text-shadow: 0 3px 3px rgba(0,0,0,0.5);
-        margin: 0 0 -5px 0;
+        margin: 0;
         padding: 0;
       }
       h2 {
-        color: #fff;
+        color: #990000;
         font-family: 'Yellowtail', cursive;
         font-size: 27px;
         line-height: 1.2em;
         letter-spacing: 0.03em;
         text-shadow: 0 2px 2px rgba(0,0,0,0.5);
-        margin: 0 0 40px 0;
+        margin: 0;
       }
     }
   }
