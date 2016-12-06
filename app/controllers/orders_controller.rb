@@ -150,7 +150,7 @@ class OrdersController < ApplicationController
         or_prefecture = Prefecture.find_by(name: @address_reg.prefecture_name)
         
         if payment_type == "クレジットカード他"
-          postage = 400
+          postage = 450
         elsif  payment_type == "代金引換"
           if or_prefecture.id == 1
             postage = 1400
@@ -224,7 +224,7 @@ class OrdersController < ApplicationController
         or_prefecture = Prefecture.find_by(name: @address_reg.prefecture_name)
         
         if payment_type == "クレジットカード他"
-          postage = 400
+          postage = 450
         elsif  payment_type == "代金引換"
           if or_prefecture.id == 1
             postage = 1400

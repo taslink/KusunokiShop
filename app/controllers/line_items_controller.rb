@@ -41,7 +41,9 @@ class LineItemsController < ApplicationController
     else
       begin
         ActiveRecord::Base.transaction do
+          
           @cart = current_cart
+          
           cart_pocket = CartPocket.create!(cart_id:@cart.id, amount:amount)
           #raise "例外発生"
           LineItem.create!(product_id:envelope_id, cart_pocket_id:cart_pocket.id, product_type:"envelope",count:envelope_count)
