@@ -4,11 +4,14 @@
   <title>KusunokiShop</title>
   <meta name="description" content="封筒のオリジナルブランドKUSUNOKIがお届けする、気持ちを伝える為の新しいツールを販売します。デザイン・質感・重量感・サイズすべてにこだわり、開けた時にサプライズを演出できる、プレゼントに最適なメッセージカード付封筒です。" />
   <meta name="keywords" content="封筒,メッセージカード,グリーディングカード,プレゼント,文具,誕生日,バースデー,クリスマス,バレンタイン,KUSUNOKI,kusunoki,クスノキ,通販,shop" />
-  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
   <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Yellowtail">
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
   <%= favicon_link_tag 'favicon.ico' %>
+  <% if Rails.env.production? %>
+  <%= analytics_init %>
+  <% end %>
 </head>
 <body>
   <div id="wrap">
