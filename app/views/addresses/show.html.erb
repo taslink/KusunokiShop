@@ -15,14 +15,18 @@
     <tr>
       <th>登録ユーザー</th>
       <% if @address.user.nil? %>
-      <td>User情報に関連していない住所です</td>
+      <td>【User情報に関連していない住所です】</td>
       <% else %>
-      <td>id＞<%= @address.user.id %>｜name＞<%= @address.user.name %></td>
+      <td>id：<%= @address.user.id %>｜name：<%= @address.user.name %></td>
       <% end %>
     </tr>
     <tr>
       <th>配送先名義</th>
       <td><%= @address.addressee %></td>
+    </tr>
+    <tr>
+      <th>注文用メールアドレス</th>
+      <td><%= @address.order_email %></td>
     </tr>
     <tr>
       <th>郵便番号</th>
