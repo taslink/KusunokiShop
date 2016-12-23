@@ -183,10 +183,10 @@ class OrdersController < ApplicationController
         tax = (add_amount * 0.08).floor
         total_amount = add_amount + tax
       
-        #begin
-          #ActiveRecord::Base.transaction do
+        begin
+          ActiveRecord::Base.transaction do
             @order_reg = Order.create(user_id:@user_id, address_id:@address_reg.id, payment_type:payment_type, shipping_type:shipping_type, amount:amount, pay_commission:pay_commission, postage:postage, add_amount:add_amount, tax:tax, total_amount:total_amount)
-            #raise "例外発生"
+            raise "例外発生"
           
             line_items.each do |li| 
               Orderdetail.create(product_id:li.product_id, order_id:@order_reg.id, product_type:li.product_type, count:li.count) 
@@ -195,12 +195,12 @@ class OrdersController < ApplicationController
             cart.destroy
             session[:cart_id] = nil
             NoticeMailer.send_when_order(@order_reg).deliver
-          #end
+          end
             session[:forwarding_url] = nil
             redirect_to @order_reg
-          #rescue => e
-          #redirect_to new_order_url, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
-        #end
+          rescue => e
+          redirect_to new_order_url, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
+        end
       end
       
     else
@@ -257,8 +257,8 @@ class OrdersController < ApplicationController
         tax = (add_amount * 0.08).floor
         total_amount = add_amount + tax
         
-        #begin
-          #ActiveRecord::Base.transaction do
+        begin
+          ActiveRecord::Base.transaction do
             @order_reg = Order.create(user_id:@user_id, address_id:@address_reg.id, payment_type:payment_type, shipping_type:shipping_type, amount:amount, pay_commission:pay_commission, postage:postage, add_amount:add_amount, tax:tax, total_amount:total_amount)
             #raise "例外発生"
             
@@ -269,12 +269,12 @@ class OrdersController < ApplicationController
             cart.destroy
             session[:cart_id] = nil
             NoticeMailer.send_when_order(@order_reg).deliver
-          #end
+          end
             session[:forwarding_url] = nil
             redirect_to @order_reg
-          #rescue => e
-          #redirect_to new_order_url, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
-        #end  
+          rescue => e
+          redirect_to new_order_url, flash: {notice: '処理に失敗しました。お手数ですがもう一度お願いします。'}
+        end  
       end
       
     end
