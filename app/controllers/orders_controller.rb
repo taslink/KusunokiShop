@@ -191,10 +191,10 @@ class OrdersController < ApplicationController
             line_items.each do |li| 
               Orderdetail.create!(product_id:li.product_id, order_id:@order_reg.id, product_type:li.product_type, count:li.count) 
             end
-          
+            
+            NoticeMailer.send_when_order(@order_reg).deliver
             cart.destroy
             session[:cart_id] = nil
-            NoticeMailer.send_when_order(@order_reg).deliver
           end
             session[:forwarding_url] = nil
             redirect_to @order_reg
@@ -266,9 +266,9 @@ class OrdersController < ApplicationController
               Orderdetail.create!(product_id:li.product_id, order_id:@order_reg.id, product_type:li.product_type, count:li.count) 
             end
             
+            NoticeMailer.send_when_order(@order_reg).deliver
             cart.destroy
             session[:cart_id] = nil
-            NoticeMailer.send_when_order(@order_reg).deliver
           end
             session[:forwarding_url] = nil
             redirect_to @order_reg
